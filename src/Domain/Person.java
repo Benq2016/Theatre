@@ -1,6 +1,8 @@
-package Domain;
+package src.Domain;
 
 public interface Person {
+    Integer id = 0;
+
     String getName();
     void setName(String name);
     EMail getEmail();

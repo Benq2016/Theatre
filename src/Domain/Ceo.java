@@ -1,11 +1,13 @@
-package Domain;
+package src.Domain;
 
-public class Ceo implements Person {
+public class Ceo implements Person, HasID {
+    private Integer id;
     private String name;
     private int age;
     private EMail email;
 
-    public Ceo(String name, int age, EMail email) {
+    public Ceo(Integer id, String name, int age, EMail email) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.email = email;
@@ -39,5 +41,10 @@ public class Ceo implements Person {
     @Override
     public void setAge(int age) {
         this.age = age;
+    }
+
+    @Override
+    public Integer getID() {
+        return this.id;
     }
 }

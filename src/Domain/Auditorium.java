@@ -1,11 +1,13 @@
-package Domain;
+package src.Domain;
 
-public class Auditorium {
+public class Auditorium implements HasID{
+    private Integer id;
     private String name;
     private int capacity;
     private boolean[][] seatPlace;
 
-    public Auditorium(String name, int capacity, int rows, int cols) {
+    public Auditorium(Integer id,String name, int capacity, int rows, int cols) {
+        this.id = id;
         this.name = name;
         this.capacity = capacity;
         this.seatPlace = new boolean[rows][cols];
@@ -15,6 +17,7 @@ public class Auditorium {
             }
         }
     }
+
 
     public String getName() {
         return name;
@@ -34,5 +37,10 @@ public class Auditorium {
 
     public boolean[][] getSeatPlace() {
         return seatPlace;
+    }
+
+    @Override
+    public Integer getID() {
+        return this.id;
     }
 }

@@ -1,10 +1,10 @@
-package Domain;
+package src.Domain;
 
 public class EMail {
     private String email;
     private String password;
 
-    EMail(String email, String password) {
+    public EMail(String email, String password) {
         this.email = email;
         this.password = password;
     }
@@ -15,5 +15,13 @@ public class EMail {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String toString() {
+        return "EMail{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
