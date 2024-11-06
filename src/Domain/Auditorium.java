@@ -1,4 +1,4 @@
-package src.Domain;
+package Domain;
 
 public class Auditorium implements HasID{
     private Integer id;

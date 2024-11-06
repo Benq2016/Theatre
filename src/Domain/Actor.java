@@ -1,4 +1,4 @@
-package src.Domain;
+package Domain;
 
 public class Actor implements Person, HasID {
     private Integer id;

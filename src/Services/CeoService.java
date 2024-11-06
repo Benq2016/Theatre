@@ -1,4 +1,4 @@
-package src.Services;
+package Services;
 
 public class CeoService {
 

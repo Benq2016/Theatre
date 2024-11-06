@@ -1,4 +1,4 @@
-package src.Domain;
+package Domain;
 import java.util.Map;
 
 public class Show implements HasID{
