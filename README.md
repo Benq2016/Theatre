@@ -5,6 +5,6 @@ After selecting the client option, users will see various choices. They can view
 ### Staff - Actors:
 Actors have access to a specific part of the application. They can see their scheduled shows and the characters they will portray. Additionally, they can view their payment details for each performance.
 ### Staff - CEO :
-The CEO has the ability to plan shows, set ticket prices, assign payments, and select the auditorium where each show will be held. They can also manage actors, including hiring, firing, and adjusting salaries.
+The CEO has the ability to plan shows, set ticket prices, assign payments to actors, and select the auditorium where each show will be held. They can also manage actors, including hiring, firing, and adjusting salaries.
 ### Order:
 To make a reservation, a user must be logged in. When a reservation is created, a seat is also booked and recorded after purchase, ensuring it cannot be booked by others. Once an event has taken place, the reservation is removed from the list where users can view their reservations.
