@@ -1,11 +1,13 @@
-package Domain;
+package src.Domain;
 
-public class Viewer implements Person {
+public class Viewer implements Person , HasID{
+    private Integer id;
     String name;
     int age;
     EMail email;
 
-    public Viewer(String name, int age, EMail email) {
+    public Viewer(Integer id, String name, int age, EMail email) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.email = email;
@@ -39,5 +41,11 @@ public class Viewer implements Person {
     @Override
     public void setAge(int age) {
         this.age = age;
+    }
+
+
+    @Override
+    public Integer getID() {
+        return this.id;
     }
 }
