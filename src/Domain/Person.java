@@ -1,8 +1,8 @@
 package Domain;
 
-public interface Person {
+public abstract class Person {
     String getName();
-    void setName(String name);
+    setName(String name);
     EMail getEmail();
     void setEmail(EMail email);
     int getAge();
