@@ -1,7 +1,7 @@
 package src.Domain;
 
 public class Auditorium implements HasID{
-    private Integer id;
+    private final Integer id;
     private String name;
     private int capacity;
     private boolean[][] seatPlace;

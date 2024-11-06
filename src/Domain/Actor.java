@@ -1,7 +1,7 @@
 package src.Domain;
 
 public class Actor implements Person, HasID {
-    private Integer id;
+    private final Integer id;
     private String name;
     private int age;
     private EMail email;

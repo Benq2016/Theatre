@@ -2,7 +2,7 @@ package src.Domain;
 import java.util.Map;
 
 public class Show implements HasID{
-    private Integer id;
+    private final Integer id;
     private String title;
     private Auditorium audit;
     private Map<Actor, String> shows;

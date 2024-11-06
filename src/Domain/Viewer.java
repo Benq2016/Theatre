@@ -1,7 +1,7 @@
 package src.Domain;
 
 public class Viewer implements Person , HasID{
-    private Integer id;
+    private final Integer id;
     String name;
     int age;
     EMail email;
