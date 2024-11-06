@@ -4,7 +4,7 @@ public class EMail {
     private String email;
     private String password;
 
-    EMail(String email, String password) {
+    public EMail(String email, String password) {
         this.email = email;
         this.password = password;
     }
