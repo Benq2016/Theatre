@@ -1,19 +1,27 @@
 package Domain;
 
 public class EMail {
-    private String email;
+    private String emailAdress;
     private String password;
 
     public EMail(String email, String password) {
-        this.email = email;
+        this.emailAdress = email;
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailAddress() {
+        return emailAdress;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String toString() {
+        return "EMail{" +
+                "emailAdress='" + emailAdress + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

@@ -1,5 +1,7 @@
 package Domain;
 
+import java.util.Arrays;
+
 public class Auditorium implements HasID{
     private Integer id;
     private String name;

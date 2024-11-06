@@ -1,60 +1,12 @@
 package Domain;
 
-public class Actor implements Person, HasID {
-    private Integer id;
-    private String name;
-    private int age;
-    private EMail email;
+public class Actor extends Person implements HasID{
+
     private int salary;
 
     public Actor(Integer id,String name, int age, EMail email, int salary) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.email = email;
+        super(id, name, age, email);
         this.salary = salary;
-    }
-
-    @Override
-    public String toString() {
-        return "Actor{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", email=" + email +
-                ", salary=" + salary +
-                '}';
-    }
-
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public EMail getEmail() {
-        return email;
-    }
-
-    @Override
-    public void setEmail(EMail email) {
-        this.email = email;
-    }
-
-    @Override
-    public int getAge() {
-        return age;
-    }
-
-    @Override
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public int getSalary() {
@@ -66,7 +18,13 @@ public class Actor implements Person, HasID {
     }
 
     @Override
-    public Integer getID() {
-        return this.id;
+    public String toString() {
+        return "Actor{" +
+                "ID=" + getID() +
+                ", name='" + getName() + '\'' +
+                ", age=" + getAge() +
+                ", email=" + getEmail() +
+                ", salary=" + salary +
+                '}';
     }
 }
