@@ -1,6 +1,8 @@
 import Domain.*;
 import RepositoryPackage.Repository;
 
+import java.util.List;
+
 public class TheatreService {
     private final Repository<Ceo> ceoRepository;
     private final Repository<Actor> actorRepository;
@@ -17,4 +19,14 @@ public class TheatreService {
         this.showRepository = showRepository;
         this.viewerRepository = viewerRepository;
     }
+
+    public void hireActor(Integer actorID, String name, int age, EMail actorEmail, int salary){
+        Actor newActor = new Actor(actorID, name, age, actorEmail, salary);
+        actorRepository.create(newActor);
+    }
+
+    public void fireActor(Integer actorID){
+        actorRepository.delete(actorID);
+    }
+
 }

@@ -13,17 +13,17 @@ public class InMemoryRepository<T extends HasID> implements Repository<T> {
 
     @Override
     public void create(T obj) {
-        data.putIfAbsent(obj.getID(),obj);
+        data.putIfAbsent(obj.getID(), obj);
     }
 
     @Override
-    public void delete(T obj) {
-        data.remove(obj.getID());
+    public void delete(Integer objID) {
+        data.remove(objID);
     }
 
     @Override
     public void update(T obj) {
-        data.replace(obj.getID(),obj);
+        data.replace(obj.getID(), obj);
     }
 
     @Override
