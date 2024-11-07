@@ -1,3 +1,5 @@
+import ControllerService.TheatreController;
+import ControllerService.TheatreService;
 import Domain.*;
 import RepositoryPackage.InMemoryRepository;
 
@@ -40,7 +42,11 @@ public class App {
         tc.ceoFireActor(76);
         System.out.println("Actors after firing some of them : " + actorInMemoryRepository.getAll());
 
+        System.out.println('\n');
 
+        System.out.println("Salary before change : " + actorInMemoryRepository.getByID(12).getSalary());
+        tc.ceoChangeSalary(12,6000);
+        System.out.println("Salary after change : " + actorInMemoryRepository.getByID(12).getSalary());
 
     }
 }

@@ -1,3 +1,5 @@
+package ControllerService;
+
 import Domain.EMail;
 
 public class TheatreController {
@@ -13,5 +15,9 @@ public class TheatreController {
 
     public void ceoFireActor(Integer actorID){
         theatreService.fireActor(actorID);
+    }
+
+    public void ceoChangeSalary(Integer actorID, int newSalary){
+        theatreService.adjustSalary(actorID, newSalary);
     }
 }
