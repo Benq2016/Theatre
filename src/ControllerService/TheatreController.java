@@ -1,6 +1,10 @@
 package ControllerService;
 
+import Domain.Actor;
+import Domain.Auditorium;
 import Domain.EMail;
+
+import java.util.Map;
 
 public class TheatreController {
     private final TheatreService theatreService;
@@ -18,6 +22,14 @@ public class TheatreController {
     }
 
     public void ceoChangeSalary(Integer actorID, int newSalary){
-        theatreService.adjustSalary(actorID, newSalary);
+        theatreService.changeActorSalary(actorID, newSalary);
+    }
+
+    public void ceoCreateShow(Integer showID, String name, Auditorium auditorium, Map<Actor, String> roles, String date) {
+        theatreService.createShow(showID, name, auditorium, roles, date);
+    }
+
+    public void ceoDeleteShow(Integer showID){
+        theatreService.deleteShow(showID);
     }
 }

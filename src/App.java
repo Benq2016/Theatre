@@ -10,8 +10,13 @@ public class App {
         InMemoryRepository<Auditorium> auditoriumInMemoryRepository= new InMemoryRepository<>();
         InMemoryRepository<Show> showInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Viewer> viewerInMemoryRepository = new InMemoryRepository<>();
+        InMemoryRepository<Ticket> ticketInMemoryRepository = new InMemoryRepository<>();
+        InMemoryRepository<Order> orderInMemoryRepository = new InMemoryRepository<>();
+        InMemoryRepository<Seat> seatInMemoryRepository = new InMemoryRepository<>();
 
-        TheatreService ts = new TheatreService(ceoInMemoryRepository,actorInMemoryRepository,auditoriumInMemoryRepository,showInMemoryRepository,viewerInMemoryRepository);
+        TheatreService ts = new TheatreService(ceoInMemoryRepository, actorInMemoryRepository,
+                auditoriumInMemoryRepository,showInMemoryRepository, viewerInMemoryRepository, ticketInMemoryRepository,
+                orderInMemoryRepository, seatInMemoryRepository);
 
         TheatreController tc = new TheatreController(ts);
 
@@ -25,9 +30,9 @@ public class App {
         System.out.println(c.getEmail());
         System.out.println(c);
 
-        Auditorium ad = new Auditorium(1,"Great Hall",500,25,20);
+        Auditorium ad = new Auditorium(1,"Great Hall",25,20);
         System.out.println(ad.getCapacity());
-        System.out.println(ad.getSeatPlace());
+        System.out.println(ad);
 
         tc.ceoHireActor(34,"Jozsika",54,new EMail("Joco@theatre.eu", "velica22"), 4000);
         System.out.println(actorInMemoryRepository.getAll());
