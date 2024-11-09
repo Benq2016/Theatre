@@ -50,11 +50,18 @@ public class Auditorium implements HasID{
                 ", capacity=" + capacity +
                 ", rows=" + rows +
                 ", cols=" + cols +
-                ", seats=\n";
-
+                ", seats= (f..f means free)\n";
+        int cnt = 1;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                result += (seatPlace[i][j] ? "O " : "X ");
+                if (cnt < 10)
+                    result += (seatPlace[i][j]) ? "f00" + cnt + "f  " : "00" + cnt;
+                else if (cnt < 100)
+                    result += (seatPlace[i][j]) ? "f0" + cnt + "f  " : "0" + cnt;
+                else
+                    result += (seatPlace[i][j]) ? "f" + cnt + "f  " : cnt;
+                cnt++;
+
             }
             result += "\n";
         }
