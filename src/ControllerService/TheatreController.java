@@ -16,8 +16,12 @@ public class TheatreController {
         return theatreService.login(eMail);
     }
 
-    public boolean createAccount(Integer id, String name, int age, EMail eMail) {
+    public boolean createViewerAccount(Integer id, String name, int age, EMail eMail) {
         return theatreService.createViewerAccount(id, name, age, eMail);
+    }
+
+    public boolean createCeoAccount(Integer id, String name, int age, EMail eMail) {
+        return theatreService.createCeoAccount(id, name, age, eMail);
     }
 
     //////////VIEWER OPTIONS//////////
@@ -41,13 +45,13 @@ public class TheatreController {
         return theatreService.getOrderTickets(orderID);
     }
 
-    public Viewer viewAccount(EMail eMail) {
-        return theatreService.getViewer(eMail);
+    public Person viewAccount(EMail eMail) {
+        return theatreService.getAccount(eMail);
     }
 
     //// TRUE - EMail changes too, YOU HAVE TO BE LOGGED OUT!!, FALSE - ONLY NAME and AGE are changed ////
-    public boolean manageViewerAccount(String name, int age, EMail eMail) {
-        return theatreService.manageViewerAccount(name, age, eMail);
+    public boolean manageViewerAccount(String name, int age, EMail currentEmail, EMail newEmail) {
+        return theatreService.manageViewerAccount(name, age, currentEmail, newEmail);
     }
 
     //////////CEO OPTIONS//////////
@@ -95,7 +99,7 @@ public class TheatreController {
         theatreService.deleteAuditorium(id);
     }
 
-    public boolean manageCeoAccount(String name, int age, EMail eMail){
-        return theatreService.manageCeoAccount(name, age, eMail);
+    public boolean manageCeoAccount(String name, int age, EMail currentEmail, EMail newEmail){
+        return theatreService.manageCeoAccount(name, age, currentEmail, newEmail);
     }
 }

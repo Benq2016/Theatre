@@ -126,12 +126,12 @@ public class TheatreService {
         showRepository.update(Show);
     }
 
-    protected Map<Show, Auditorium> getShow(String showName){
+    protected Map<Show, Auditorium> getShow(String showTitle){
         List<Show> shows = showRepository.getAll();
         List<Auditorium> audits= auditoriumRepository.getAll();
-        Map<Show, Auditorium> showMap = new HashMap<Show, Auditorium>();
+        Map<Show, Auditorium> showMap = new HashMap<>();
         for (Show show : shows)
-            if (show.getTitle().equals(showName))
+            if (show.getTitle().equals(showTitle))
                 for (Auditorium auditorium : audits)
                     if (auditorium.equals(show.getAudit()))
                         showMap.put(show, auditorium);
@@ -180,6 +180,17 @@ public class TheatreService {
 
 
     ////////////////////////////////CEO////////////////////////////////
+    protected boolean createCeoAccount(Integer id, String name, int age, EMail eMail){
+        Ceo newCeo = new Ceo(id, name, age, eMail);
+        List<Ceo> ceos = ceoRepository.getAll();
+        for (Ceo ceo : ceos)
+            if (ceo.getEmail().equals(eMail) || ceo.getID().equals(id))
+                return false;
+
+        ceoRepository.create(newCeo);
+        return true;
+    }
+
     protected String getCeoName(Integer ceoID){
         return ceoRepository.getByID(ceoID).getName();
     }
@@ -253,21 +264,18 @@ public class TheatreService {
         return ceoRepository.getAll();
     }
 
-    protected boolean manageCeoAccount(String name, int age, EMail eMail){
-        Ceo ceo = getCeo(eMail);
-        int ceoID = getViewerID(eMail);
-        Ceo newCeo = ceoRepository.getByID(ceoID);
-        newCeo.setName(name);
-        newCeo.setAge(age);
-        if (ceo.getEmail().equals(eMail)) {
-            ceoRepository.update(newCeo);
-            return false;
-        }
-        else {
-            newCeo.setEmail(eMail);
-            ceoRepository.update(newCeo);
+    protected boolean manageCeoAccount(String name, int age, EMail currentEmail, EMail newEmail) {
+        Ceo ceo = getCeo(currentEmail);
+        ceo.setName(name);
+        ceo.setAge(age);
+
+        if (!ceo.getEmail().equals(newEmail)) {
+            ceo.setEmail(newEmail);
+            ceoRepository.update(ceo);
             return true;
         }
+        ceoRepository.update(ceo);
+        return false;
     }
 
 
@@ -332,6 +340,22 @@ public class TheatreService {
         return null;
     }
 
+    protected Person getAccount(EMail eMail){
+        List<Viewer> viewers = viewerRepository.getAll();
+        List<Ceo> ceos = ceoRepository.getAll();
+        List<Actor> actors = actorRepository.getAll();
+        for (Viewer viewer : viewers)
+            if(viewer.getEmail().equals(eMail))
+                return viewer;
+        for (Ceo ceo : ceos)
+            if(ceo.getEmail().equals(eMail))
+                return ceo;
+        for (Actor actor : actors)
+            if(actor.getEmail().equals(eMail))
+                return actor;
+        return null;
+    }
+
     protected List<Viewer> getAllViewers(){
         return viewerRepository.getAll();
     }
@@ -350,8 +374,8 @@ public class TheatreService {
 
         String viewerName = getViewerName(viewerID);
         String showTitle = getShowTitle(showID);
-        String auditName = getShowAuditorium(showID).getName();
         Auditorium audit = getShowAuditorium(showID);
+        String auditName = getShowAuditorium(showID).getName();
 
         List<Ticket> tickets = new ArrayList<>();
         for (int seat : seats) {
@@ -383,21 +407,18 @@ public class TheatreService {
         orderRepository.delete(orderID);
     }
 
-    protected boolean manageViewerAccount(String name, int age, EMail eMail){
-        Viewer viewer = getViewer(eMail);
-        int viewerID = getViewerID(eMail);
-        Viewer newViewer = viewerRepository.getByID(viewerID);
-        newViewer.setName(name);
-        newViewer.setAge(age);
-        if (viewer.getEmail().equals(eMail)) {
-            viewerRepository.update(newViewer);
-            return false;
-        }
-        else {
-            newViewer.setEmail(eMail);
-            viewerRepository.update(newViewer);
+    protected boolean manageViewerAccount(String name, int age, EMail currentEmail, EMail newEmail) {
+        Viewer viewer = getViewer(currentEmail);
+        viewer.setName(name);
+        viewer.setAge(age);
+
+        if (!viewer.getEmail().equals(newEmail)) {
+            viewer.setEmail(newEmail);
+            viewerRepository.update(viewer);
             return true;
         }
+        viewerRepository.update(viewer);
+        return false;
     }
 
 

@@ -55,11 +55,12 @@ public class Show implements HasID{
 
     @Override
     public String toString() {
-        return "Show{" +
+        return "\nShow{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", audit=" + audit +
-                ", shows=" + roles +
-                '}';
+                ", date=" + date +
+                ", casting=" + roles +
+                ", auditorium=" + audit.getName() +
+                "}";
     }
 }

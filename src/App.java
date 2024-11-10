@@ -3,7 +3,6 @@ import ControllerService.TheatreService;
 import Domain.*;
 import RepositoryPackage.InMemoryRepository;
 
-import javax.swing.text.View;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,28 +31,75 @@ public class App {
 
 
 
-
-
+        //creation of ceo//
+        EMail eMail = new EMail("bence.c3o@gmail.com", "sosemTalalodKi");
+        tc.createCeoAccount(1, "BOSS", 24, eMail);
+        //creation of 2 actors//
         EMail eMail1 = new EMail("bazsi123", "1230");
         EMail eMail2 = new EMail("anna123", "1232");
         tc.ceoHireActor(1, "bazsi", 20, eMail1, 2000);
         tc.ceoHireActor(2, "anna", 19, eMail2, 1800);
+        //assigning roles//
         Map<Actor, String> roles = new HashMap<>();
         roles.putIfAbsent(tc.viewActor(1), "Romeo");
         roles.putIfAbsent(tc.viewActor(2), "Julia");
-        tc.createShow(1, "Romeo es Julia!", tc.viewAuditorium(1), roles, "2024-11-15");
+        //creating auditorium//
         tc.createAuditorium(1, "Great Sh*t Hole", 10, 20);
+        //creating show//
+        tc.createShow(1, "Romeo es Julia!", tc.viewAuditorium(1), roles, "2024-11-15");
+        tc.createShow(2, "Hatyuk tava", tc.viewAuditorium(1), roles, "2024-11-16");
+        tc.createShow(3, "Romeo es Julia!", tc.viewAuditorium(1), roles, "2024-11-17");
 
+        //creating viewer//
+        EMail eMailV1 = new EMail("bence.molnar@gmail.com", "1230");
+        tc.createViewerAccount(1, "bence", 20, eMailV1);
+        //print before order//
+//        System.out.println(tc.viewShows());
+//        System.out.println(tc.viewShow("Romeo es Julia!"));
+
+        //fire, adjust actors//
+//        tc.ceoFireActor(1);
+//        tc.ceoChangeSalary(2, 2000);
+//        System.out.println(tc.viewAllActors());
+
+        //manage Shows/ Auditoriums//
+//        tc.deleteAuditorium(1);
+//        tc.ceoDeleteShow(2);
+//        System.out.println(tc.viewAllAuditoriums());
+//        System.out.println(tc.viewShows());
+
+        //reserving seats//
         List<Integer> seats = new ArrayList<>();
         seats.add(66); seats.add(67); seats.add(68); seats.add(69); seats.add(1); seats.add(2); seats.add(150); seats.add(151);
         int totalPrice = 25 * seats.size();
-        tc.createOrder(1, 1, eMail1, seats, totalPrice);
 
-        System.out.println(tc.viewMyOrders(eMail1));
-        System.out.println(tc.viewAllActors());
-        System.out.println(tc.viewShows());
-        System.out.println(tc.viewAllAuditoriums());
-        tc.createAccount(1, "bence", 20, new EMail("bence.molnar@gmail.com", "1230"));
+        //creating order//
+        tc.createOrder(1, 1, eMailV1, seats, totalPrice);
+
+        //printing lists and audit after reservation//
+//        System.out.println("\n" + tc.viewMyOrders(eMailV1) +  "\n");
+//        System.out.println(tc.viewOrderTickets(1));
+
+        //manage Account for Viewer//
+//        System.out.println(tc.viewAccount(eMailV1));
+//        tc.manageViewerAccount("Bence", 21, eMailV1, eMailV1);
+//        System.out.println(tc.viewAccount(eMailV1));
+//        EMail eMailV1_mod = new EMail("bence.molnar@yahoo.com", "1231");
+//        tc.manageViewerAccount("bence", 20, eMailV1, eMailV1_mod);
+//        System.out.println(tc.viewAccount(eMailV1_mod));
+
+        //manage Account for Ceo//
+//        System.out.println(tc.viewAccount(eMail));
+//        tc.manageCeoAccount("Bence", 21, eMail, eMail);
+//        System.out.println(tc.viewAccount(eMail));
+//        EMail eMailV1_mod = new EMail("bence.molnar@yahoo.com", "1231");
+//        tc.manageCeoAccount("bence", 20, eMail, eMailV1_mod);
+//        System.out.println(tc.viewAccount(eMailV1_mod));
+
+
+//        System.out.println(tc.viewAllActors());
+//        System.out.println(tc.viewAllAuditoriums());
+
 
 
 //        tc.ceoHireActor(34,"Jozsika",54,new EMail("Joco@theatre.eu", "velica22"), 4000);
@@ -123,7 +169,7 @@ public class App {
                     System.out.println("Please enter your password: ");
                     String password = reader.readLine();
                     EMail logEmail = new EMail(email, password);
-                    boolean user = theatreController.createAccount(id, name, age, logEmail);
+                    boolean user = theatreController.createViewerAccount(id, name, age, logEmail);
                     if (user) {
                         System.out.println("Sign-up successful.");
 //                        printUserOptions(3, logEmail);

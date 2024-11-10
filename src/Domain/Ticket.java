@@ -37,7 +37,7 @@ public class Ticket implements HasID{
 
     @Override
     public String toString() {
-        return "Ticket{" +
+        return "\nTicket{" +
                 "id=" + id +
                 ", showName='" + showName + '\'' +
                 ", viewerName='" + viewerName + '\'' +
