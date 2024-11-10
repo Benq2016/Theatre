@@ -3,9 +3,12 @@ package ControllerService;
 import Domain.*;
 import RepositoryPackage.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.time.LocalDateTime;
 
 public class TheatreService {
     private final Repository<Ceo> ceoRepository;
@@ -15,12 +18,12 @@ public class TheatreService {
     private final Repository<Viewer> viewerRepository;
     private final Repository<Ticket> ticketRepository;
     private final Repository<Order> orderRepository;
-    private final Repository<Seat> seatRepository;
+//    private final Repository<Seat> seatRepository;
 
 
     public TheatreService(Repository<Ceo> ceoRepository, Repository<Actor> actorRepository,
                           Repository<Auditorium> auditoriumRepository, Repository<Show> showRepository,
-                          Repository<Viewer> viewerRepository, Repository<Ticket> ticketRepository, Repository<Order> orderRepository, Repository<Seat> seatRepository) {
+                          Repository<Viewer> viewerRepository, Repository<Ticket> ticketRepository, Repository<Order> orderRepository) {
         this.ceoRepository = ceoRepository;
         this.actorRepository = actorRepository;
         this.auditoriumRepository = auditoriumRepository;
@@ -28,7 +31,7 @@ public class TheatreService {
         this.viewerRepository = viewerRepository;
         this.ticketRepository = ticketRepository;
         this.orderRepository = orderRepository;
-        this.seatRepository = seatRepository;
+//        this.seatRepository = seatRepository;
     }
 
     ////////////////////////////////ACTOR////////////////////////////////
@@ -170,6 +173,10 @@ public class TheatreService {
         return auditoriumRepository.getByID(auditID);
     }
 
+    protected List<Auditorium> getAllAuditoriums(){
+        return auditoriumRepository.getAll();
+    }
+
 
 
     ////////////////////////////////CEO////////////////////////////////
@@ -234,8 +241,33 @@ public class TheatreService {
         return ceoRepository.getByID(ceoID);
     }
 
+    protected Ceo getCeo(EMail eMail){
+        List<Ceo> ceos = ceoRepository.getAll();
+        for (Ceo ceo : ceos)
+            if (ceo.getEmail().equals(eMail))
+                return ceo;
+        return null;
+    }
+
     protected List<Ceo> getAllCeos(){
         return ceoRepository.getAll();
+    }
+
+    protected boolean manageCeoAccount(String name, int age, EMail eMail){
+        Ceo ceo = getCeo(eMail);
+        int ceoID = getViewerID(eMail);
+        Ceo newCeo = ceoRepository.getByID(ceoID);
+        newCeo.setName(name);
+        newCeo.setAge(age);
+        if (ceo.getEmail().equals(eMail)) {
+            ceoRepository.update(newCeo);
+            return false;
+        }
+        else {
+            newCeo.setEmail(eMail);
+            ceoRepository.update(newCeo);
+            return true;
+        }
     }
 
 
@@ -243,6 +275,23 @@ public class TheatreService {
     ////////////////////////////////VIEWER////////////////////////////////
     protected String getViewerName(Integer viewerID){
         return viewerRepository.getByID(viewerID).getName();
+    }
+
+    protected int getViewerID(EMail eMail){
+        List<Viewer> viewers = viewerRepository.getAll();
+        for (Viewer viewer : viewers)
+            if (viewer.getEmail().equals(eMail))
+                return viewer.getID();
+        return 0;
+    }
+
+    protected String getViewerName(EMail eMail){
+        String name = "-----------";
+        List<Viewer> viewers = viewerRepository.getAll();
+        for (Viewer viewer : viewers)
+            if (viewer.getEmail().equals(eMail))
+                name = viewer.getName();
+        return name;
     }
 
     protected  void changeViewerName(Integer viewerID, String newName){
@@ -275,11 +324,22 @@ public class TheatreService {
         return viewerRepository.getByID(viewerID);
     }
 
+    protected Viewer getViewer(EMail eMail){
+        List<Viewer> viewers = viewerRepository.getAll();
+        for (Viewer viewer : viewers)
+            if (viewer.getEmail().equals(eMail))
+                return viewer;
+        return null;
+    }
+
     protected List<Viewer> getAllViewers(){
         return viewerRepository.getAll();
     }
 
-    protected void createOrder(Integer id, String date, int showID, EMail eMail, List<Seat> seats, List<Ticket> tickets){
+    protected void createOrder(Integer id, int showID, EMail eMail, List<Integer> seats, int totalPrice){
+        int lower = 10000;
+        int upper = 99999;
+        LocalDateTime currentTime = LocalDateTime.now();
         List<Viewer> viewers = viewerRepository.getAll();
         int viewerID = 0;
         for (Viewer viewer : viewers) {
@@ -287,18 +347,63 @@ public class TheatreService {
                 viewerID = viewer.getID();
             }
         }
-        Order order = new Order(id, date, viewerID, showID, seats, tickets);
+
+        String viewerName = getViewerName(viewerID);
+        String showTitle = getShowTitle(showID);
+        String auditName = getShowAuditorium(showID).getName();
+        Auditorium audit = getShowAuditorium(showID);
+
+        List<Ticket> tickets = new ArrayList<>();
+        for (int seat : seats) {
+            Random random = new Random();
+            int ticketID = random.nextInt(upper - lower + 1) + lower;
+            Ticket ticket = new Ticket(ticketID, showTitle, viewerName, auditName, totalPrice/seats.size(), seat);
+            tickets.add(ticket);
+
+            int row = seat / audit.getCols();
+            int col = seat % audit.getCols();
+            if (row >= 0 && row < audit.getRows() && col >= 0 && col < audit.getCols())
+                audit.getSeatPlace()[row][col] = false;
+        }
+        Order order = new Order(id, currentTime, viewerID, showID, seats, tickets);
         orderRepository.create(order);
+    }
+
+    protected List<Order> showMyOrders(EMail eMail){
+        int viewerID = getViewerID(eMail);
+        List<Order> myOrders = new ArrayList<>();
+        List<Order> orders = orderRepository.getAll();
+        for (Order order : orders)
+            if (order.getViewerID() == viewerID)
+                myOrders.add(order);
+        return myOrders;
     }
 
     protected void deleteOrder(Integer orderID){
         orderRepository.delete(orderID);
     }
 
+    protected boolean manageViewerAccount(String name, int age, EMail eMail){
+        Viewer viewer = getViewer(eMail);
+        int viewerID = getViewerID(eMail);
+        Viewer newViewer = viewerRepository.getByID(viewerID);
+        newViewer.setName(name);
+        newViewer.setAge(age);
+        if (viewer.getEmail().equals(eMail)) {
+            viewerRepository.update(newViewer);
+            return false;
+        }
+        else {
+            newViewer.setEmail(eMail);
+            viewerRepository.update(newViewer);
+            return true;
+        }
+    }
+
 
 
     ////////////////////////////////ORDER////////////////////////////////
-    protected String getOrderDate(Integer orderID){
+    protected LocalDateTime getOrderDate(Integer orderID){
         return orderRepository.getByID(orderID).getDate();
     }
 
@@ -314,7 +419,7 @@ public class TheatreService {
         return orderRepository.getByID(orderID).getTickets();
     }
 
-    protected List<Seat> getOrderSeats(Integer orderID){
+    protected List<Integer> getOrderSeats(Integer orderID){
         return orderRepository.getByID(orderID).getSeats();
     }
 
@@ -329,25 +434,25 @@ public class TheatreService {
 
 
     ////////////////////////////////SEAT////////////////////////////////
-    protected int getSeatRows(Integer seatID){
-        return seatRepository.getByID(seatID).getRow();
-    }
-
-    protected int getSeatCols(Integer seatID){
-        return seatRepository.getByID(seatID).getSeat();
-    }
-
-    protected void setSeatRow(Integer seatID, int row){
-        Seat seat = seatRepository.getByID(seatID);
-        seat.setRow(row);
-        seatRepository.update(seat);
-    }
-
-    protected void setSeatCols(Integer seatID, int col){
-        Seat seat = seatRepository.getByID(seatID);
-        seat.setSeat(col);
-        seatRepository.update(seat);
-    }
+//    protected int getSeatRows(Integer seatID){
+//        return seatRepository.getByID(seatID).getRow();
+//    }
+//
+//    protected int getSeatCols(Integer seatID){
+//        return seatRepository.getByID(seatID).getSeat();
+//    }
+//
+//    protected void setSeatRow(Integer seatID, int row){
+//        Seat seat = seatRepository.getByID(seatID);
+//        seat.setRow(row);
+//        seatRepository.update(seat);
+//    }
+//
+//    protected void setSeatCols(Integer seatID, int col){
+//        Seat seat = seatRepository.getByID(seatID);
+//        seat.setSeat(col);
+//        seatRepository.update(seat);
+//    }
 
 
 
@@ -368,7 +473,7 @@ public class TheatreService {
         return ticketRepository.getByID(ticketID).getPrice();
     }
 
-    protected Seat getTicketSeat(Integer ticketID){
+    protected Integer getTicketSeat(Integer ticketID){
         return ticketRepository.getByID(ticketID).getSeat();
     }
 

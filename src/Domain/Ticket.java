@@ -6,9 +6,9 @@ public class Ticket implements HasID{
     private String viewerName;
     private String auditoriumName;
     private int price;
-    private Seat seat;
+    private int seat;
 
-    public Ticket(int id, String showName, String viewerName, String auditoriumName, int price, Seat seat) {
+    public Ticket(int id, String showName, String viewerName, String auditoriumName, int price, int seat) {
         this.id = id;
         this.showName = showName;
         this.viewerName = viewerName;
@@ -31,7 +31,7 @@ public class Ticket implements HasID{
         return price;
     }
 
-    public Seat getSeat() {
+    public int getSeat() {
         return seat;
     }
 

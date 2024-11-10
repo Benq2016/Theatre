@@ -42,6 +42,18 @@ public class Auditorium implements HasID{
         this.cols = cols;
     }
 
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    public boolean[][] getSeatPlace() {
+        return seatPlace;
+    }
+
     @Override
     public String toString() {
         String result = "Auditorium{" +

@@ -12,40 +12,16 @@ public class TheatreController {
         this.theatreService = theatreService;
     }
 
-    public Actor getActor(Integer actorID) {
-        return theatreService.getActor(actorID);
+    public int login(EMail eMail) {
+        return theatreService.login(eMail);
     }
 
-    public void ceoHireActor(Integer actorID, String name, int age, EMail actorEmail, int salary){
-        theatreService.hireActor(actorID,name,age,actorEmail,salary);
-    }
-
-    public void ceoFireActor(Integer actorID){
-        theatreService.fireActor(actorID);
-    }
-
-    public void ceoChangeSalary(Integer actorID, int newSalary){
-        theatreService.changeActorSalary(actorID, newSalary);
-    }
-
-    public void ceoCreateShow(Integer showID, String name, Auditorium auditorium, Map<Actor, String> roles, String date) {
-        theatreService.createShow(showID, name, auditorium, roles, date);
-    }
-
-    public void ceoDeleteShow(Integer showID){
-        theatreService.deleteShow(showID);
-    }
-
-    public int login(EMail eMail){
-       return theatreService.login(eMail);
-    }
-
-    public boolean createAccount(Integer id, String name, int age, EMail eMail){
+    public boolean createAccount(Integer id, String name, int age, EMail eMail) {
         return theatreService.createViewerAccount(id, name, age, eMail);
     }
 
     //////////VIEWER OPTIONS//////////
-    public List<Show> viewShows(){
+    public List<Show> viewShows() {
         return theatreService.getAllShows();
     }
 
@@ -53,7 +29,73 @@ public class TheatreController {
         return theatreService.getShow(showTitle);
     }
 
-    public void createOrder(Integer id, String date, int showID, EMail eMail, List<Seat> seats, List<Ticket> tickets){
-        theatreService.createOrder(id, date, showID, eMail, seats, tickets);
+    public void createOrder(Integer id, int showID, EMail eMail, List<Integer> seats, int totalPrice) {
+        theatreService.createOrder(id, showID, eMail, seats, totalPrice);
+    }
+
+    public List<Order> viewMyOrders(EMail eMail) {
+        return theatreService.showMyOrders(eMail);
+    }
+
+    public List<Ticket> viewOrderTickets(Integer orderID) {
+        return theatreService.getOrderTickets(orderID);
+    }
+
+    public Viewer viewAccount(EMail eMail) {
+        return theatreService.getViewer(eMail);
+    }
+
+    //// TRUE - EMail changes too, YOU HAVE TO BE LOGGED OUT!!, FALSE - ONLY NAME and AGE are changed ////
+    public boolean manageViewerAccount(String name, int age, EMail eMail) {
+        return theatreService.manageViewerAccount(name, age, eMail);
+    }
+
+    //////////CEO OPTIONS//////////
+    public void ceoHireActor(Integer actorID, String name, int age, EMail actorEmail, int salary) {
+        theatreService.hireActor(actorID, name, age, actorEmail, salary);
+    }
+
+    public void ceoFireActor(Integer actorID) {
+        theatreService.fireActor(actorID);
+    }
+
+    public void ceoChangeSalary(Integer actorID, int newSalary) {
+        theatreService.changeActorSalary(actorID, newSalary);
+    }
+
+    public List<Actor> viewAllActors(){
+        return theatreService.getAllActors();
+    }
+
+    public Actor viewActor(Integer actorID) {
+        return theatreService.getActor(actorID);
+    }
+
+    public List<Auditorium> viewAllAuditoriums(){
+        return theatreService.getAllAuditoriums();
+    }
+
+    public Auditorium viewAuditorium(Integer auditoriumID) {
+        return theatreService.getAuditorium(auditoriumID);
+    }
+
+    public void createShow(Integer showID, String title, Auditorium auditorium, Map<Actor, String> roles, String date) {
+        theatreService.createShow(showID, title, auditorium, roles, date);
+    }
+
+    public void ceoDeleteShow(Integer showID) {
+        theatreService.deleteShow(showID);
+    }
+
+    public void createAuditorium(Integer id,String name, int rows, int cols){
+        theatreService.createAuditorium(id, name, rows, cols);
+    }
+
+    public void deleteAuditorium(Integer id){
+        theatreService.deleteAuditorium(id);
+    }
+
+    public boolean manageCeoAccount(String name, int age, EMail eMail){
+        return theatreService.manageCeoAccount(name, age, eMail);
     }
 }

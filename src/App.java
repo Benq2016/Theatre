@@ -7,6 +7,10 @@ import javax.swing.text.View;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class App {
     public static void main(String[] args) throws IOException {
@@ -17,49 +21,62 @@ public class App {
         InMemoryRepository<Viewer> viewerInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Ticket> ticketInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Order> orderInMemoryRepository = new InMemoryRepository<>();
-        InMemoryRepository<Seat> seatInMemoryRepository = new InMemoryRepository<>();
+//        InMemoryRepository<Seat> seatInMemoryRepository = new InMemoryRepository<>();
 
         TheatreService ts = new TheatreService(ceoInMemoryRepository, actorInMemoryRepository,
                 auditoriumInMemoryRepository,showInMemoryRepository, viewerInMemoryRepository, ticketInMemoryRepository,
-                orderInMemoryRepository, seatInMemoryRepository);
+                orderInMemoryRepository);
 
         TheatreController tc = new TheatreController(ts);
 
-//        Actor a = new Actor(1,"Peter", 23, new EMail("Email@Test.com","test"),11);
-//        System.out.println(a.getAge());
-//        System.out.println(a.getEmail());
-//        System.out.println(a);
-//
-//        Ceo c = new Ceo(1,"Boss",45, new EMail("Email@Testceo.com","testceo"));
-//        System.out.println(c.getAge());
-//        System.out.println(c.getEmail());
-//        System.out.println(c);
-//
-//        Auditorium ad = new Auditorium(1,"Great Hall",15,20);
-//        System.out.println(ad.getCapacity());
-//        System.out.println(ad);
+
+
+
+
+
+        EMail eMail1 = new EMail("bazsi123", "1230");
+        EMail eMail2 = new EMail("anna123", "1232");
+        tc.ceoHireActor(1, "bazsi", 20, eMail1, 2000);
+        tc.ceoHireActor(2, "anna", 19, eMail2, 1800);
+        Map<Actor, String> roles = new HashMap<>();
+        roles.putIfAbsent(tc.viewActor(1), "Romeo");
+        roles.putIfAbsent(tc.viewActor(2), "Julia");
+        tc.createShow(1, "Romeo es Julia!", tc.viewAuditorium(1), roles, "2024-11-15");
+        tc.createAuditorium(1, "Great Sh*t Hole", 10, 20);
+
+        List<Integer> seats = new ArrayList<>();
+        seats.add(66); seats.add(67); seats.add(68); seats.add(69); seats.add(1); seats.add(2); seats.add(150); seats.add(151);
+        int totalPrice = 25 * seats.size();
+        tc.createOrder(1, 1, eMail1, seats, totalPrice);
+
+        System.out.println(tc.viewMyOrders(eMail1));
+        System.out.println(tc.viewAllActors());
+        System.out.println(tc.viewShows());
+        System.out.println(tc.viewAllAuditoriums());
         tc.createAccount(1, "bence", 20, new EMail("bence.molnar@gmail.com", "1230"));
 
 
-        tc.ceoHireActor(34,"Jozsika",54,new EMail("Joco@theatre.eu", "velica22"), 4000);
-        System.out.println(actorInMemoryRepository.getAll());
-        System.out.println('\n');
-        tc.ceoHireActor(23,"Petike", 32, new EMail("petike@test.com","qwe"), 3400);
-        tc.ceoHireActor(12,"Jeno", 22, new EMail("Jeno@test.com","rty"), 1200);
-        tc.ceoHireActor(76,"Viktorka", 67,new EMail("Viktorka@test.com","uiop"), 7600);
+//        tc.ceoHireActor(34,"Jozsika",54,new EMail("Joco@theatre.eu", "velica22"), 4000);
+//        System.out.println(actorInMemoryRepository.getAll());
+//        System.out.println('\n');
+//        tc.ceoHireActor(23,"Petike", 32, new EMail("petike@test.com","qwe"), 3400);
+//        tc.ceoHireActor(12,"Jeno", 22, new EMail("Jeno@test.com","rty"), 1200);
+//        tc.ceoHireActor(76,"Viktorka", 67,new EMail("Viktorka@test.com","uiop"), 7600);
+//
+//        System.out.println("All actors : "+actorInMemoryRepository.getAll());
+//        System.out.println('\n');
+//        tc.ceoFireActor(34);
+//        tc.ceoFireActor(76);
+//        System.out.println("Actors after firing some of them : " + actorInMemoryRepository.getAll());
+//
+//        System.out.println('\n');
+//
+//        System.out.println("Salary before change : " + actorInMemoryRepository.getByID(12).getSalary());
+//        tc.ceoChangeSalary(12,6000);
+//        System.out.println("Salary after change : " + actorInMemoryRepository.getByID(12).getSalary());
 
-        System.out.println("All actors : "+actorInMemoryRepository.getAll());
-        System.out.println('\n');
-        tc.ceoFireActor(34);
-        tc.ceoFireActor(76);
-        System.out.println("Actors after firing some of them : " + actorInMemoryRepository.getAll());
 
-        System.out.println('\n');
-
-        System.out.println("Salary before change : " + actorInMemoryRepository.getByID(12).getSalary());
-        tc.ceoChangeSalary(12,6000);
-        System.out.println("Salary after change : " + actorInMemoryRepository.getByID(12).getSalary());
-        login(tc);
+//        login(tc);
 
     }
 
@@ -88,7 +105,7 @@ public class App {
                     String password = reader.readLine();
                     EMail logEmail = new EMail(email, password);
                     int user = theatreController.login(logEmail);
-                    printUserOptions(user, logEmail);
+//                    printUserOptions(user, logEmail);
                     //////////CSINÁLHATSZ EGY FUNKCIÓT MINT A LOGIN() ÉS SWITCH-EL CASE-ENKÉNT KIPRINTELED MINDEN USER-NEK AZ OPCIÓIT//////////
                     //////////4 CASE VAN: 1 - ACTOR, 2 - CEO, 3 - VIEWER, 0 - NEM LÉTEZIK ILYEN ACCOUNT//////////
                     //////////LOG-eEMAIL KELL HOGY BE TUDJA AZONOSITANI AZ ID-t MIKOR ORDERT CSINÁLSZ//////////
@@ -109,7 +126,7 @@ public class App {
                     boolean user = theatreController.createAccount(id, name, age, logEmail);
                     if (user) {
                         System.out.println("Sign-up successful.");
-                        printUserOptions(3, logEmail);
+//                        printUserOptions(3, logEmail);
                         //////////MIVEL EGY CÉGNEK MINDIG EGY CEO-JA VAN FELTESZEM NEM LEHET ÚJJAT HOZZÁADNI ÉS ACTOR-T
                         //////////MEG CSAK CEO TUD HOZZÁÁDNI TEHÁT ÚJ ACCOUNTOT CSAK VIEWER TUD CSINÁLNI
                         //////////EZÉRT VIEWER-KÉNT AZ APP MEHET TOVÁBB//////////

@@ -1,16 +1,17 @@
 package Domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order implements HasID{
     private int id;
-    private String date;
+    private LocalDateTime date;
     private int viewerID;
     private int showID;
     private List<Ticket> tickets;
-    private List<Seat> seats;
+    private List<Integer> seats;
 
-    public Order(int id, String date, int viewerID, int showID, List<Seat> seats, List<Ticket> tickets) {
+    public Order(int id, LocalDateTime date, int viewerID, int showID, List<Integer> seats, List<Ticket> tickets) {
         this.id = id;
         this.date = date;
         this.viewerID = viewerID;
@@ -19,7 +20,7 @@ public class Order implements HasID{
         this.tickets = tickets;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -35,7 +36,7 @@ public class Order implements HasID{
         return tickets;
     }
 
-    public List<Seat> getSeats() {
+    public List<Integer> getSeats() {
         return seats;
     }
 
