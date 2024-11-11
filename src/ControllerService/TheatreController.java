@@ -79,6 +79,10 @@ public class TheatreController {
         return theatreService.getAllAuditoriums();
     }
 
+//    public List<Auditorium> viewAllAuditoriumsWithoutLayout(){
+//        return theatreService.getAllAuditoriums();
+//    }
+
     public Auditorium viewAuditorium(Integer auditoriumID) {
         return theatreService.getAuditorium(auditoriumID);
     }

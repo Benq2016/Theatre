@@ -24,12 +24,19 @@ public class UI {
             System.out.println("Welcome to the Theatre Management System!");
             System.out.println("Please choose a role to proceed:");
             System.out.println("1 - CEO");
+            System.out.println("2 - Actor");
             System.out.println("0 - Exit");
 
             String input = reader.readLine();
             switch (input) {
                 case "1":
                     CeoUi();
+                    break;
+                case "2":
+                    ActorUI();
+                    break;
+                case "3":
+//                    ViewerUI();
                     break;
                 case "0":
                     System.out.println("Exiting the program. Goodbye!");
@@ -39,6 +46,34 @@ public class UI {
             }
         }
     }
+    private void ActorUI() throws IOException {
+        while (true) {
+            System.out.println("\nWelcome Actor");
+            System.out.println("What do you want to do?");
+            System.out.println("1 - View upcoming shows");
+            System.out.println("2 - Manage personal account");
+            System.out.println("0 - Back to main menu");
+
+            String input = reader.readLine();
+            switch (input) {
+                case "1":
+                    viewUpcomingShows();
+                    break;
+                case "2":
+//                    manageActorAccount();
+                    break;
+                case "0":
+                    return;  // Go back to the main menu in RUN
+                default:
+                    System.out.println("Invalid option. Please choose 1, 2 or 0.");
+            }
+        }
+    }
+    private void viewUpcomingShows() throws IOException {
+        System.out.println("Listing all your upcoming shows");
+//        System.out.println(theatreController.viewMyShows());
+    }
+
 
     private void CeoUi() throws IOException {
         while (true) {
@@ -67,6 +102,36 @@ public class UI {
             }
         }
     }
+//    private void managePersonalAccount() throws IOException {
+//        while (true) {
+//            System.out.println("\nManage personal account - options");
+//            System.out.println("1 - Hire an actor");
+//            System.out.println("2 - Fire an actor");
+//            System.out.println("3 - Change actor salary");
+//            System.out.println("4 - List all actors");
+//            System.out.println("0 - Back");
+//
+//            String option = reader.readLine();
+//            switch (option) {
+//                case "1":
+//                    hireActor();
+//                    break;
+//                case "2":
+//                    fireActor();
+//                    break;
+//                case "3":
+//                    changeActorSalary();
+//                    break;
+//                case "4":
+//                    listAllActors();
+//                    break;
+//                case "0":
+//                    return;  // Go back to CEO menu in CeoUi
+//                default:
+//                    System.out.println("Invalid option. Please choose 1, 2, 3, 4, or 0.");
+//            }
+//        }
+//    }
 
     private void manageActors() throws IOException {
         while (true) {
@@ -116,27 +181,56 @@ public class UI {
                     createShow();
                     break;
                 case "2":
-//                    deleteShow();
+                    deleteShow();
                     break;
                 case "3":
                     createAuditorium();
                     break;
                 case "4":
-//                    deleteAuditorium();
+                    deleteAuditorium();
                     break;
                 case "5":
-//                    listAllShows();
+                    listAllShows();
                     break;
                 case "6":
-//                    listAllAuditoriums();
+                    listAllAuditoriums();
                     break;
                 case "0":
                     return;  // Go back to CEO menu in CeoUi
                 default:
-                    System.out.println("Invalid option. Please choose 1, 2, 3, 4, or 0.");
+                    System.out.println("Invalid option. Please choose 1, 2, 3, 4, 5, 6 or 0.");
             }
         }
 
+    }
+
+    private void listAllAuditoriums() throws IOException {
+        System.out.println("List of all the auditoriums");
+        System.out.println(theatreController.viewAllAuditoriums());
+    }
+
+    private void listAllShows() throws IOException {
+        System.out.println("List of all the shows");
+        System.out.println(theatreController.viewShows());
+    }
+
+    private void deleteAuditorium() throws IOException {
+        System.out.println("\nDeleting an auditorium");
+        System.out.println(theatreController.viewAllAuditoriums());
+        System.out.println("Id of the auditorium you want to delete:");
+        Integer audId = Integer.parseInt(reader.readLine());
+        theatreController.deleteAuditorium(audId);
+
+    }
+
+    private void deleteShow() throws IOException {
+        System.out.println("\nDeleting shows");
+        System.out.println(theatreController.viewShows());
+        System.out.println("Id of the show you want to delete:");
+        Integer showId = Integer.parseInt(reader.readLine());
+
+        theatreController.ceoDeleteShow(showId);
+        System.out.println("Show successfully deleted.");
     }
 
     private void createAuditorium() throws IOException {

@@ -24,4 +24,7 @@ public class EMail {
                 ", password='" + password + '\'' +
                 '}';
     }
+    public boolean equals(EMail email) {
+        return this.emailAdress.equals(email.getEmailAddress()) && this.password.equals(email.getPassword());
+    }
 }

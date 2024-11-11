@@ -16,5 +16,4 @@ public class Ceo extends Person implements HasID {
                 '}';
     }
 
-
 }
