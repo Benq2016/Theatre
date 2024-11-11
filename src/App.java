@@ -204,7 +204,7 @@ public class App {
             eMail = new EMail(emailAddress, password);
             Integer userNumber = tc.login(eMail);
 
-            if (userNumber <= 0 || userNumber > 3) {
+            if (userNumber == 0 ) {
                 System.out.println("Invalid Email, try again...");
             }
             else {
