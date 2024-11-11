@@ -102,4 +102,12 @@ public class TheatreController {
     public boolean manageCeoAccount(String name, int age, EMail currentEmail, EMail newEmail){
         return theatreService.manageCeoAccount(name, age, currentEmail, newEmail);
     }
+
+    public List<Show> viewMyShows(EMail eMail) {
+        return theatreService.showMyShows(eMail);
+    }
+
+    public boolean manageActorAccount(String name, int age, EMail currentEmail, EMail newEmail){
+        return theatreService.manageActorAccount(name, age, currentEmail, newEmail);
+    }
 }

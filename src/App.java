@@ -19,16 +19,13 @@ public class App {
         InMemoryRepository<Auditorium> auditoriumInMemoryRepository= new InMemoryRepository<>();
         InMemoryRepository<Show> showInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Viewer> viewerInMemoryRepository = new InMemoryRepository<>();
-        InMemoryRepository<Ticket> ticketInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Order> orderInMemoryRepository = new InMemoryRepository<>();
-//        InMemoryRepository<Seat> seatInMemoryRepository = new InMemoryRepository<>();
 
         TheatreService ts = new TheatreService(ceoInMemoryRepository, actorInMemoryRepository,
-                auditoriumInMemoryRepository,showInMemoryRepository, viewerInMemoryRepository, ticketInMemoryRepository,
+                auditoriumInMemoryRepository,showInMemoryRepository, viewerInMemoryRepository,
                 orderInMemoryRepository);
 
         TheatreController tc = new TheatreController(ts);
-
 
 
 
@@ -54,16 +51,20 @@ public class App {
         //creating viewer//
         EMail eMailV1 = new EMail("bence.molnar@gmail.com", "1230");
         tc.createViewerAccount(1, "bence", 20, eMailV1);
-        //print before order//
+
+//        System.out.println(tc.viewAllActors());
+//        System.out.println(tc.viewMyShows(eMail1));
+//
+//        //print before order//
 //        System.out.println(tc.viewShows());
 //        System.out.println(tc.viewShow("Romeo es Julia!"));
-
-        //fire, adjust actors//
+//
+//        //fire, adjust actors//
 //        tc.ceoFireActor(1);
 //        tc.ceoChangeSalary(2, 2000);
 //        System.out.println(tc.viewAllActors());
-
-        //manage Shows/ Auditoriums//
+//
+//        //manage Shows/ Auditoriums//
 //        tc.deleteAuditorium(1);
 //        tc.ceoDeleteShow(2);
 //        System.out.println(tc.viewAllAuditoriums());
@@ -80,47 +81,25 @@ public class App {
         //printing lists and audit after reservation//
 //        System.out.println("\n" + tc.viewMyOrders(eMailV1) +  "\n");
 //        System.out.println(tc.viewOrderTickets(1));
-
-        //manage Account for Viewer//
-        System.out.println(tc.viewAccount(eMailV1));
-        tc.manageViewerAccount("Bence", 21, eMailV1, eMailV1);
-        System.out.println(tc.viewAccount(eMailV1));
-        EMail eMailV1_mod = new EMail("bence.molnar@yahoo.com", "1231");
-        tc.manageViewerAccount("bence", 20, eMailV1, eMailV1_mod);
-        System.out.println(tc.viewAccount(eMailV1_mod));
-
-        //manage Account for Ceo//
+//
+//        //manage Account for Viewer//
+//        System.out.println(tc.viewAccount(eMailV1));
+//        tc.manageViewerAccount("Bence", 21, eMailV1, eMailV1);
+//        System.out.println(tc.viewAccount(eMailV1));
+//        EMail eMailV1_mod = new EMail("bence.molnar@yahoo.com", "1231");
+//        tc.manageViewerAccount("bence", 20, eMailV1, eMailV1_mod);
+//        System.out.println(tc.viewAccount(eMailV1_mod));
+//
+//        //manage Account for Ceo//
 //        System.out.println(tc.viewAccount(eMail));
 //        tc.manageCeoAccount("Bence", 21, eMail, eMail);
 //        System.out.println(tc.viewAccount(eMail));
-//        EMail eMailV1_mod = new EMail("bence.molnar@yahoo.com", "1231");
 //        tc.manageCeoAccount("bence", 20, eMail, eMailV1_mod);
 //        System.out.println(tc.viewAccount(eMailV1_mod));
-
-
+//
+//
 //        System.out.println(tc.viewAllActors());
 //        System.out.println(tc.viewAllAuditoriums());
-
-
-
-//        tc.ceoHireActor(34,"Jozsika",54,new EMail("Joco@theatre.eu", "velica22"), 4000);
-//        System.out.println(actorInMemoryRepository.getAll());
-//        System.out.println('\n');
-//        tc.ceoHireActor(23,"Petike", 32, new EMail("petike@test.com","qwe"), 3400);
-//        tc.ceoHireActor(12,"Jeno", 22, new EMail("Jeno@test.com","rty"), 1200);
-//        tc.ceoHireActor(76,"Viktorka", 67,new EMail("Viktorka@test.com","uiop"), 7600);
-//
-//        System.out.println("All actors : "+actorInMemoryRepository.getAll());
-//        System.out.println('\n');
-//        tc.ceoFireActor(34);
-//        tc.ceoFireActor(76);
-//        System.out.println("Actors after firing some of them : " + actorInMemoryRepository.getAll());
-//
-//        System.out.println('\n');
-//
-//        System.out.println("Salary before change : " + actorInMemoryRepository.getByID(12).getSalary());
-//        tc.ceoChangeSalary(12,6000);
-//        System.out.println("Salary after change : " + actorInMemoryRepository.getByID(12).getSalary());
 
 
 //        login(tc);
@@ -134,12 +113,10 @@ public class App {
         InMemoryRepository<Auditorium> auditoriumInMemoryRepository= new InMemoryRepository<>();
         InMemoryRepository<Show> showInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Viewer> viewerInMemoryRepository = new InMemoryRepository<>();
-        InMemoryRepository<Ticket> ticketInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Order> orderInMemoryRepository = new InMemoryRepository<>();
-//        InMemoryRepository<Seat> seatInMemoryRepository = new InMemoryRepository<>();
 
         TheatreService ts = new TheatreService(ceoInMemoryRepository, actorInMemoryRepository,
-                auditoriumInMemoryRepository,showInMemoryRepository, viewerInMemoryRepository, ticketInMemoryRepository,
+                auditoriumInMemoryRepository,showInMemoryRepository, viewerInMemoryRepository,
                 orderInMemoryRepository);
 
         TheatreController tc = new TheatreController(ts);

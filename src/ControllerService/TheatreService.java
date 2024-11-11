@@ -16,22 +16,18 @@ public class TheatreService {
     private final Repository<Auditorium> auditoriumRepository;
     private final Repository<Show> showRepository;
     private final Repository<Viewer> viewerRepository;
-    private final Repository<Ticket> ticketRepository;
     private final Repository<Order> orderRepository;
-//    private final Repository<Seat> seatRepository;
 
 
     public TheatreService(Repository<Ceo> ceoRepository, Repository<Actor> actorRepository,
                           Repository<Auditorium> auditoriumRepository, Repository<Show> showRepository,
-                          Repository<Viewer> viewerRepository, Repository<Ticket> ticketRepository, Repository<Order> orderRepository) {
+                          Repository<Viewer> viewerRepository, Repository<Order> orderRepository) {
         this.ceoRepository = ceoRepository;
         this.actorRepository = actorRepository;
         this.auditoriumRepository = auditoriumRepository;
         this.showRepository = showRepository;
         this.viewerRepository = viewerRepository;
-        this.ticketRepository = ticketRepository;
         this.orderRepository = orderRepository;
-//        this.seatRepository = seatRepository;
     }
 
     ////////////////////////////////ACTOR////////////////////////////////
@@ -39,34 +35,24 @@ public class TheatreService {
         return actorRepository.getByID(actorID).getName();
     }
 
-    protected void changeActorName(Integer actorID, String newName){
-        Actor actor = actorRepository.getByID(actorID);
-        actor.setName(newName);
-        actorRepository.update(actor);
-    }
-
     protected int getActorAge(Integer actorID){
         return actorRepository.getByID(actorID).getAge();
-    }
-
-    protected void changeActorAge(Integer actorID, int newAge){
-        Actor actor = actorRepository.getByID(actorID);
-        actor.setAge(newAge);
-        actorRepository.update(actor);
     }
 
     protected EMail getActorEmail(Integer actorID){
         return actorRepository.getByID(actorID).getEmail();
     }
 
-    protected void changeActorEmail(Integer actorID, EMail newEmail){
-        Actor actor = actorRepository.getByID(actorID);
-        actor.setEmail(newEmail);
-        actorRepository.update(actor);
-    }
-
     protected Actor getActor(Integer actorID){
         return actorRepository.getByID(actorID);
+    }
+
+    protected Actor getActor(EMail email){
+        List<Actor> actors = actorRepository.getAll();
+        for (Actor actor : actors)
+            if (actor.getEmail().equals(email))
+                return actor;
+        return null;
     }
 
     protected List<Actor> getAllActors(){
@@ -81,6 +67,38 @@ public class TheatreService {
         Actor actor = actorRepository.getByID(actorID);
         actor.setSalary(newSalary);
         actorRepository.update(actor);
+    }
+
+    protected List<Show> showMyShows(EMail eMail){
+        List<Show> myShows = new ArrayList<>();
+        List<Show> allShows = showRepository.getAll();
+        List<Actor> actors = actorRepository.getAll();
+        int actorID = 0;
+        for (Actor actor : actors)
+            if (actor.getEmail().equals(eMail)) {
+                actorID = actor.getID();
+                break;
+            }
+
+        for (Show show : allShows)
+            if (show.getRoles().containsKey(getActor(actorID)))
+                myShows.add(show);
+
+        return myShows;
+    }
+
+    protected boolean manageActorAccount(String name, int age, EMail currentEmail, EMail newEmail){
+        Actor actor = getActor(currentEmail);
+        actor.setName(name);
+        actor.setAge(age);
+
+        if (!actor.getEmail().equals(newEmail)) {
+            actor.setEmail(newEmail);
+            actorRepository.update(actor);
+            return true;
+        }
+        actorRepository.update(actor);
+        return false;
     }
 
 
@@ -293,15 +311,6 @@ public class TheatreService {
         return 0;
     }
 
-    protected String getViewerName(EMail eMail){
-        String name = "-----------";
-        List<Viewer> viewers = viewerRepository.getAll();
-        for (Viewer viewer : viewers)
-            if (viewer.getEmail().equals(eMail))
-                name = viewer.getName();
-        return name;
-    }
-
     protected  void changeViewerName(Integer viewerID, String newName){
         Viewer viewer = viewerRepository.getByID(viewerID);
         viewer.setName(newName);
@@ -450,60 +459,6 @@ public class TheatreService {
 
     protected List<Order> getAllOrders(){
         return orderRepository.getAll();
-    }
-
-
-
-    ////////////////////////////////SEAT////////////////////////////////
-//    protected int getSeatRows(Integer seatID){
-//        return seatRepository.getByID(seatID).getRow();
-//    }
-//
-//    protected int getSeatCols(Integer seatID){
-//        return seatRepository.getByID(seatID).getSeat();
-//    }
-//
-//    protected void setSeatRow(Integer seatID, int row){
-//        Seat seat = seatRepository.getByID(seatID);
-//        seat.setRow(row);
-//        seatRepository.update(seat);
-//    }
-//
-//    protected void setSeatCols(Integer seatID, int col){
-//        Seat seat = seatRepository.getByID(seatID);
-//        seat.setSeat(col);
-//        seatRepository.update(seat);
-//    }
-
-
-
-    ////////////////////////////////TICKET////////////////////////////////
-    protected String getTicketShowName(Integer ticketID){
-        return ticketRepository.getByID(ticketID).getShowName();
-    }
-
-    protected String getTicketViewerName(Integer ticketID){
-        return ticketRepository.getByID(ticketID).getViewerName();
-    }
-
-    protected String getTicketAuditoriumName(Integer ticketID){
-        return ticketRepository.getByID(ticketID).getAuditoriumName();
-    }
-
-    protected int getTicketPrice(Integer ticketID){
-        return ticketRepository.getByID(ticketID).getPrice();
-    }
-
-    protected Integer getTicketSeat(Integer ticketID){
-        return ticketRepository.getByID(ticketID).getSeat();
-    }
-
-    protected Ticket getTicket(Integer ticketID){
-        return ticketRepository.getByID(ticketID);
-    }
-
-    protected List<Ticket> getAllTickets(){
-        return ticketRepository.getAll();
     }
 
 
