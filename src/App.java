@@ -124,7 +124,7 @@ public class App {
 
 //        tests();
         make_initial_objects(tc);
-        System.out.println(tc.viewAccount(new EMail("davidceo@gmail.com", "supersecure")));
+        System.out.println(tc.viewAccount(new EMail("davidceo@gmail.com", "supersecure"))); // problem - equals
         EMail emailGotFromLoginSignin = choosingBetweenLoginAndSignup(tc);
 
         UI ui = new UI(tc);
