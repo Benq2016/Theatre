@@ -2,6 +2,7 @@ import ControllerService.TheatreController;
 import ControllerService.TheatreService;
 import Domain.*;
 import RepositoryPackage.InMemoryRepository;
+import UserInterface.UI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class App {
-    public static void main(String[] args) throws IOException {
+    public static void tests() throws IOException {
         InMemoryRepository<Ceo> ceoInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Actor> actorInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Auditorium> auditoriumInMemoryRepository= new InMemoryRepository<>();
@@ -81,12 +82,12 @@ public class App {
 //        System.out.println(tc.viewOrderTickets(1));
 
         //manage Account for Viewer//
-//        System.out.println(tc.viewAccount(eMailV1));
-//        tc.manageViewerAccount("Bence", 21, eMailV1, eMailV1);
-//        System.out.println(tc.viewAccount(eMailV1));
-//        EMail eMailV1_mod = new EMail("bence.molnar@yahoo.com", "1231");
-//        tc.manageViewerAccount("bence", 20, eMailV1, eMailV1_mod);
-//        System.out.println(tc.viewAccount(eMailV1_mod));
+        System.out.println(tc.viewAccount(eMailV1));
+        tc.manageViewerAccount("Bence", 21, eMailV1, eMailV1);
+        System.out.println(tc.viewAccount(eMailV1));
+        EMail eMailV1_mod = new EMail("bence.molnar@yahoo.com", "1231");
+        tc.manageViewerAccount("bence", 20, eMailV1, eMailV1_mod);
+        System.out.println(tc.viewAccount(eMailV1_mod));
 
         //manage Account for Ceo//
 //        System.out.println(tc.viewAccount(eMail));
@@ -123,6 +124,33 @@ public class App {
 
 
 //        login(tc);
+
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        InMemoryRepository<Ceo> ceoInMemoryRepository = new InMemoryRepository<>();
+        InMemoryRepository<Actor> actorInMemoryRepository = new InMemoryRepository<>();
+        InMemoryRepository<Auditorium> auditoriumInMemoryRepository= new InMemoryRepository<>();
+        InMemoryRepository<Show> showInMemoryRepository = new InMemoryRepository<>();
+        InMemoryRepository<Viewer> viewerInMemoryRepository = new InMemoryRepository<>();
+        InMemoryRepository<Ticket> ticketInMemoryRepository = new InMemoryRepository<>();
+        InMemoryRepository<Order> orderInMemoryRepository = new InMemoryRepository<>();
+//        InMemoryRepository<Seat> seatInMemoryRepository = new InMemoryRepository<>();
+
+        TheatreService ts = new TheatreService(ceoInMemoryRepository, actorInMemoryRepository,
+                auditoriumInMemoryRepository,showInMemoryRepository, viewerInMemoryRepository, ticketInMemoryRepository,
+                orderInMemoryRepository);
+
+        TheatreController tc = new TheatreController(ts);
+
+//        tests();
+        Auditorium auditorium = new Auditorium(2,"Main Hall", 25,25);
+//        Actor actor = new Actor(1,"Peter", 34, new EMail())
+
+        UI ui = new UI(tc);
+        ui.RUN();
+
 
     }
 
