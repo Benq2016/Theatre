@@ -1,10 +1,7 @@
 package UserInterface;
 
 import ControllerService.TheatreController;
-import Domain.Actor;
-import Domain.Auditorium;
-import Domain.EMail;
-import Domain.Show;
+import Domain.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -68,6 +65,7 @@ public class UI {
                     break;
                 case "3":
                     viewMyOrders(viewerEmail);
+                    break;
                 case "0":
                     return;
                 default:
@@ -75,10 +73,11 @@ public class UI {
             }
         }
     }
+
     private void viewMyOrders(EMail viewerEmail) throws IOException {
-        List<Show> myShows = theatreController.viewMyShows(viewerEmail);
-        for (Show myShow : myShows) {
-            System.out.println(myShow);
+        List<Order> myOrders = theatreController.viewMyOrders(viewerEmail);
+        for (Order myOrder : myOrders) {
+            System.out.println(myOrder);
         }
     }
 
@@ -156,7 +155,9 @@ public class UI {
 
     private void viewUpcomingShows(EMail actorMail) throws IOException {
         System.out.println("Listing all your upcoming shows");
-        System.out.println(theatreController.viewMyShows(actorMail));
+        List<Show> myShows = theatreController.viewMyShows(actorMail);
+        for (Show myShow : myShows)
+            System.out.println(myShow);
     }
 
     private void CeoUi(EMail ceoEmail) throws IOException {

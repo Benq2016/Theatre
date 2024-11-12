@@ -134,7 +134,7 @@ public class App {
     }
 
     public static void make_initial_objects(TheatreController tc) {
-        tc.createCeoAccount(1,"Boss David", 54,new EMail("davidceo@gmail.com", "supersecure"));
+        tc.createCeoAccount(1,"Boss David", 54,new EMail("david@gmail.com", "1230"));
 
         tc.ceoHireActor(1,"Peter",23, new EMail("peter@gmail.com", "123"),1200);
         tc.ceoHireActor(2,"Bence",33, new EMail("bence@gmail.com", "asd"),1500);
