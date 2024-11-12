@@ -20,27 +20,28 @@ public class UI {
     }
 
     public void RUN(EMail userEmail) throws IOException {
+
         while (true) {
 
             String role = String.valueOf(theatreController.login(userEmail));
 
-//            String input = reader.readLine();
             switch (role) {
                 case "1":
                     ActorUI(userEmail);
                     break;
                 case "2":
-                    CeoUi();
+                    CeoUi(userEmail);
                     break;
                 case "3":
 //                    ViewerUI();
                     break;
                 case "0":
                     System.out.println("Exiting the program. Goodbye!");
-                    return;
+                    System.exit(0);
                 default:
-                    System.out.println("Invalid option. Please enter 1 or 0.");
+                    System.out.println("Invalid option. Please enter 1, 2, 3 or 0.");
             }
+            userEmail = choosingBetweenLoginAndSignup(theatreController);
         }
     }
     private void ActorUI(EMail actorMail) throws IOException {
@@ -49,7 +50,7 @@ public class UI {
             System.out.println("What do you want to do?");
             System.out.println("1 - View upcoming shows");
             System.out.println("2 - Manage personal account");
-            System.out.println("0 - Back to main menu");
+            System.out.println("0 - Log out");
 
             String input = reader.readLine();
             switch (input) {
@@ -60,7 +61,7 @@ public class UI {
 //                    manageActorAccount();
                     break;
                 case "0":
-                    return;  // Go back to the main menu in RUN
+                    return;
                 default:
                     System.out.println("Invalid option. Please choose 1, 2 or 0.");
             }
@@ -72,14 +73,14 @@ public class UI {
     }
 
 
-    private void CeoUi() throws IOException {
+    private void CeoUi(EMail ceoEmail) throws IOException {
         while (true) {
             System.out.println("\nWelcome CEO");
             System.out.println("What do you want to do?");
             System.out.println("1 - Work with actors");
             System.out.println("2 - Work with shows and auditoriums");
             System.out.println("3 - Manage personal account");
-            System.out.println("0 - Back to main menu");
+            System.out.println("0 - Log out");
 
             String input = reader.readLine();
             switch (input) {
@@ -90,20 +91,35 @@ public class UI {
                     manageShowsAndAuditoriums();
                     break;
                 case "3":
-//                    managePersonalAccountCeo();
+                    if (managePersonalAccountCeo(ceoEmail))
+                        return;
+
                     break;
                 case "0":
-                    return;  // Go back to the main menu in RUN
+                    return;
                 default:
                     System.out.println("Invalid option. Please choose 1, 2, 3, or 0.");
             }
         }
     }
 
-//    private void managePersonalAccountCeo() throws IOException {
-//        System.out.println("\nManage personal account - options");
-//        System.out.println("1 - ");
-//    }
+    private Boolean managePersonalAccountCeo(EMail ceoEmail) throws IOException {
+        System.out.println(theatreController.viewAccount(ceoEmail));
+        System.out.println("Enter new name: ");
+        String name = reader.readLine();
+        System.out.println("Enter new age: ");
+        int age = Integer.parseInt(reader.readLine());
+        System.out.println("Enter new email address: ");
+        String emailAddress = reader.readLine();
+        System.out.println("Enter new password: ");
+        String password = reader.readLine();
+        EMail newMail = new EMail(emailAddress,password);
+        System.out.println("Account details changed successfully");
+        if (theatreController.manageCeoAccount(name,age,ceoEmail,newMail))
+            return true;
+        return false;
+
+    }
 
     private void manageActors() throws IOException {
         while (true) {
@@ -168,7 +184,7 @@ public class UI {
                     listAllAuditoriums();
                     break;
                 case "0":
-                    return;  // Go back to CEO menu in CeoUi
+                    return;
                 default:
                     System.out.println("Invalid option. Please choose 1, 2, 3, 4, 5, 6 or 0.");
             }
@@ -321,6 +337,93 @@ public class UI {
     private void listAllActors() {
         System.out.println("\nList of all actors:");
         theatreController.viewAllActors().forEach(actor -> System.out.println(actor));
+    }
+
+    public static EMail choosingBetweenLoginAndSignup(TheatreController tc) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("Welcome to the theater management system");
+        System.out.println("If you want to proceed please chose an option");
+        System.out.println("1 - Login");
+        System.out.println("2 - Sign up");
+        System.out.println("0 - Exit");
+        String option = reader.readLine();
+        while (true){
+            switch (option) {
+                case "1":
+                    EMail loginEmail = login(tc);
+                    return loginEmail;
+
+                case "2":
+                    EMail signUpEmail = signUp(tc);
+                    return signUpEmail;
+
+                case "0":
+                    System.out.println("Good bye!");
+                    System.exit(0);
+
+                default:
+                    System.out.println("Invalid option. Please choose 1 or 2.");
+
+            }
+        }
+
+    }
+
+    private static EMail signUp(TheatreController tc) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        EMail newMail;
+        while (true) {
+
+            System.out.println("Welcome new User");
+            System.out.println("Please create you account as follows:");
+            System.out.println("Choose an Id:");
+            Integer id = Integer.parseInt(reader.readLine());
+            System.out.println("Provide us with your name:");
+            String name = reader.readLine();
+            System.out.println("Your age:");
+            int age = Integer.parseInt(reader.readLine());
+            System.out.println("Your emailAddress:");
+            String emailAddress = reader.readLine();
+            System.out.println("Your password:");
+            String password = reader.readLine();
+            newMail = new EMail(emailAddress, password);
+
+            Boolean success = tc.createViewerAccount(id,name,age, newMail);
+            if (success) {
+                break;
+            }
+            else {
+                System.out.println("Try again please.");
+            }
+        }
+
+
+        return newMail;
+    }
+
+    private static EMail login(TheatreController tc) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        EMail eMail;
+        System.out.println("Welcome Back! Please type in your email for authentication.");
+        while (true) {
+            System.out.println("Email Address:");
+            String emailAddress = reader.readLine();
+            System.out.println("Password:");
+            String password = reader.readLine();
+            eMail = new EMail(emailAddress, password);
+            Integer userNumber = tc.login(eMail);
+
+            if (userNumber == 0 ) {
+                System.out.println("Invalid Email, try again...");
+            }
+            else {
+                System.out.println("You have successfully logged in!");
+                break;
+            }
+        }
+        return eMail;
+
     }
 
 }

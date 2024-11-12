@@ -33,8 +33,8 @@ public class TheatreController {
         return theatreService.getShow(showTitle);
     }
 
-    public void createOrder(Integer id, int showID, EMail eMail, List<Integer> seats, int totalPrice) {
-        theatreService.createOrder(id, showID, eMail, seats, totalPrice);
+    public void createOrder(Integer id, int showID, EMail eMail, List<Integer> seats) {
+        theatreService.createOrder(id, showID, eMail, seats);
     }
 
     public List<Order> viewMyOrders(EMail eMail) {

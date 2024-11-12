@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static UserInterface.UI.choosingBetweenLoginAndSignup;
+
 public class App {
     public static void tests() throws IOException {
         InMemoryRepository<Ceo> ceoInMemoryRepository = new InMemoryRepository<>();
@@ -74,10 +76,9 @@ public class App {
         //reserving seats//
         List<Integer> seats = new ArrayList<>();
         seats.add(66); seats.add(67); seats.add(68); seats.add(69); seats.add(1); seats.add(2); seats.add(150); seats.add(151);
-        int totalPrice = 25 * seats.size();
 
         //creating order//
-        tc.createOrder(1, 1, eMailV1, seats, totalPrice);
+        tc.createOrder(1, 1, eMailV1, seats);
 
         //printing lists and audit after reservation//
 //        System.out.println("\n" + tc.viewMyOrders(eMailV1) +  "\n");
@@ -132,90 +133,6 @@ public class App {
 
     }
 
-
-
-    private static EMail choosingBetweenLoginAndSignup(TheatreController tc) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        System.out.println("Welcome to the theater management system");
-        System.out.println("If you want to proceed please chose an option");
-        System.out.println("1 - Login");
-        System.out.println("2 - Sign up");
-        String option = reader.readLine();
-        while (true){
-            switch (option) {
-                case "1":
-                    EMail loginEmail = login(tc);
-                    return loginEmail;
-
-                case "2":
-                    EMail signUpEmail = signUp(tc);
-                    return signUpEmail;
-
-                default:
-                    System.out.println("Invalid option. Please choose 1 or 2.");
-
-            }
-        }
-
-    }
-
-    private static EMail signUp(TheatreController tc) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        EMail newMail;
-        while (true) {
-
-            System.out.println("Welcome new User");
-            System.out.println("Please create you account as follows:");
-            System.out.println("Choose an Id:");
-            Integer id = Integer.parseInt(reader.readLine());
-            System.out.println("Provide us with your name:");
-            String name = reader.readLine();
-            System.out.println("Your age:");
-            int age = Integer.parseInt(reader.readLine());
-            System.out.println("Your emailAddress:");
-            String emailAddress = reader.readLine();
-            System.out.println("Your password:");
-            String password = reader.readLine();
-            newMail = new EMail(emailAddress, password);
-
-            Boolean success = tc.createViewerAccount(id,name,age, newMail);
-            if (success) {
-                break;
-            }
-            else {
-                System.out.println("Try again please.");
-            }
-        }
-
-
-        return newMail;
-    }
-
-    private static EMail login(TheatreController tc) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        EMail eMail;
-        System.out.println("Welcome Back! Please type in your email for authentication.");
-        while (true) {
-            System.out.println("Email Address:");
-            String emailAddress = reader.readLine();
-            System.out.println("Password:");
-            String password = reader.readLine();
-            eMail = new EMail(emailAddress, password);
-            Integer userNumber = tc.login(eMail);
-
-            if (userNumber == 0 ) {
-                System.out.println("Invalid Email, try again...");
-            }
-            else {
-                System.out.println("You have successfully logged in!");
-                break;
-            }
-        }
-        return eMail;
-
-    }
-
     public static void make_initial_objects(TheatreController tc) {
         tc.createCeoAccount(1,"Boss David", 54,new EMail("davidceo@gmail.com", "supersecure"));
 
@@ -229,70 +146,4 @@ public class App {
         tc.createAuditorium(2,"Klein Stage",20,20);
     }
 
-
-//    public static void login(TheatreController theatreController) throws IOException {
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//
-//        while (true) {
-//            System.out.println("------------------------------------------------------------------");
-//            System.out.println("Please choose whether you want to sign-in or to sign-up: ");
-//            System.out.println("   1 - Sign-in\n   2 - Sign-up\n   0 - Exit");
-//
-//            String input = reader.readLine();
-//            int option;
-//            try {
-//                option = Integer.parseInt(input);
-//            } catch (NumberFormatException e) {
-//                System.out.println("Invalid input. Please enter a number (0, 1, or 2).");
-//                continue;
-//            }
-//
-//            switch (option) {
-//                case 1: {
-//                    System.out.println("Please enter your email: ");
-//                    String email = reader.readLine();
-//                    System.out.println("Please enter your password: ");
-//                    String password = reader.readLine();
-//                    EMail logEmail = new EMail(email, password);
-//                    int user = theatreController.login(logEmail);
-////                    printUserOptions(user, logEmail);
-//                    //////////CSINÁLHATSZ EGY FUNKCIÓT MINT A LOGIN() ÉS SWITCH-EL CASE-ENKÉNT KIPRINTELED MINDEN USER-NEK AZ OPCIÓIT//////////
-//                    //////////4 CASE VAN: 1 - ACTOR, 2 - CEO, 3 - VIEWER, 0 - NEM LÉTEZIK ILYEN ACCOUNT//////////
-//                    //////////LOG-eEMAIL KELL HOGY BE TUDJA AZONOSITANI AZ ID-t MIKOR ORDERT CSINÁLSZ//////////
-//                    break;
-//                }
-//                case 2: {
-//                    System.out.println("Please enter your id: ");
-//                    int id = Integer.parseInt(reader.readLine());
-//                    System.out.println("Please enter your name: ");
-//                    String name = reader.readLine();
-//                    System.out.println("Please enter your age: ");
-//                    int age = Integer.parseInt(reader.readLine());
-//                    System.out.println("Please enter your email: ");
-//                    String email = reader.readLine();
-//                    System.out.println("Please enter your password: ");
-//                    String password = reader.readLine();
-//                    EMail logEmail = new EMail(email, password);
-//                    boolean user = theatreController.createViewerAccount(id, name, age, logEmail);
-//                    if (user) {
-//                        System.out.println("Sign-up successful.");
-////                        printUserOptions(3, logEmail);
-//                        //////////MIVEL EGY CÉGNEK MINDIG EGY CEO-JA VAN FELTESZEM NEM LEHET ÚJJAT HOZZÁADNI ÉS ACTOR-T
-//                        //////////MEG CSAK CEO TUD HOZZÁÁDNI TEHÁT ÚJ ACCOUNTOT CSAK VIEWER TUD CSINÁLNI
-//                        //////////EZÉRT VIEWER-KÉNT AZ APP MEHET TOVÁBB//////////
-//                    }
-//                    else System.out.println("Sign-up failed.");
-//                    break;
-//                }
-//                case 0: {
-//                    System.out.println("Exiting the program. Goodbye!");
-//                    return;
-//                }
-//                default: {
-//                    System.out.println("Invalid option. Please choose 0, 1, or 2.");
-//                    break;
-//                }
-//            }
-//        }
-//    }
 }

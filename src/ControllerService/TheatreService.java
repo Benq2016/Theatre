@@ -369,9 +369,10 @@ public class TheatreService {
         return viewerRepository.getAll();
     }
 
-    protected void createOrder(Integer id, int showID, EMail eMail, List<Integer> seats, int totalPrice){
+    protected void createOrder(Integer id, int showID, EMail eMail, List<Integer> seats){
         int lower = 10000;
         int upper = 99999;
+        int totalPrice= 50*seats.size();
         LocalDateTime currentTime = LocalDateTime.now();
         List<Viewer> viewers = viewerRepository.getAll();
         int viewerID = 0;
