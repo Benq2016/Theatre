@@ -16,6 +16,8 @@ import java.util.Map;
 import static UserInterface.UI.choosingBetweenLoginAndSignup;
 
 public class App {
+    /**some tests while in production - it
+     * doesn't affect the end result */
     public static void tests() throws IOException {
 //        InMemoryRepository<Ceo> ceoInMemoryRepository = new InMemoryRepository<>();
 //        InMemoryRepository<Actor> actorInMemoryRepository = new InMemoryRepository<>();
@@ -108,8 +110,10 @@ public class App {
 
     }
 
+    /** The main of the App - Here are all the repos, service and controller instantiated and worked with*/
     public static void main(String[] args) throws IOException {
 
+        // Creating the backend objects we work with
         InMemoryRepository<Ceo> ceoInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Actor> actorInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Auditorium> auditoriumInMemoryRepository= new InMemoryRepository<>();
@@ -122,17 +126,20 @@ public class App {
         TheatreController tc = new TheatreController(ts);
 
 
-
+        /*Some initial object in order to have something to work with*/
         make_initial_objects(tc);
 
+        /*It retrieves the email from the user*/
         EMail emailGotFromLoginSignIn = choosingBetweenLoginAndSignup(tc);
 
+        /*Start of the program carrying out ui functions which carries out functions from other parts of the app*/
         UI ui = new UI(tc);
         ui.RUN(emailGotFromLoginSignIn);
 
 
     }
 
+    /*Creating initial objects*/
     public static void make_initial_objects(TheatreController tc) {
         tc.createCeoAccount(1,"Boss David", 54,new EMail("david@gmail.com", "1230"));
 

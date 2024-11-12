@@ -15,11 +15,13 @@ public class UI {
     private final TheatreController theatreController;
     private final BufferedReader reader;
 
+    /*Creates a UI object*/
     public UI(TheatreController theatreController) {
         this.theatreController = theatreController;
         this.reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
+    /*The main part, it is the Hub for all the UI functions(actor,ceo,viewer)*/
     public void RUN(EMail userEmail) throws IOException {
 
         while (true) {
@@ -45,6 +47,9 @@ public class UI {
             userEmail = choosingBetweenLoginAndSignup(theatreController);
         }
     }
+
+    /*It takes an option (between the options of the Viewer) and switches for it
+    * carrying out the method chosen by the Viewer*/
     private void ViewerUI(EMail viewerEmail) throws IOException {
         while (true) {
             System.out.println("\nWelcome Viewer");
@@ -66,6 +71,10 @@ public class UI {
                 case "3":
                     viewMyOrders(viewerEmail);
                     break;
+                case "4":
+                    if(managePersonalAccountViewer(viewerEmail))
+                        return;
+                    break;
                 case "0":
                     return;
                 default:
@@ -74,6 +83,26 @@ public class UI {
         }
     }
 
+    /*The Viewer can change their personal information*/
+    private Boolean managePersonalAccountViewer(EMail viewerEmail) throws IOException {
+        System.out.println(theatreController.viewAccount(viewerEmail));
+        System.out.println("Enter new name: ");
+        String name = reader.readLine();
+        System.out.println("Enter new age: ");
+        int age = Integer.parseInt(reader.readLine());
+        System.out.println("Enter new email address: ");
+        String emailAddress = reader.readLine();
+        System.out.println("Enter new password: ");
+        String password = reader.readLine();
+        EMail newMail = new EMail(emailAddress,password);
+        System.out.println("Account details changed successfully");
+        if (theatreController.manageViewerAccount(name,age,viewerEmail,newMail))
+            return true;
+        return false;
+
+    }
+
+    /*The viewer sees their orders*/
     private void viewMyOrders(EMail viewerEmail) throws IOException {
         List<Order> myOrders = theatreController.viewMyOrders(viewerEmail);
         for (Order myOrder : myOrders) {
@@ -81,8 +110,9 @@ public class UI {
         }
     }
 
+    /*The Viewer can create a new order - it takes in the information necessary and creates a new order*/
     private void createOrder(EMail viewerEmail) throws IOException {
-        System.out.println("Id:");
+        System.out.println("Id of your order:");
         Integer id = Integer.parseInt(reader.readLine());
         System.out.println("All shows available: ");
         for (Show s : theatreController.viewShows())
@@ -105,12 +135,16 @@ public class UI {
         System.out.println("Order successfully created");
     }
 
+    /*All shows available*/
     private void viewAllShows() throws IOException {
         List<Show> allShows = theatreController.viewShows();
         for(Show s : allShows)
             System.out.println(s);
     }
 
+    /*It takes an option (between the options of the Actor) and switches for it
+     * carrying out the method chosen by the actor.
+     * he can change his/her infos or sees in which show he/she participates*/
     private void ActorUI(EMail actorMail) throws IOException {
         while (true) {
             System.out.println("\nWelcome Actor");
@@ -125,7 +159,8 @@ public class UI {
                     viewUpcomingShows(actorMail);
                     break;
                 case "2":
-                    manageActorAccount(actorMail);
+                    if(manageActorAccount(actorMail))
+                        return;
                     break;
                 case "0":
                     return;
@@ -135,6 +170,7 @@ public class UI {
         }
     }
 
+    /*Changes infos of the actor*/
     private Boolean manageActorAccount(EMail actorEmail) throws IOException {
         System.out.println(theatreController.viewAccount(actorEmail));
         System.out.println("Enter new name: ");
@@ -153,6 +189,7 @@ public class UI {
 
     }
 
+    /*Lists the shows in which the actor is participating*/
     private void viewUpcomingShows(EMail actorMail) throws IOException {
         System.out.println("Listing all your upcoming shows");
         List<Show> myShows = theatreController.viewMyShows(actorMail);
@@ -160,6 +197,9 @@ public class UI {
             System.out.println(myShow);
     }
 
+    /*It takes an option (between the options of the Ceo) and switches for it
+     * carrying out the method chosen by the ceo.
+     * It mostly manages the actors and the shows*/
     private void CeoUi(EMail ceoEmail) throws IOException {
         while (true) {
             System.out.println("\nWelcome CEO");
@@ -190,6 +230,7 @@ public class UI {
         }
     }
 
+    /*Changes information regarding the ceo*/
     private Boolean managePersonalAccountCeo(EMail ceoEmail) throws IOException {
         System.out.println(theatreController.viewAccount(ceoEmail));
         System.out.println("Enter new name: ");
@@ -208,6 +249,7 @@ public class UI {
 
     }
 
+    /*It is a hub for all the ceo methods which works with actors*/
     private void manageActors() throws IOException {
         while (true) {
             System.out.println("\nWork with actors - options");
@@ -239,6 +281,7 @@ public class UI {
         }
     }
 
+    /*It is a hub for all the ceo methods which works with shows and auditoriums*/
     private void manageShowsAndAuditoriums() throws IOException {
         while (true) {
             System.out.println("\nManage shows and auditoriums - options");
@@ -279,16 +322,19 @@ public class UI {
 
     }
 
+    /*Lists all auditoriums*/
     private void listAllAuditoriums() throws IOException {
         System.out.println("List of all the auditoriums");
         System.out.println(theatreController.viewAllAuditoriums());
     }
 
+    /*Lists all shows*/
     private void listAllShows() throws IOException {
         System.out.println("List of all the shows");
         System.out.println(theatreController.viewShows());
     }
 
+    /*It deletes an auditorium */
     private void deleteAuditorium() throws IOException {
         System.out.println("\nDeleting an auditorium");
         System.out.println(theatreController.viewAllAuditoriums());
@@ -298,6 +344,7 @@ public class UI {
 
     }
 
+    /*cancels a show*/
     private void deleteShow() throws IOException {
         System.out.println("\nDeleting shows");
         System.out.println(theatreController.viewShows());
@@ -308,6 +355,7 @@ public class UI {
         System.out.println("Show successfully deleted.");
     }
 
+    /*makes a new auditorium*/
     private void createAuditorium() throws IOException {
         System.out.println("\nCreating auditorium");
         System.out.println("Auditorium id:");
@@ -322,6 +370,7 @@ public class UI {
         theatreController.createAuditorium(id, name, nrRows, nrCols);
     }
 
+    /*creates a new show - after this a viewer can buy tickets for the respective show*/
     private void createShow() throws IOException {
         System.out.println("\nCreating show");
 
@@ -377,6 +426,7 @@ public class UI {
         System.out.println("Show created successfully.");
     }
 
+    /*creates a new actor*/
     private void hireActor() throws IOException {
         System.out.println("\nHiring a new actor");
 
@@ -403,6 +453,7 @@ public class UI {
         System.out.println("Actor hired successfully.");
     }
 
+    /*deletes an actor*/
     private void fireActor() throws IOException {
         System.out.print("\nEnter the ID of the actor to fire: ");
         int actorId = Integer.parseInt(reader.readLine());
@@ -410,6 +461,7 @@ public class UI {
         System.out.println("Actor fired successfully.");
     }
 
+    /*changes the salary of an actor*/
     private void changeActorSalary() throws IOException {
         System.out.print("\nEnter the ID of the actor whose salary you want to change: ");
         int actorId = Integer.parseInt(reader.readLine());
@@ -421,11 +473,14 @@ public class UI {
         System.out.println("Actor's salary updated successfully.");
     }
 
+    /*Lists all the actors of the theatre*/
     private void listAllActors() {
         System.out.println("\nList of all actors:");
         theatreController.viewAllActors().forEach(actor -> System.out.println(actor));
     }
 
+    /*It is the "Lobby" of the program, here the user chooses between creating
+    * a new account or logging in into an existing one using their Email*/
     public static EMail choosingBetweenLoginAndSignup(TheatreController tc) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -455,6 +510,8 @@ public class UI {
 
     }
 
+    /*creates a new Viewer - it takes in all the information necessary to
+    * create a new viewer and after creates it logs in automatically*/
     private static EMail signUp(TheatreController tc) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         EMail newMail;
@@ -487,6 +544,7 @@ public class UI {
         return newMail;
     }
 
+    /*log in as an actor/viewer/ceo using the personal email address*/
     private static EMail login(TheatreController tc) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         EMail eMail;
