@@ -144,6 +144,8 @@ public class App {
 
         tc.createAuditorium(1,"Grand Hall", 30,30);
         tc.createAuditorium(2,"Klein Stage",20,20);
+
+        tc.createViewerAccount(1,"Victor Ross", 23, new EMail("victor@gmail.com", "123"));
     }
 
 }

@@ -191,6 +191,16 @@ public class TheatreService {
         return auditoriumRepository.getByID(auditID);
     }
 
+    protected Auditorium getAuditoriumByShowID(Integer showID){
+        List<Show> shows = showRepository.getAll();
+        Auditorium showsAuditorium = auditoriumRepository.getByID(1); // this is the default
+        for (Show show : shows){
+            if (show.getID().equals(showID))
+                showsAuditorium = show.getAudit();
+        }
+        return showsAuditorium;
+    }
+
     protected List<Auditorium> getAllAuditoriums(){
         return auditoriumRepository.getAll();
     }

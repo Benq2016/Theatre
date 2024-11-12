@@ -4,10 +4,14 @@ import ControllerService.TheatreController;
 import Domain.Actor;
 import Domain.Auditorium;
 import Domain.EMail;
+import Domain.Show;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UI {
@@ -33,7 +37,7 @@ public class UI {
                     CeoUi(userEmail);
                     break;
                 case "3":
-//                    ViewerUI();
+                    ViewerUI(userEmail);
                     break;
                 case "0":
                     System.out.println("Exiting the program. Goodbye!");
@@ -44,6 +48,70 @@ public class UI {
             userEmail = choosingBetweenLoginAndSignup(theatreController);
         }
     }
+    private void ViewerUI(EMail viewerEmail) throws IOException {
+        while (true) {
+            System.out.println("\nWelcome Viewer");
+            System.out.println("What do you want to do?");
+            System.out.println("1 - View shows");
+            System.out.println("2 - Create order");
+            System.out.println("3 - View my orders");
+            System.out.println("4 - Manage personal account");
+            System.out.println("0 - Log out");
+
+            String input = reader.readLine();
+            switch (input) {
+                case "1":
+                    viewAllShows();
+                    break;
+                case "2":
+                    createOrder(viewerEmail);
+                    break;
+                case "3":
+                    viewMyOrders(viewerEmail);
+                case "0":
+                    return;
+                default:
+                    System.out.println("Invalid option. Please choose 1, 2, 3, 4 or 0.");
+            }
+        }
+    }
+    private void viewMyOrders(EMail viewerEmail) throws IOException {
+        List<Show> myShows = theatreController.viewMyShows(viewerEmail);
+        for (Show myShow : myShows) {
+            System.out.println(myShow);
+        }
+    }
+
+    private void createOrder(EMail viewerEmail) throws IOException {
+        System.out.println("Id:");
+        Integer id = Integer.parseInt(reader.readLine());
+        System.out.println("All shows available: ");
+        for (Show s : theatreController.viewShows())
+            System.out.println(s);
+        System.out.println("Choose a show by its id: ");
+        Integer showId = Integer.parseInt(reader.readLine());
+        Auditorium auditorium = theatreController.getAuditoriumByShowId(showId);
+        System.out.println(auditorium.viewAuditoriumWithoutLayout());
+        int seatNr = -1;
+        List<Integer> seats = new ArrayList<>();
+        while(seatNr != 0){
+            System.out.println("Choose as many seat numbers as you like (press 0 to stop)");
+            seatNr = Integer.parseInt(reader.readLine());
+            if (seatNr != 0){
+                seats.add(seatNr);
+            }
+        }
+
+        theatreController.createOrder(id,showId,viewerEmail,seats);
+        System.out.println("Order successfully created");
+    }
+
+    private void viewAllShows() throws IOException {
+        List<Show> allShows = theatreController.viewShows();
+        for(Show s : allShows)
+            System.out.println(s);
+    }
+
     private void ActorUI(EMail actorMail) throws IOException {
         while (true) {
             System.out.println("\nWelcome Actor");

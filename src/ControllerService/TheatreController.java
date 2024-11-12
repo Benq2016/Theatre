@@ -87,6 +87,10 @@ public class TheatreController {
         return theatreService.getAuditorium(auditoriumID);
     }
 
+    public Auditorium getAuditoriumByShowId(Integer showId){
+        return theatreService.getAuditoriumByShowID(showId);
+    }
+
     public void createShow(Integer showID, String title, Auditorium auditorium, Map<Actor, String> roles, String date) {
         theatreService.createShow(showID, title, auditorium, roles, date);
     }
