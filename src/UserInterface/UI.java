@@ -58,7 +58,7 @@ public class UI {
                     viewUpcomingShows(actorMail);
                     break;
                 case "2":
-//                    manageActorAccount();
+                    manageActorAccount(actorMail);
                     break;
                 case "0":
                     return;
@@ -67,11 +67,29 @@ public class UI {
             }
         }
     }
+
+    private Boolean manageActorAccount(EMail actorEmail) throws IOException {
+        System.out.println(theatreController.viewAccount(actorEmail));
+        System.out.println("Enter new name: ");
+        String name = reader.readLine();
+        System.out.println("Enter new age: ");
+        int age = Integer.parseInt(reader.readLine());
+        System.out.println("Enter new email address: ");
+        String emailAddress = reader.readLine();
+        System.out.println("Enter new password: ");
+        String password = reader.readLine();
+        EMail newMail = new EMail(emailAddress,password);
+        System.out.println("Account details changed successfully");
+        if (theatreController.manageActorAccount(name,age,actorEmail,newMail))
+            return true;
+        return false;
+
+    }
+
     private void viewUpcomingShows(EMail actorMail) throws IOException {
         System.out.println("Listing all your upcoming shows");
         System.out.println(theatreController.viewMyShows(actorMail));
     }
-
 
     private void CeoUi(EMail ceoEmail) throws IOException {
         while (true) {
