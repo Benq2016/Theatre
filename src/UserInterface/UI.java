@@ -438,12 +438,10 @@ public class UI {
         while (true){
             switch (option) {
                 case "1":
-                    EMail loginEmail = login(tc);
-                    return loginEmail;
+                    return login(tc);
 
                 case "2":
-                    EMail signUpEmail = signUp(tc);
-                    return signUpEmail;
+                    return signUp(tc);
 
                 case "0":
                     System.out.println("Good bye!");
@@ -476,7 +474,7 @@ public class UI {
             String password = reader.readLine();
             newMail = new EMail(emailAddress, password);
 
-            Boolean success = tc.createViewerAccount(id,name,age, newMail);
+            boolean success = tc.createViewerAccount(id, name, age, newMail);
             if (success) {
                 break;
             }

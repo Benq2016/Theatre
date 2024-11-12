@@ -17,43 +17,43 @@ import static UserInterface.UI.choosingBetweenLoginAndSignup;
 
 public class App {
     public static void tests() throws IOException {
-        InMemoryRepository<Ceo> ceoInMemoryRepository = new InMemoryRepository<>();
-        InMemoryRepository<Actor> actorInMemoryRepository = new InMemoryRepository<>();
-        InMemoryRepository<Auditorium> auditoriumInMemoryRepository= new InMemoryRepository<>();
-        InMemoryRepository<Show> showInMemoryRepository = new InMemoryRepository<>();
-        InMemoryRepository<Viewer> viewerInMemoryRepository = new InMemoryRepository<>();
-        InMemoryRepository<Order> orderInMemoryRepository = new InMemoryRepository<>();
-
-        TheatreService ts = new TheatreService(ceoInMemoryRepository, actorInMemoryRepository,
-                auditoriumInMemoryRepository,showInMemoryRepository, viewerInMemoryRepository,
-                orderInMemoryRepository);
-
-        TheatreController tc = new TheatreController(ts);
+//        InMemoryRepository<Ceo> ceoInMemoryRepository = new InMemoryRepository<>();
+//        InMemoryRepository<Actor> actorInMemoryRepository = new InMemoryRepository<>();
+//        InMemoryRepository<Auditorium> auditoriumInMemoryRepository= new InMemoryRepository<>();
+//        InMemoryRepository<Show> showInMemoryRepository = new InMemoryRepository<>();
+//        InMemoryRepository<Viewer> viewerInMemoryRepository = new InMemoryRepository<>();
+//        InMemoryRepository<Order> orderInMemoryRepository = new InMemoryRepository<>();
+//
+//        TheatreService ts = new TheatreService(ceoInMemoryRepository, actorInMemoryRepository,
+//                auditoriumInMemoryRepository,showInMemoryRepository, viewerInMemoryRepository,
+//                orderInMemoryRepository);
+//
+//        TheatreController tc = new TheatreController(ts);
 
 
 
         //creation of ceo//
-        EMail eMail = new EMail("bence.c3o@gmail.com", "sosemTalalodKi");
-        tc.createCeoAccount(1, "BOSS", 24, eMail);
-        //creation of 2 actors//
-        EMail eMail1 = new EMail("bazsi123", "1230");
-        EMail eMail2 = new EMail("anna123", "1232");
-        tc.ceoHireActor(1, "bazsi", 20, eMail1, 2000);
-        tc.ceoHireActor(2, "anna", 19, eMail2, 1800);
-        //assigning roles//
-        Map<Actor, String> roles = new HashMap<>();
-        roles.putIfAbsent(tc.viewActor(1), "Romeo");
-        roles.putIfAbsent(tc.viewActor(2), "Julia");
-        //creating auditorium//
-        tc.createAuditorium(1, "Great Sh*t Hole", 10, 20);
-        //creating show//
-        tc.createShow(1, "Romeo es Julia!", tc.viewAuditorium(1), roles, "2024-11-15");
-        tc.createShow(2, "Hatyuk tava", tc.viewAuditorium(1), roles, "2024-11-16");
-        tc.createShow(3, "Romeo es Julia!", tc.viewAuditorium(1), roles, "2024-11-17");
-
-        //creating viewer//
-        EMail eMailV1 = new EMail("bence.molnar@gmail.com", "1230");
-        tc.createViewerAccount(1, "bence", 20, eMailV1);
+//        EMail eMail = new EMail("bence.c3o@gmail.com", "sosemTalalodKi");
+//        tc.createCeoAccount(1, "BOSS", 24, eMail);
+//        //creation of 2 actors//
+//        EMail eMail1 = new EMail("bazsi123", "1230");
+//        EMail eMail2 = new EMail("anna123", "1232");
+//        tc.ceoHireActor(1, "bazsi", 20, eMail1, 2000);
+//        tc.ceoHireActor(2, "anna", 19, eMail2, 1800);
+//        //assigning roles//
+//        Map<Actor, String> roles = new HashMap<>();
+//        roles.putIfAbsent(tc.viewActor(1), "Romeo");
+//        roles.putIfAbsent(tc.viewActor(2), "Julia");
+//        //creating auditorium//
+//        tc.createAuditorium(1, "Great Sh*t Hole", 10, 20);
+//        //creating show//
+//        tc.createShow(1, "Romeo es Julia!", tc.viewAuditorium(1), roles, "2024-11-15");
+//        tc.createShow(2, "Hatyuk tava", tc.viewAuditorium(1), roles, "2024-11-16");
+//        tc.createShow(3, "Romeo es Julia!", tc.viewAuditorium(1), roles, "2024-11-17");
+//
+//        //creating viewer//
+//        EMail eMailV1 = new EMail("bence.molnar@gmail.com", "1230");
+//        tc.createViewerAccount(1, "bence", 20, eMailV1);
 
 //        System.out.println(tc.viewAllActors());
 //        System.out.println(tc.viewMyShows(eMail1));
@@ -74,11 +74,11 @@ public class App {
 //        System.out.println(tc.viewShows());
 
         //reserving seats//
-        List<Integer> seats = new ArrayList<>();
-        seats.add(66); seats.add(67); seats.add(68); seats.add(69); seats.add(1); seats.add(2); seats.add(150); seats.add(151);
-
-        //creating order//
-        tc.createOrder(1, 1, eMailV1, seats);
+//        List<Integer> seats = new ArrayList<>();
+//        seats.add(66); seats.add(67); seats.add(68); seats.add(69); seats.add(1); seats.add(2); seats.add(150); seats.add(151);
+//
+//        //creating order//
+//        tc.createOrder(1, 1, eMailV1, seats);
 
         //printing lists and audit after reservation//
 //        System.out.println("\n" + tc.viewMyOrders(eMailV1) +  "\n");
@@ -125,10 +125,10 @@ public class App {
 
         make_initial_objects(tc);
 
-        EMail emailGotFromLoginSignin = choosingBetweenLoginAndSignup(tc);
+        EMail emailGotFromLoginSignIn = choosingBetweenLoginAndSignup(tc);
 
         UI ui = new UI(tc);
-        ui.RUN(emailGotFromLoginSignin);
+        ui.RUN(emailGotFromLoginSignIn);
 
 
     }

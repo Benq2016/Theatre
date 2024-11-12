@@ -31,22 +31,24 @@ public class TheatreService {
     }
 
     ////////////////////////////////ACTOR////////////////////////////////
-    protected String getActorName(Integer actorID){
-        return actorRepository.getByID(actorID).getName();
-    }
+//    protected String getActorName(Integer actorID){
+//        return actorRepository.getByID(actorID).getName();
+//    }
+//
+//    protected int getActorAge(Integer actorID){
+//        return actorRepository.getByID(actorID).getAge();
+//    }
+//
+//    protected EMail getActorEmail(Integer actorID){
+//        return actorRepository.getByID(actorID).getEmail();
+//    }
 
-    protected int getActorAge(Integer actorID){
-        return actorRepository.getByID(actorID).getAge();
-    }
-
-    protected EMail getActorEmail(Integer actorID){
-        return actorRepository.getByID(actorID).getEmail();
-    }
-
+    /**returns one Actor based on ID*/
     protected Actor getActor(Integer actorID){
         return actorRepository.getByID(actorID);
     }
 
+    /**returns one Actor based on Email*/
     protected Actor getActor(EMail email){
         List<Actor> actors = actorRepository.getAll();
         for (Actor actor : actors)
@@ -55,20 +57,23 @@ public class TheatreService {
         return null;
     }
 
+    /**returns a list of all Actors*/
     protected List<Actor> getAllActors(){
         return actorRepository.getAll();
     }
 
-    protected int getActorSalary(Integer actorID){
-        return actorRepository.getByID(actorID).getSalary();
-    }
+//    protected int getActorSalary(Integer actorID){
+//        return actorRepository.getByID(actorID).getSalary();
+//    }
 
+    /**changes salary of an Actor*/
     protected void changeActorSalary(Integer actorID, Integer newSalary){
         Actor actor = actorRepository.getByID(actorID);
         actor.setSalary(newSalary);
         actorRepository.update(actor);
     }
 
+    /**loads Actors and Show repositories, identifies the actorID using the Email and searches for the specific ID in the Show list*/
     protected List<Show> showMyShows(EMail eMail){
         List<Show> myShows = new ArrayList<>();
         List<Show> allShows = showRepository.getAll();
@@ -87,6 +92,7 @@ public class TheatreService {
         return myShows;
     }
 
+    /**changes the name, age of an Actor and returns false, else if the Email is changed too returns true*/
     protected boolean manageActorAccount(String name, int age, EMail currentEmail, EMail newEmail){
         Actor actor = getActor(currentEmail);
         actor.setName(name);
@@ -104,46 +110,49 @@ public class TheatreService {
 
 
     ////////////////////////////////SHOW////////////////////////////////
+    /**returns the Show title based on an ID**/
     protected String getShowTitle(Integer showID){
         return showRepository.getByID(showID).getTitle();
     }
 
-    protected void changeShowTitle(Integer showID, String newTitle){
-        Show show = showRepository.getByID(showID);
-        show.setTitle(newTitle);
-        showRepository.update(show);
-    }
+//    protected void changeShowTitle(Integer showID, String newTitle){
+//        Show show = showRepository.getByID(showID);
+//        show.setTitle(newTitle);
+//        showRepository.update(show);
+//    }
+//
+//    protected Map<Actor, String> getShowActors(Integer showID){
+//        return showRepository.getByID(showID).getRoles();
+//    }
+//
+//    protected void modifyShowActors(Integer showID, Map<Actor, String> roles){
+//        Show Show = showRepository.getByID(showID);
+//        Show.setRoles(roles);
+//        showRepository.update(Show);
+//    }
 
-    protected Map<Actor, String> getShowActors(Integer showID){
-        return showRepository.getByID(showID).getRoles();
-    }
-
-    protected void modifyShowActors(Integer showID, Map<Actor, String> roles){
-        Show Show = showRepository.getByID(showID);
-        Show.setRoles(roles);
-        showRepository.update(Show);
-    }
-
+    /**returns an Auditorium assigned to a Show based on its ID*/
     protected Auditorium getShowAuditorium(Integer showID){
         return showRepository.getByID(showID).getAudit();
     }
 
-    protected void changeShowAuditorium(Integer showID, Auditorium auditorium){
-        Show Show = showRepository.getByID(showID);
-        Show.setAudit(auditorium);
-        showRepository.update(Show);
-    }
+//    protected void changeShowAuditorium(Integer showID, Auditorium auditorium){
+//        Show Show = showRepository.getByID(showID);
+//        Show.setAudit(auditorium);
+//        showRepository.update(Show);
+//    }
+//
+//    protected String getShowDate(Integer showID){
+//        return showRepository.getByID(showID).getDate();
+//    }
+//
+//    protected void changeShowDate(Integer showID, String date){
+//        Show Show = showRepository.getByID(showID);
+//        Show.setDate(date);
+//        showRepository.update(Show);
+//    }
 
-    protected String getShowDate(Integer showID){
-        return showRepository.getByID(showID).getDate();
-    }
-
-    protected void changeShowDate(Integer showID, String date){
-        Show Show = showRepository.getByID(showID);
-        Show.setDate(date);
-        showRepository.update(Show);
-    }
-
+    /**returns a Show-Auditorium pair for a specific Show based on its title(to see in what Auditoriums a Show will be played)*/
     protected Map<Show, Auditorium> getShow(String showTitle){
         List<Show> shows = showRepository.getAll();
         List<Auditorium> audits= auditoriumRepository.getAll();
@@ -156,10 +165,11 @@ public class TheatreService {
         return showMap;
     }
 
-    protected Show getShow(Integer showID){
-        return showRepository.getByID(showID);
-    }
+//    protected Show getShow(Integer showID){
+//        return showRepository.getByID(showID);
+//    }
 
+    /**returns a list of all Shows*/
     protected List<Show> getAllShows(){
         return showRepository.getAll();
     }
@@ -167,30 +177,32 @@ public class TheatreService {
 
 
     ////////////////////////////////AUDITORIUM////////////////////////////////
-    protected String getAuditName(Integer auditID){
-        return auditoriumRepository.getByID(auditID).getName();
-    }
+//    protected String getAuditName(Integer auditID){
+//        return auditoriumRepository.getByID(auditID).getName();
+//    }
+//
+//    protected void changeAuditName(Integer auditID, String newName){
+//        Auditorium auditorium = auditoriumRepository.getByID(auditID);
+//        auditorium.setName(newName);
+//        auditoriumRepository.update(auditorium);
+//    }
+//
+//    protected int getAuditCapacity(Integer auditID){
+//        return auditoriumRepository.getByID(auditID).getCapacity();
+//    }
+//
+//    protected void changeAuditCapacity(Integer auditID, int rows, int cols){
+//        Auditorium auditorium = auditoriumRepository.getByID(auditID);
+//        auditorium.setCapacity(rows, cols);
+//        auditoriumRepository.update(auditorium);
+//    }
 
-    protected void changeAuditName(Integer auditID, String newName){
-        Auditorium auditorium = auditoriumRepository.getByID(auditID);
-        auditorium.setName(newName);
-        auditoriumRepository.update(auditorium);
-    }
-
-    protected int getAuditCapacity(Integer auditID){
-        return auditoriumRepository.getByID(auditID).getCapacity();
-    }
-
-    protected void changeAuditCapacity(Integer auditID, int rows, int cols){
-        Auditorium auditorium = auditoriumRepository.getByID(auditID);
-        auditorium.setCapacity(rows, cols);
-        auditoriumRepository.update(auditorium);
-    }
-
+    /**returns an Auditorium based on an ID*/
     protected Auditorium getAuditorium(Integer auditID){
         return auditoriumRepository.getByID(auditID);
     }
 
+    /**returns an Auditorium based on the Show which will be played in it*/
     protected Auditorium getAuditoriumByShowID(Integer showID){
         List<Show> shows = showRepository.getAll();
         Auditorium showsAuditorium = auditoriumRepository.getByID(1); // this is the default
@@ -201,6 +213,7 @@ public class TheatreService {
         return showsAuditorium;
     }
 
+    /**returns a list of all Auditoriums*/
     protected List<Auditorium> getAllAuditoriums(){
         return auditoriumRepository.getAll();
     }
@@ -208,6 +221,7 @@ public class TheatreService {
 
 
     ////////////////////////////////CEO////////////////////////////////
+    /**returns true if the new Ceo Account was created and false if it already exists and cannot be created*/
     protected boolean createCeoAccount(Integer id, String name, int age, EMail eMail){
         Ceo newCeo = new Ceo(id, name, age, eMail);
         List<Ceo> ceos = ceoRepository.getAll();
@@ -219,67 +233,74 @@ public class TheatreService {
         return true;
     }
 
-    protected String getCeoName(Integer ceoID){
-        return ceoRepository.getByID(ceoID).getName();
-    }
+//    protected String getCeoName(Integer ceoID){
+//        return ceoRepository.getByID(ceoID).getName();
+//    }
+//
+//    protected int getCeoAge(Integer ceoID){
+//        return ceoRepository.getByID(ceoID).getAge();
+//    }
+//
+//    protected EMail getCeoEmail(Integer ceoID){
+//        return ceoRepository.getByID(ceoID).getEmail();
+//    }
 
-    protected void changeCeoName(Integer ceoID, String newName){
-        Ceo ceo = ceoRepository.getByID(ceoID);
-        ceo.setName(newName);
-        ceoRepository.update(ceo);
-    }
+    /**returns true if a new Actor was hired and false if it already exists and cannot be created*/
+    protected boolean hireActor(Integer actorID, String name, int age, EMail actorEmail, int salary){
+        List<Actor> actors = actorRepository.getAll();
+        for (Actor actor : actors)
+            if (actor.getID().equals(actorID) || actor.getEmail().equals(actorEmail))
+                return false;
 
-    protected int getCeoAge(Integer ceoID){
-        return ceoRepository.getByID(ceoID).getAge();
-    }
-
-    protected void changeCeoAge(Integer ceoID, Integer newAge){
-        Ceo ceo = ceoRepository.getByID(ceoID);
-        ceo.setAge(newAge);
-        ceoRepository.update(ceo);
-    }
-
-    protected EMail getCeoEmail(Integer ceoID){
-        return ceoRepository.getByID(ceoID).getEmail();
-    }
-
-    protected void changeCeoEmail(Integer ceoID, EMail newEmail){
-        Ceo ceo = ceoRepository.getByID(ceoID);
-        ceo.setEmail(newEmail);
-        ceoRepository.update(ceo);
-    }
-
-    protected void hireActor(Integer actorID, String name, int age, EMail actorEmail, int salary){
         Actor actor = new Actor(actorID, name, age, actorEmail, salary);
         actorRepository.create(actor);
+        return true;
     }
 
+    /**deletes an Actor from the repository*/
     protected void fireActor(Integer actorID){
         actorRepository.delete(actorID);
     }
 
-    protected void createShow(Integer showID, String name, Auditorium auditorium, Map<Actor, String> roles, String date){
+    /**returns true if a new Show was created and false if it already exists and cannot be created*/
+    protected boolean createShow(Integer showID, String name, Auditorium auditorium, Map<Actor, String> roles, String date){
+        List<Show> shows = showRepository.getAll();
+        for (Show show : shows)
+            if (show.getID().equals(showID))
+                return false;
+
         Show Show = new Show(showID, name, auditorium, roles, date);
         showRepository.create(Show);
+        return true;
     }
 
+    /**deletes a Show from the repository*/
     protected void deleteShow(Integer showID){
         showRepository.delete(showID);
     }
 
-    protected void createAuditorium(Integer id,String name, int rows, int cols){
+    /**returns true if a new Auditorium was created and false if it already exists and cannot be created*/
+    protected boolean createAuditorium(Integer id,String name, int rows, int cols){
+        List<Auditorium> auditoriums = auditoriumRepository.getAll();
+        for (Auditorium auditorium : auditoriums)
+            if(auditorium.getID().equals(id))
+                return false;
         Auditorium auditorium = new Auditorium(id, name, rows, cols);
         auditoriumRepository.create(auditorium);
+        return true;
     }
 
+    /**deletes an Auditorium from the repository*/
     protected void deleteAuditorium(Integer id){
         auditoriumRepository.delete(id);
     }
 
+    /**returns one Ceo based on its ID*/
     protected Ceo getCeo(Integer ceoID){
         return ceoRepository.getByID(ceoID);
     }
 
+    /**returns one Ceo based on its Email*/
     protected Ceo getCeo(EMail eMail){
         List<Ceo> ceos = ceoRepository.getAll();
         for (Ceo ceo : ceos)
@@ -288,10 +309,11 @@ public class TheatreService {
         return null;
     }
 
-    protected List<Ceo> getAllCeos(){
-        return ceoRepository.getAll();
-    }
+//    protected List<Ceo> getAllCeos(){
+//        return ceoRepository.getAll();
+//    }
 
+    /**changes the name, age of a Ceo and returns false, else if the Email is changed too returns true*/
     protected boolean manageCeoAccount(String name, int age, EMail currentEmail, EMail newEmail) {
         Ceo ceo = getCeo(currentEmail);
         ceo.setName(name);
@@ -309,10 +331,12 @@ public class TheatreService {
 
 
     ////////////////////////////////VIEWER////////////////////////////////
+    /**returns a Viewers name based on its ID*/
     protected String getViewerName(Integer viewerID){
         return viewerRepository.getByID(viewerID).getName();
     }
 
+    /**returns a Viewers ID based on its Email*/
     protected int getViewerID(EMail eMail){
         List<Viewer> viewers = viewerRepository.getAll();
         for (Viewer viewer : viewers)
@@ -321,36 +345,38 @@ public class TheatreService {
         return 0;
     }
 
-    protected  void changeViewerName(Integer viewerID, String newName){
-        Viewer viewer = viewerRepository.getByID(viewerID);
-        viewer.setName(newName);
-        viewerRepository.update(viewer);
-    }
+//    protected  void changeViewerName(Integer viewerID, String newName){
+//        Viewer viewer = viewerRepository.getByID(viewerID);
+//        viewer.setName(newName);
+//        viewerRepository.update(viewer);
+//    }
+//
+//    protected int getViewerAge(Integer viewerID){
+//        return viewerRepository.getByID(viewerID).getAge();
+//    }
+//
+//    protected void changeViewerAge(Integer viewerID, Integer newAge){
+//        Viewer viewer = viewerRepository.getByID(viewerID);
+//        viewer.setAge(newAge);
+//        viewerRepository.update(viewer);
+//    }
+//
+//    protected EMail getViewerEmail(Integer viewerID){
+//        return viewerRepository.getByID(viewerID).getEmail();
+//    }
+//
+//    protected void changeViewerEmail(Integer viewerID, EMail newEmail){
+//        Viewer viewer = viewerRepository.getByID(viewerID);
+//        viewer.setEmail(newEmail);
+//        viewerRepository.update(viewer);
+//    }
 
-    protected int getViewerAge(Integer viewerID){
-        return viewerRepository.getByID(viewerID).getAge();
-    }
-
-    protected void changeViewerAge(Integer viewerID, Integer newAge){
-        Viewer viewer = viewerRepository.getByID(viewerID);
-        viewer.setAge(newAge);
-        viewerRepository.update(viewer);
-    }
-
-    protected EMail getViewerEmail(Integer viewerID){
-        return viewerRepository.getByID(viewerID).getEmail();
-    }
-
-    protected void changeViewerEmail(Integer viewerID, EMail newEmail){
-        Viewer viewer = viewerRepository.getByID(viewerID);
-        viewer.setEmail(newEmail);
-        viewerRepository.update(viewer);
-    }
-
+    /**returns one Viewer based on its ID*/
     protected Viewer getViewer(Integer viewerID){
         return viewerRepository.getByID(viewerID);
     }
 
+    /**returns one Viewer based on its Email*/
     protected Viewer getViewer(EMail eMail){
         List<Viewer> viewers = viewerRepository.getAll();
         for (Viewer viewer : viewers)
@@ -359,6 +385,7 @@ public class TheatreService {
         return null;
     }
 
+    /**returns a Person(Actor, Viewer, Ceo) based on its Email*/
     protected Person getAccount(EMail eMail){
         List<Viewer> viewers = viewerRepository.getAll();
         List<Ceo> ceos = ceoRepository.getAll();
@@ -375,11 +402,17 @@ public class TheatreService {
         return null;
     }
 
-    protected List<Viewer> getAllViewers(){
-        return viewerRepository.getAll();
-    }
+//    protected List<Viewer> getAllViewers(){
+//        return viewerRepository.getAll();
+//    }
 
-    protected void createOrder(Integer id, int showID, EMail eMail, List<Integer> seats){
+    /**returns true if the Order was created and false if it already exists and cannot be created*/
+    protected boolean createOrder(Integer id, int showID, EMail eMail, List<Integer> seats){
+        List<Order> orders = orderRepository.getAll();
+        for (Order order : orders)
+            if (order.getShowID() == showID)
+                return false;
+
         int lower = 10000;
         int upper = 99999;
         int totalPrice= 50*seats.size();
@@ -411,8 +444,10 @@ public class TheatreService {
         }
         Order order = new Order(id, currentTime, viewerID, showID, seats, tickets);
         orderRepository.create(order);
+        return true;
     }
 
+    /**returns a list of Orders for a Viewer based on its Email*/
     protected List<Order> showMyOrders(EMail eMail){
         int viewerID = getViewerID(eMail);
         List<Order> myOrders = new ArrayList<>();
@@ -423,10 +458,11 @@ public class TheatreService {
         return myOrders;
     }
 
-    protected void deleteOrder(Integer orderID){
-        orderRepository.delete(orderID);
-    }
+//    protected void deleteOrder(Integer orderID){
+//        orderRepository.delete(orderID);
+//    }
 
+    /**changes the name, age of a Viewer and returns false, else if the Email is changed too returns true*/
     protected boolean manageViewerAccount(String name, int age, EMail currentEmail, EMail newEmail) {
         Viewer viewer = getViewer(currentEmail);
         viewer.setName(name);
@@ -443,38 +479,8 @@ public class TheatreService {
 
 
 
-    ////////////////////////////////ORDER////////////////////////////////
-    protected LocalDateTime getOrderDate(Integer orderID){
-        return orderRepository.getByID(orderID).getDate();
-    }
-
-    protected int getOrderViewerID(Integer orderID){
-        return orderRepository.getByID(orderID).getViewerID();
-    }
-
-    protected int getOrderShowID(Integer orderID){
-        return orderRepository.getByID(orderID).getShowID();
-    }
-
-    protected List<Ticket>  getOrderTickets(Integer orderID){
-        return orderRepository.getByID(orderID).getTickets();
-    }
-
-    protected List<Integer> getOrderSeats(Integer orderID){
-        return orderRepository.getByID(orderID).getSeats();
-    }
-
-    protected Order getOrder(Integer orderID){
-        return orderRepository.getByID(orderID);
-    }
-
-    protected List<Order> getAllOrders(){
-        return orderRepository.getAll();
-    }
-
-
-
     ////////////////////////////////EMAIL////////////////////////////////
+    /**returns a number which can be 1-Actor, 2-Ceo, 3-Viewer or 0-if the Email does not exist*/
     protected int loginAndGiveBackRole(EMail eMail) {
         List<Actor> actors = actorRepository.getAll();
         List<Ceo> ceos = ceoRepository.getAll();
@@ -493,6 +499,7 @@ public class TheatreService {
         return 0;
     }
 
+    /**returns true if the Viewer was created and false if it hit an error*/
     protected boolean createViewerAccount(Integer id, String name, int age, EMail eMail){
         Viewer newViewer = new Viewer(id, name, age, eMail);
         List<Viewer> viewers = viewerRepository.getAll();
