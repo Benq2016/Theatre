@@ -406,11 +406,11 @@ public class TheatreService {
 //        return viewerRepository.getAll();
 //    }
 
-    /**returns true if the Order was created and false if it already exists and cannot be created*/
+    /**returns true if the Order was created and false if it already exists OR if the seats are already occupied and cannot be created*/
     protected boolean createOrder(Integer id, int showID, EMail eMail, List<Integer> seats){
         List<Order> orders = orderRepository.getAll();
         for (Order order : orders)
-            if (order.getShowID() == showID)
+            if (order.getID().equals(id))
                 return false;
 
         int lower = 10000;
@@ -425,10 +425,23 @@ public class TheatreService {
             }
         }
 
+        boolean ok = false;
+        List<Show> shows = showRepository.getAll();
+        for (Show show : shows)
+            if (show.getID().equals(showID)) {
+                ok = true;
+                break;
+            }
+        if (!ok)
+            return false;
+
         String viewerName = getViewerName(viewerID);
         String showTitle = getShowTitle(showID);
         Auditorium audit = getShowAuditorium(showID);
         String auditName = getShowAuditorium(showID).getName();
+
+        if(!checkIfSeatFree(showID, seats))
+            return false;
 
         List<Ticket> tickets = new ArrayList<>();
         for (int seat : seats) {
@@ -444,6 +457,22 @@ public class TheatreService {
         }
         Order order = new Order(id, currentTime, viewerID, showID, seats, tickets);
         orderRepository.create(order);
+        return true;
+    }
+
+    /**returns true if the seat is free, false if its occupied*/
+    protected boolean checkIfSeatFree(int showID, List<Integer> seats) {
+        Auditorium auditorium = getShowAuditorium(showID);
+
+        int cols = auditorium.getCols();
+
+        for (int seat : seats) {
+            int row = seat / cols;
+            int col = seat % cols;
+
+            if (!auditorium.getSeatPlace()[row][col])
+                return false;
+        }
         return true;
     }
 
