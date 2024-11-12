@@ -13,7 +13,7 @@ public class TheatreController {
     }
 
     public int login(EMail eMail) {
-        return theatreService.login(eMail);
+        return theatreService.loginAndGiveBackRole(eMail);
     }
 
     public boolean createViewerAccount(Integer id, String name, int age, EMail eMail) {

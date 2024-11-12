@@ -19,21 +19,18 @@ public class UI {
         this.reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
-    public void RUN() throws IOException {
+    public void RUN(EMail userEmail) throws IOException {
         while (true) {
-            System.out.println("Welcome to the Theatre Management System!");
-            System.out.println("Please choose a role to proceed:");
-            System.out.println("1 - CEO");
-            System.out.println("2 - Actor");
-            System.out.println("0 - Exit");
 
-            String input = reader.readLine();
-            switch (input) {
+            String role = String.valueOf(theatreController.login(userEmail));
+
+//            String input = reader.readLine();
+            switch (role) {
                 case "1":
-                    CeoUi();
+                    ActorUI(userEmail);
                     break;
                 case "2":
-                    ActorUI();
+                    CeoUi();
                     break;
                 case "3":
 //                    ViewerUI();
@@ -46,7 +43,7 @@ public class UI {
             }
         }
     }
-    private void ActorUI() throws IOException {
+    private void ActorUI(EMail actorMail) throws IOException {
         while (true) {
             System.out.println("\nWelcome Actor");
             System.out.println("What do you want to do?");
@@ -57,7 +54,7 @@ public class UI {
             String input = reader.readLine();
             switch (input) {
                 case "1":
-                    viewUpcomingShows();
+                    viewUpcomingShows(actorMail);
                     break;
                 case "2":
 //                    manageActorAccount();
@@ -69,9 +66,9 @@ public class UI {
             }
         }
     }
-    private void viewUpcomingShows() throws IOException {
+    private void viewUpcomingShows(EMail actorMail) throws IOException {
         System.out.println("Listing all your upcoming shows");
-//        System.out.println(theatreController.viewMyShows());
+        System.out.println(theatreController.viewMyShows(actorMail));
     }
 
 
@@ -93,7 +90,7 @@ public class UI {
                     manageShowsAndAuditoriums();
                     break;
                 case "3":
-//                    managePersonalAccount();
+//                    managePersonalAccountCeo();
                     break;
                 case "0":
                     return;  // Go back to the main menu in RUN
@@ -102,35 +99,10 @@ public class UI {
             }
         }
     }
-//    private void managePersonalAccount() throws IOException {
-//        while (true) {
-//            System.out.println("\nManage personal account - options");
-//            System.out.println("1 - Hire an actor");
-//            System.out.println("2 - Fire an actor");
-//            System.out.println("3 - Change actor salary");
-//            System.out.println("4 - List all actors");
-//            System.out.println("0 - Back");
-//
-//            String option = reader.readLine();
-//            switch (option) {
-//                case "1":
-//                    hireActor();
-//                    break;
-//                case "2":
-//                    fireActor();
-//                    break;
-//                case "3":
-//                    changeActorSalary();
-//                    break;
-//                case "4":
-//                    listAllActors();
-//                    break;
-//                case "0":
-//                    return;  // Go back to CEO menu in CeoUi
-//                default:
-//                    System.out.println("Invalid option. Please choose 1, 2, 3, 4, or 0.");
-//            }
-//        }
+
+//    private void managePersonalAccountCeo() throws IOException {
+//        System.out.println("\nManage personal account - options");
+//        System.out.println("1 - ");
 //    }
 
     private void manageActors() throws IOException {

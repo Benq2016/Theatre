@@ -464,7 +464,7 @@ public class TheatreService {
 
 
     ////////////////////////////////EMAIL////////////////////////////////
-    protected int login(EMail eMail) {
+    protected int loginAndGiveBackRole(EMail eMail) {
         List<Actor> actors = actorRepository.getAll();
         List<Ceo> ceos = ceoRepository.getAll();
         List<Viewer> viewers = viewerRepository.getAll();

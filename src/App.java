@@ -115,36 +115,24 @@ public class App {
         InMemoryRepository<Show> showInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Viewer> viewerInMemoryRepository = new InMemoryRepository<>();
         InMemoryRepository<Order> orderInMemoryRepository = new InMemoryRepository<>();
-
         TheatreService ts = new TheatreService(ceoInMemoryRepository, actorInMemoryRepository,
                 auditoriumInMemoryRepository,showInMemoryRepository, viewerInMemoryRepository,
                 orderInMemoryRepository);
-
         TheatreController tc = new TheatreController(ts);
 
-//        tests();
+
+
         make_initial_objects(tc);
-        System.out.println(tc.viewAccount(new EMail("davidceo@gmail.com", "supersecure"))); // problem - equals
+
         EMail emailGotFromLoginSignin = choosingBetweenLoginAndSignup(tc);
 
         UI ui = new UI(tc);
-        ui.RUN();
+        ui.RUN(emailGotFromLoginSignin);
 
 
     }
 
-    public static void make_initial_objects(TheatreController tc) {
-        tc.createCeoAccount(1,"Boss David", 54,new EMail("davidceo@gmail.com", "supersecure"));
 
-        tc.ceoHireActor(1,"Peter",23, new EMail("peter@gmail.com", "123"),1200);
-        tc.ceoHireActor(2,"Bence",33, new EMail("bence@gmail.com", "asd"),1500);
-        tc.ceoHireActor(3,"Anna",21, new EMail("anna@gmail.com", "rte"),2300);
-        tc.ceoHireActor(4,"Balazs",26, new EMail("balazs@gmail.com", "hgf"),1900);
-        tc.ceoHireActor(5,"Iosif",44, new EMail("iosif@gmail.com", "123456"),2230);
-
-        tc.createAuditorium(1,"Grand Hall", 30,30);
-        tc.createAuditorium(2,"Klein Stage",20,20);
-    }
 
     private static EMail choosingBetweenLoginAndSignup(TheatreController tc) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -171,24 +159,36 @@ public class App {
         }
 
     }
+
     private static EMail signUp(TheatreController tc) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        EMail newMail;
+        while (true) {
 
-        System.out.println("Welcome new User");
-        System.out.println("Please create you account as follows:");
-        System.out.println("Choose an Id:");
-        Integer id = Integer.parseInt(reader.readLine());
-        System.out.println("Provide us with your name:");
-        String name = reader.readLine();
-        System.out.println("Your age:");
-        int age = Integer.parseInt(reader.readLine());
-        System.out.println("Your emailAddress:");
-        String emailAddress = reader.readLine();
-        System.out.println("Your password:");
-        String password = reader.readLine();
-        EMail newMail = new EMail(emailAddress,password);
+            System.out.println("Welcome new User");
+            System.out.println("Please create you account as follows:");
+            System.out.println("Choose an Id:");
+            Integer id = Integer.parseInt(reader.readLine());
+            System.out.println("Provide us with your name:");
+            String name = reader.readLine();
+            System.out.println("Your age:");
+            int age = Integer.parseInt(reader.readLine());
+            System.out.println("Your emailAddress:");
+            String emailAddress = reader.readLine();
+            System.out.println("Your password:");
+            String password = reader.readLine();
+            newMail = new EMail(emailAddress, password);
 
-        tc.createViewerAccount(id,name,age, newMail);
+            Boolean success = tc.createViewerAccount(id,name,age, newMail);
+            if (success) {
+                break;
+            }
+            else {
+                System.out.println("Try again please.");
+            }
+        }
+
+
         return newMail;
     }
 
@@ -214,6 +214,19 @@ public class App {
         }
         return eMail;
 
+    }
+
+    public static void make_initial_objects(TheatreController tc) {
+        tc.createCeoAccount(1,"Boss David", 54,new EMail("davidceo@gmail.com", "supersecure"));
+
+        tc.ceoHireActor(1,"Peter",23, new EMail("peter@gmail.com", "123"),1200);
+        tc.ceoHireActor(2,"Bence",33, new EMail("bence@gmail.com", "asd"),1500);
+        tc.ceoHireActor(3,"Anna",21, new EMail("anna@gmail.com", "rte"),2300);
+        tc.ceoHireActor(4,"Balazs",26, new EMail("balazs@gmail.com", "hgf"),1900);
+        tc.ceoHireActor(5,"Iosif",44, new EMail("iosif@gmail.com", "123456"),2230);
+
+        tc.createAuditorium(1,"Grand Hall", 30,30);
+        tc.createAuditorium(2,"Klein Stage",20,20);
     }
 
 
