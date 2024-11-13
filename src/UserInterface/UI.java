@@ -11,17 +11,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The UI class provides a command-line interface for users to interact with a theater management system.
+ * Different user roles (Viewer, Actor, CEO) have access to different functionalities through their respective menus.
+ */
 public class UI {
     private final TheatreController theatreController;
     private final BufferedReader reader;
 
-    /*Creates a UI object*/
+    /**
+     * Constructs a UI object with a specified TheatreController.
+     *
+     * @param theatreController the controller that manages interactions with the domain layer.
+     */
     public UI(TheatreController theatreController) {
         this.theatreController = theatreController;
         this.reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
-    /*The main part, it is the Hub for all the UI functions(actor,ceo,viewer)*/
+    /**
+     * The main method that acts as the central hub for all UI interactions.
+     * Determines the user's role and directs them to the appropriate UI section (Viewer, Actor, or CEO).
+     *
+     * @param userEmail the email of the user attempting to log in.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     public void RUN(EMail userEmail) throws IOException {
 
         while (true) {
@@ -48,8 +62,12 @@ public class UI {
         }
     }
 
-    /*It takes an option (between the options of the Viewer) and switches for it
-    * carrying out the method chosen by the Viewer*/
+    /**
+     * Displays Viewer options and handles Viewer interactions based on their input.
+     *
+     * @param viewerEmail the email of the Viewer currently logged in.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void ViewerUI(EMail viewerEmail) throws IOException {
         while (true) {
             System.out.println("\nWelcome Viewer");
@@ -83,7 +101,13 @@ public class UI {
         }
     }
 
-    /*The Viewer can change their personal information*/
+    /**
+     * Manages the personal account information for a Viewer.
+     *
+     * @param viewerEmail the email of the Viewer whose account is being managed.
+     * @return true if the email was changed, false otherwise.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private Boolean managePersonalAccountViewer(EMail viewerEmail) throws IOException {
         System.out.println(theatreController.viewAccount(viewerEmail));
         System.out.println("Enter new name: ");
@@ -102,7 +126,12 @@ public class UI {
 
     }
 
-    /*The viewer sees their orders*/
+    /**
+     * Displays the orders placed by the Viewer.
+     *
+     * @param viewerEmail the email of the Viewer whose orders are being viewed.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void viewMyOrders(EMail viewerEmail) throws IOException {
         List<Order> myOrders = theatreController.viewMyOrders(viewerEmail);
         for (Order myOrder : myOrders) {
@@ -110,7 +139,12 @@ public class UI {
         }
     }
 
-    /*The Viewer can create a new order - it takes in the information necessary and creates a new order*/
+    /**
+     * Allows the Viewer to create a new order by selecting a show and seats.
+     *
+     * @param viewerEmail the email of the Viewer creating the order.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void createOrder(EMail viewerEmail) throws IOException {
         System.out.println("Id of your order:");
         Integer id = Integer.parseInt(reader.readLine());
@@ -135,16 +169,23 @@ public class UI {
         System.out.println("Order successfully created");
     }
 
-    /*All shows available*/
+    /**
+     * Displays all available shows in the system.
+     *
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void viewAllShows() throws IOException {
         List<Show> allShows = theatreController.viewShows();
         for(Show s : allShows)
             System.out.println(s);
     }
 
-    /*It takes an option (between the options of the Actor) and switches for it
-     * carrying out the method chosen by the actor.
-     * he can change his/her infos or sees in which show he/she participates*/
+    /**
+     * Displays the Actor UI, allowing Actors to view their upcoming shows or manage their account.
+     *
+     * @param actorMail the email of the Actor currently logged in.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void ActorUI(EMail actorMail) throws IOException {
         while (true) {
             System.out.println("\nWelcome Actor");
@@ -170,7 +211,13 @@ public class UI {
         }
     }
 
-    /*Changes infos of the actor*/
+    /**
+     * Manages the personal account information for an Actor.
+     *
+     * @param actorEmail the email of the Actor whose account is being managed.
+     * @return true if the email was changed, false otherwise.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private Boolean manageActorAccount(EMail actorEmail) throws IOException {
         System.out.println(theatreController.viewAccount(actorEmail));
         System.out.println("Enter new name: ");
@@ -189,7 +236,12 @@ public class UI {
 
     }
 
-    /*Lists the shows in which the actor is participating*/
+    /***
+     * Lists all upcoming shows in which the actor is playing
+     *
+     * @param actorMail the actors mail
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void viewUpcomingShows(EMail actorMail) throws IOException {
         System.out.println("Listing all your upcoming shows");
         List<Show> myShows = theatreController.viewMyShows(actorMail);
@@ -197,9 +249,12 @@ public class UI {
             System.out.println(myShow);
     }
 
-    /*It takes an option (between the options of the Ceo) and switches for it
-     * carrying out the method chosen by the ceo.
-     * It mostly manages the actors and the shows*/
+    /**
+     * Displays the CEO UI, allowing the CEO to manage actors, shows, auditoriums, or their own account.
+     *
+     * @param ceoEmail the email of the CEO currently logged in.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void CeoUi(EMail ceoEmail) throws IOException {
         while (true) {
             System.out.println("\nWelcome CEO");
@@ -230,7 +285,13 @@ public class UI {
         }
     }
 
-    /*Changes information regarding the ceo*/
+    /**
+     * Allows the CEO to manage their personal account information.
+     *
+     * @param ceoEmail the email of the CEO whose account is being managed.
+     * @return true if the email was changed, false otherwise.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private Boolean managePersonalAccountCeo(EMail ceoEmail) throws IOException {
         System.out.println(theatreController.viewAccount(ceoEmail));
         System.out.println("Enter new name: ");
@@ -249,7 +310,11 @@ public class UI {
 
     }
 
-    /*It is a hub for all the ceo methods which works with actors*/
+    /**
+     * Allows the CEO to manage actors within the theater system, such as adding or viewing actors.
+     *
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void manageActors() throws IOException {
         while (true) {
             System.out.println("\nWork with actors - options");
@@ -281,7 +346,11 @@ public class UI {
         }
     }
 
-    /*It is a hub for all the ceo methods which works with shows and auditoriums*/
+    /**
+     * Allows the CEO to manage shows and auditoriums, including adding new shows or viewing current ones.
+     *
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void manageShowsAndAuditoriums() throws IOException {
         while (true) {
             System.out.println("\nManage shows and auditoriums - options");
@@ -322,19 +391,31 @@ public class UI {
 
     }
 
-    /*Lists all auditoriums*/
+    /**
+    * Lists all available auditoriums
+     *
+     * @throws IOException if an I/O error occurs during reading.
+    * */
     private void listAllAuditoriums() throws IOException {
         System.out.println("List of all the auditoriums");
         System.out.println(theatreController.viewAllAuditoriums());
     }
 
-    /*Lists all shows*/
+    /**
+     * Lists all shows
+     *
+     * @throws IOException if an I/O error occurs during reading.
+     * */
     private void listAllShows() throws IOException {
         System.out.println("List of all the shows");
         System.out.println(theatreController.viewShows());
     }
 
-    /*It deletes an auditorium */
+    /**
+     * Deletes an auditorium
+     *
+     * @throws IOException if an I/O error occurs during reading.
+     * */
     private void deleteAuditorium() throws IOException {
         System.out.println("\nDeleting an auditorium");
         System.out.println(theatreController.viewAllAuditoriums());
@@ -344,7 +425,11 @@ public class UI {
 
     }
 
-    /*cancels a show*/
+    /**
+     * Cancels a show
+     *
+     * @throws IOException if an I/O error occurs during reading.
+     * */
     private void deleteShow() throws IOException {
         System.out.println("\nDeleting shows");
         System.out.println(theatreController.viewShows());
@@ -355,7 +440,11 @@ public class UI {
         System.out.println("Show successfully deleted.");
     }
 
-    /*makes a new auditorium*/
+    /***
+     *Creates a new auditorium
+     *
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void createAuditorium() throws IOException {
         System.out.println("\nCreating auditorium");
         System.out.println("Auditorium id:");
@@ -370,7 +459,11 @@ public class UI {
         theatreController.createAuditorium(id, name, nrRows, nrCols);
     }
 
-    /*creates a new show - after this a viewer can buy tickets for the respective show*/
+
+    /***
+     * Creates a new show - after this the Viewer can buy tickets for the show
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void createShow() throws IOException {
         System.out.println("\nCreating show");
 
@@ -426,7 +519,11 @@ public class UI {
         System.out.println("Show created successfully.");
     }
 
-    /*creates a new actor*/
+    /***
+     * Creates a new actor
+     *
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void hireActor() throws IOException {
         System.out.println("\nHiring a new actor");
 
@@ -453,7 +550,11 @@ public class UI {
         System.out.println("Actor hired successfully.");
     }
 
-    /*deletes an actor*/
+    /***
+     * Deletes an actor
+     *
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private void fireActor() throws IOException {
         System.out.print("\nEnter the ID of the actor to fire: ");
         int actorId = Integer.parseInt(reader.readLine());
@@ -461,7 +562,10 @@ public class UI {
         System.out.println("Actor fired successfully.");
     }
 
-    /*changes the salary of an actor*/
+    /**Changes the salary of an actor
+     *
+     * @throws IOException if an I/O error occurs during reading.
+     * */
     private void changeActorSalary() throws IOException {
         System.out.print("\nEnter the ID of the actor whose salary you want to change: ");
         int actorId = Integer.parseInt(reader.readLine());
@@ -473,14 +577,21 @@ public class UI {
         System.out.println("Actor's salary updated successfully.");
     }
 
-    /*Lists all the actors of the theatre*/
+    /**
+     * Lists all the actors of the theatre
+     * */
     private void listAllActors() {
         System.out.println("\nList of all actors:");
-        theatreController.viewAllActors().forEach(actor -> System.out.println(actor));
+        theatreController.viewAllActors().forEach(System.out::println);
     }
 
-    /*It is the "Lobby" of the program, here the user chooses between creating
-    * a new account or logging in into an existing one using their Email*/
+    /**
+     * Facilitates login or signup options for the user.
+     *
+     * @param tc the TheatreController instance managing domain interactions.
+     * @return the email of the newly logged in or signed-up user.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     public static EMail choosingBetweenLoginAndSignup(TheatreController tc) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -510,8 +621,13 @@ public class UI {
 
     }
 
-    /*creates a new Viewer - it takes in all the information necessary to
-    * create a new viewer and after creates it logs in automatically*/
+    /**
+     * Allows a Viewer to sign up and create a new account.
+     *
+     * @param tc the TheatreController instance managing domain interactions.
+     * @return the email of the signed-up user.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private static EMail signUp(TheatreController tc) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         EMail newMail;
@@ -544,7 +660,13 @@ public class UI {
         return newMail;
     }
 
-    /*log in as an actor/viewer/ceo using the personal email address*/
+    /**
+     * Allows a user to log in to the system.
+     *
+     * @param tc the TheatreController instance managing domain interactions.
+     * @return the email of the logged-in user.
+     * @throws IOException if an I/O error occurs during reading.
+     */
     private static EMail login(TheatreController tc) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         EMail eMail;

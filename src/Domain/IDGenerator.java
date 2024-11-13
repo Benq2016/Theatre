@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-//////////NINCS HASZNÁLVA, NYUGI//////////
+//////////NOT USED//////////
 public class IDGenerator {
     private static final Map<String, Integer> lastIds = new HashMap<>();
     private static final String FILE_NAME = "RepositoryPackage/lastID.txt";

@@ -15,9 +15,18 @@ import java.util.Map;
 
 import static UserInterface.UI.choosingBetweenLoginAndSignup;
 
+/**
+ * The App class is the entry point of the theatre management system.
+ * It sets up the necessary repositories, services, and controllers, and runs the user interface.
+ */
 public class App {
-    /**some tests while in production - it
-     * doesn't affect the end result */
+
+    /**
+     * Runs some test cases for the system. This method is used for initial testing
+     * of the system's features and doesn't affect the final production result.
+     *
+     * @throws IOException if there is an issue with input or output during the tests
+     */
     public static void tests() throws IOException {
 //        InMemoryRepository<Ceo> ceoInMemoryRepository = new InMemoryRepository<>();
 //        InMemoryRepository<Actor> actorInMemoryRepository = new InMemoryRepository<>();
@@ -110,7 +119,14 @@ public class App {
 
     }
 
-    /** The main of the App - Here are all the repos, service and controller instantiated and worked with*/
+    /**
+     * The main method of the application. This is where the repositories, services, and controllers
+     * are instantiated, and the application's flow starts by creating initial objects.
+     * It also retrieves user input for login or signup and starts the user interface.
+     *
+     * @param args command-line arguments (not used in this program)
+     * @throws IOException if there is an issue with input or output during the program's execution
+     */
     public static void main(String[] args) throws IOException {
 
         // Creating the backend objects we work with
@@ -139,7 +155,13 @@ public class App {
 
     }
 
-    /*Creating initial objects*/
+    /**
+     * Creates the initial objects for testing purposes. This includes creating a CEO, hiring actors,
+     * creating auditoriums, and creating a viewer account. These objects are needed to set up
+     * the system to make some tests and use the app.
+     *
+     * @param tc the TheatreController instance used to perform actions like creating accounts
+     */
     public static void make_initial_objects(TheatreController tc) {
         tc.createCeoAccount(1,"Boss David", 54,new EMail("david@gmail.com", "1230"));
 
