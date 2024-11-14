@@ -11,6 +11,7 @@ public class Show implements HasID{
     private final Auditorium audit;
     private final Map<Actor, String> roles;
     private final String date;
+    private final int price;
 
     /**
      * Constructor for a new Show with specified parameters.
@@ -20,12 +21,13 @@ public class Show implements HasID{
      * @param roles a map of actors to their roles in the show
      * @param date the date of the show
      */
-    public Show(Integer id, String title, Auditorium audit, Map<Actor, String> roles, String date) {
+    public Show(Integer id, String title, String date, Auditorium audit, Map<Actor, String> roles, int price) {
         this.id = id;
         this.title = title;
         this.audit = audit;
         this.roles = roles;
         this.date = date;
+        this.price = price;
     }
 
 //    public String getDate() {
@@ -68,6 +70,10 @@ public class Show implements HasID{
         return title;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
 //    public void setTitle(String title) {
 //        this.title = title;
 //    }
@@ -88,7 +94,7 @@ public class Show implements HasID{
      */
     @Override
     public String toString() {
-        return "\nShow{" +
+        return "Show{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", date=" + date +

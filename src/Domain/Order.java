@@ -16,6 +16,7 @@ public class Order implements HasID{
     private int showID;
     private List<Ticket> tickets;
     private List<Integer> seats;
+    private int totalPrice;
 
     /**
      * Constructs a new Order with the specified details.
@@ -26,13 +27,14 @@ public class Order implements HasID{
      * @param seats the list of seat numbers reserved in the order
      * @param tickets the list of tickets purchased in the order
      */
-    public Order(int id, LocalDateTime date, int viewerID, int showID, List<Integer> seats, List<Ticket> tickets) {
+    public Order(int id, LocalDateTime date, int viewerID, int showID, List<Integer> seats, List<Ticket> tickets, int totalPrice) {
         this.id = id;
         this.date = date;
         this.viewerID = viewerID;
         this.showID = showID;
         this.seats = seats;
         this.tickets = tickets;
+        this.totalPrice = totalPrice;
     }
 
     /**
@@ -47,7 +49,7 @@ public class Order implements HasID{
      * Returns the ID of the viewer who placed the order.
      * @return the viewer's ID
      */
-    public int getViewerID() {
+    public Integer getViewerID() {
         return viewerID;
     }
 

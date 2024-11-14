@@ -109,13 +109,12 @@ public class Auditorium implements HasID{
      */
     @Override
     public String toString() {
-        String result = "Auditorium{" +
+        return "Auditorium{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", capacity=" + capacity +
                 ", rows=" + rows +
-                ", cols=" + cols ;
-        return result;
+                ", cols=" + cols;
     }
 
     /**

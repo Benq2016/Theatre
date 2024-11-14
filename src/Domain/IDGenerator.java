@@ -7,7 +7,7 @@ import java.util.Map;
 //////////NOT USED//////////
 public class IDGenerator {
     private static final Map<String, Integer> lastIds = new HashMap<>();
-    private static final String FILE_NAME = "RepositoryPackage/lastID.txt";
+    private static final String FILE_NAME = "Repository/lastID.txt";
 
     public static void initialize() {
         loadFromFile();
