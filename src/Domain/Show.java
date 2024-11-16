@@ -1,5 +1,7 @@
 package Domain;
+import java.util.Date;
 import java.util.Map;
+import java.text.SimpleDateFormat;
 
 /**
  * Represents a show in the system, including details about its title, auditorium,
@@ -10,7 +12,7 @@ public class Show implements HasID{
     private final String title;
     private final Auditorium audit;
     private final Map<Actor, String> roles;
-    private final String date;
+    private final Date date;
     private final int price;
 
     /**
@@ -21,7 +23,7 @@ public class Show implements HasID{
      * @param roles a map of actors to their roles in the show
      * @param date the date of the show
      */
-    public Show(Integer id, String title, String date, Auditorium audit, Map<Actor, String> roles, int price) {
+    public Show(Integer id, String title, Date date, Auditorium audit, Map<Actor, String> roles, int price) {
         this.id = id;
         this.title = title;
         this.audit = audit;
@@ -30,18 +32,10 @@ public class Show implements HasID{
         this.price = price;
     }
 
-//    public String getDate() {
-//        return date;
-//    }
-//
-//    public void setDate(String date) {
-//        this.date = date;
-//    }
+    public Date getDate() {
+        return date;
+    }
 
-    /**
-     * Returns the roles assigned to actors in the show.
-     * @return a map of actors and their respective roles
-     */
     public Map<Actor, String> getRoles() {
         return roles;
     }
@@ -50,10 +44,6 @@ public class Show implements HasID{
 //        this.roles = roles;
 //    }
 
-    /**
-     * Returns the auditorium where the show is held.
-     * @return the auditorium for the show
-     */
     public Auditorium getAudit() {
         return audit;
     }
@@ -62,10 +52,6 @@ public class Show implements HasID{
 //        this.audit = audit;
 //    }
 
-    /**
-     * Returns the title of the show.
-     * @return the title of the show
-     */
     public String getTitle() {
         return title;
     }
@@ -94,10 +80,13 @@ public class Show implements HasID{
      */
     @Override
     public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = sdf.format(date);
+
         return "Show{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", date=" + date +
+                ", date=" + dateString +
                 ", casting=" + roles +
                 ", auditorium=" + audit.getName() +
                 "}";

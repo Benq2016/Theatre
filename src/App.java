@@ -5,10 +5,10 @@ import Repository.InMemoryRepository;
 //import UI.UI;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.util.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 //import static UI.UI.choosingBetweenLoginAndSignup;
 
@@ -168,21 +168,53 @@ public class App {
         tc.viewActors().forEach(System.out::println);
 
         tc.createAuditorium(1,"Grand Hall", 6,15);
-        tc.createAuditorium(2,"Klein Stage",20,20);
+        tc.createAuditorium(2,"Klein Stage",7,12);
         tc.viewAuditoriums().forEach(System.out::println);
 
         Map<Actor, String> roles = new HashMap<Actor, String>();
 
-        tc.createShow(1,"Lets see if it runs!","2024-11-15",1, roles, 25);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date1S = "2024-11-15";
+        Date date1;
+        try {
+            date1 = sdf.parse(date1S);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        String date2S = "2024-11-11";
+        Date date2;
+        try {
+            date2 = sdf.parse(date2S);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        tc.createShow(1,"Lets see if it runs!", date1,1, roles, 25);
+        tc.createShow(2, "Lets test the sort", date2, 2, roles, 30);
         tc.viewShows().forEach(System.out::println);
+        System.out.println(" ");
+        tc.viewShowsSorted().forEach(System.out::println);
+
 
         tc.createViewerAccount(1,"Victor Ross", 23, new EMail("victor@gmail.com", "123"));
         tc.viewViewers().forEach(System.out::println);
 
-        List<Integer> seats = new ArrayList<Integer>();
-        seats.add(1); seats.add(2); seats.add(45); seats.add(46);
-        tc.createOrder(1, 1, 1, seats);
+        List<Integer> seats1 = new ArrayList<Integer>();
+        seats1.add(1); seats1.add(2); seats1.add(45); seats1.add(46);
+        List<Integer> seats2 = new ArrayList<Integer>();
+        seats2.add(4); seats2.add(7); seats2.add(64); seats2.add(84);
+
+
+        tc.createOrder(1, 1, 1, seats1);
+        System.out.println(tc.viewAuditorium(1));
+
+        tc.createOrder(2, 1, 2, seats2);
+        System.out.println(tc.viewAuditorium(1));
+        System.out.println(tc.viewAuditorium(2));
+
         tc.viewOrders().forEach(System.out::println);
+        tc.viewOrdersSorted().forEach(System.out::println);
     }
 
 }

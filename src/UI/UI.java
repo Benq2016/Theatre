@@ -10,7 +10,9 @@
 //import java.util.HashMap;
 //import java.util.List;
 //import java.util.Map;
-//
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
+
 ///**
 // * The UI class provides a command-line interface for users to interact with a theater management system.
 // * Different user roles (Viewer, Actor, CEO) have access to different functionalities through their respective menus.
@@ -513,9 +515,14 @@
 //
 //        System.out.print("Enter the date of the show (e.g., YYYY-MM-DD): ");
 //        String showDate = reader.readLine();
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date = sdf.parse(showDate);
+//
+//
 //
 //        // Call createShow with the collected parameters
-//        theatreController.createShow(showId, showTitle, auditorium, roleMap, showDate);
+//        theatreController.createShow(showId, showTitle, auditorium, roleMap, date);
 //        System.out.println("Show created successfully.");
 //    }
 //

@@ -1,6 +1,6 @@
 package Domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Order implements HasID{
     private final int id;
-    private LocalDateTime date;
+    private LocalDate date;
     private int viewerID;
     private int showID;
     private List<Ticket> tickets;
@@ -27,7 +27,7 @@ public class Order implements HasID{
      * @param seats the list of seat numbers reserved in the order
      * @param tickets the list of tickets purchased in the order
      */
-    public Order(int id, LocalDateTime date, int viewerID, int showID, List<Integer> seats, List<Ticket> tickets, int totalPrice) {
+    public Order(int id, LocalDate date, int viewerID, int showID, List<Integer> seats, List<Ticket> tickets, int totalPrice) {
         this.id = id;
         this.date = date;
         this.viewerID = viewerID;
@@ -41,7 +41,7 @@ public class Order implements HasID{
      * Returns the date and time when the order was placed.
      * @return the date and time of the order
      */
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 

@@ -2,10 +2,8 @@ package Service;
 
 import Domain.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 import java.time.LocalDateTime;
 
 public class TheatreService {
@@ -253,14 +251,14 @@ public class TheatreService {
         return auditoriumService.deleteAuditorium(id);
     }
 
-    public boolean createShow(Integer id, String title, String date, Integer auditoriumID, Map<Actor, String> roles, int price) {
+    public boolean createShow(Integer id, String title, Date date, Integer auditoriumID, Map<Actor, String> roles, int price) {
         if (showService.getShow(id) != null)
             return false;
 
         if (auditoriumService.getAuditorium(auditoriumID) == null)
             return false;
 
-        Auditorium auditorium = auditoriumService.getAuditorium(id);
+        Auditorium auditorium = auditoriumService.getAuditorium(auditoriumID);
         Show show = new Show(id, title, date, auditorium, roles, price);
         showService.createShow(show);
         return true;
@@ -280,7 +278,7 @@ public class TheatreService {
         if (showService.getShow(showID) == null)
             return false;
 
-        LocalDateTime date = LocalDateTime.now();
+        LocalDate date = LocalDateTime.now().toLocalDate();
 
         int price = showService.getShow(showID).getPrice();
         int totalPrice = price * seats.size();
@@ -298,12 +296,13 @@ public class TheatreService {
     public List<Ticket> createTickets(Integer viewerID, Integer showID, List<Integer> seats, int price) {
         String viewerName = viewerService.getViewer(viewerID).getName();
         String showTitle = showService.getShow(showID).getTitle();
-        String auditoriumName = auditoriumService.getAuditorium(viewerID).getName();
+        String auditoriumName = showService.getShow(showID).getAudit().getName();
         int ticketID = 1;
 
         List<Ticket> tickets = new ArrayList<>();
         for (Integer seat : seats) {
             Ticket ticket = new Ticket(ticketID, showTitle, viewerName, auditoriumName, price, seat);
+            ticketID++;
             tickets.add(ticket);
         }
         return tickets;
@@ -315,8 +314,9 @@ public class TheatreService {
             return false;
 
         for (Integer seat : seats) {
-            int row = seat / auditorium.getCols();
-            int col = seat % auditorium.getCols();
+            int row = (seat - 1) / auditorium.getCols();
+            int col = (seat - 1) % auditorium.getCols();
+
             if (row >= 0 && row < auditorium.getRows() && col >= 0 && col < auditorium.getCols())
                 auditorium.getSeatPlace()[row][col] = false;
         }
@@ -327,9 +327,11 @@ public class TheatreService {
         int cols = auditorium.getCols();
 
         for (int seat : seats) {
-            int row = seat / cols;
-            int col = seat % cols;
+            if (seat < 1 || seat > cols * auditorium.getRows())
+                return false;
 
+            int row = (seat - 1) / cols;
+            int col = (seat - 1) % cols;
             if (!auditorium.getSeatPlace()[row][col])
                 return false;
         }
@@ -387,5 +389,13 @@ public class TheatreService {
 
     public Order getOrder(Integer id) {
         return orderService.getOrder(id);
+    }
+
+    public List<Order> getOrdersSorted() {
+        return orderService.getOrdersSorted();
+    }
+
+    public List<Show> getShowsSorted() {
+        return showService.getShowsSorted();
     }
 }

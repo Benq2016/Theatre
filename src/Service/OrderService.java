@@ -2,7 +2,11 @@ package Service;
 
 import Repository.Repository;
 import Domain.*;
+
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
 
 public class OrderService {
     private final Repository<Order> orderRepository;
@@ -17,6 +21,14 @@ public class OrderService {
 
     public List<Order> getAllOrders() {
         return orderRepository.getAll();
+    }
+
+    public List<Order> getOrdersSorted() {
+        List<Order> orders = orderRepository.getAll();
+        List<Order> mutableOrders = new ArrayList<>(orders);
+
+        mutableOrders.sort(Comparator.comparing(Order::getDate));
+        return mutableOrders;
     }
 
     public void createOrder(Order order) {

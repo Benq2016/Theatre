@@ -3,6 +3,7 @@ package Controller;
 import Domain.*;
 import Service.TheatreService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public class TheatreController {
         return theatreService.deleteAuditorium(id);
     }
 
-    public boolean createShow(Integer id, String title, String date, Integer auditoriumID, Map<Actor, String> roles, int price) {
+    public boolean createShow(Integer id, String title, Date date, Integer auditoriumID, Map<Actor, String> roles, int price) {
         return theatreService.createShow(id, title, date, auditoriumID, roles, price);
     }
 
@@ -132,6 +133,10 @@ public class TheatreController {
         return theatreService.getShows();
     }
 
+    public List<Show> viewShowsSorted() {
+        return theatreService.getShowsSorted();
+    }
+
     public Show viewShow(Integer id) {
         return theatreService.getShow(id);
     }
@@ -140,7 +145,12 @@ public class TheatreController {
         return theatreService.getOrders();
     }
 
+    public List<Order> viewOrdersSorted() {
+        return theatreService.getOrdersSorted();
+    }
+
     public Order viewOrder(Integer id) {
         return theatreService.getOrder(id);
     }
+
 }
