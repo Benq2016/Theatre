@@ -53,17 +53,17 @@ public class Order implements HasID{
         return viewerID;
     }
 
-//    public int getShowID() {
-//        return showID;
-//    }
-//
-//    public List<Ticket> getTickets() {
-//        return tickets;
-//    }
-//
-//    public List<Integer> getSeats() {
-//        return seats;
-//    }
+    public int getShowID() {
+        return showID;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public List<Integer> getSeats() {
+        return seats;
+    }
 
     /**
      * Returns a string representation of the order, including the ID, date,

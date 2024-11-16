@@ -3,10 +3,13 @@ package Service;
 import Repository.Repository;
 import Domain.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class OrderService {
     private final Repository<Order> orderRepository;
@@ -31,14 +34,17 @@ public class OrderService {
         return mutableOrders;
     }
 
+    public List<Order> getOrdersFiltered() {
+        LocalDate today = LocalDateTime.now().toLocalDate();
+        List<Order> orders = orderRepository.getAll();
+        return orders.stream().filter(order -> order.getDate().isAfter(today)).collect(Collectors.toList());
+    }
+
     public void createOrder(Order order) {
         orderRepository.create(order);
     }
 
-    public boolean deleteOrder(Integer id) {
-        if (getOrder(id) == null)
-            return false;
+    public void deleteOrder(Integer id) {
         orderRepository.delete(id);
-        return true;
     }
 }

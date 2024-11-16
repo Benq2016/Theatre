@@ -169,12 +169,12 @@ public class App {
 
         tc.createAuditorium(1,"Grand Hall", 6,15);
         tc.createAuditorium(2,"Klein Stage",7,12);
-        tc.viewAuditoriums().forEach(System.out::println);
+//        tc.viewAuditoriums().forEach(System.out::println);
 
         Map<Actor, String> roles = new HashMap<Actor, String>();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date1S = "2024-11-15";
+        String date1S = "2024-11-18";
         Date date1;
         try {
             date1 = sdf.parse(date1S);
@@ -194,8 +194,8 @@ public class App {
         tc.createShow(2, "Lets test the sort", date2, 2, roles, 30);
         tc.viewShows().forEach(System.out::println);
         System.out.println(" ");
-        tc.viewShowsSorted().forEach(System.out::println);
-
+//        tc.viewShowsSorted().forEach(System.out::println);
+//        tc.viewShowsFiltered().forEach(System.out::println);
 
         tc.createViewerAccount(1,"Victor Ross", 23, new EMail("victor@gmail.com", "123"));
         tc.viewViewers().forEach(System.out::println);
@@ -209,12 +209,17 @@ public class App {
         tc.createOrder(1, 1, 1, seats1);
         System.out.println(tc.viewAuditorium(1));
 
-        tc.createOrder(2, 1, 2, seats2);
+        tc.createOrder(2, 1, 1, seats2);
         System.out.println(tc.viewAuditorium(1));
-        System.out.println(tc.viewAuditorium(2));
+//        System.out.println(tc.viewAuditorium(2));
 
+//        tc.viewOrders().forEach(System.out::println);
+//        tc.viewOrdersSorted().forEach(System.out::println);
         tc.viewOrders().forEach(System.out::println);
-        tc.viewOrdersSorted().forEach(System.out::println);
+
+//        tc.deleteOrder(1);
+//        tc.viewOrders().forEach(System.out::println);
+//        System.out.println(tc.viewAuditorium(1));
     }
 
 }

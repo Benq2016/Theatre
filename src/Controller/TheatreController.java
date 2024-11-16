@@ -78,7 +78,7 @@ public class TheatreController {
         return theatreService.createOrder(id, viewerID, showID, seats);
     }
 
-    public boolean deleteOrder(Integer id) {
+    public int deleteOrder(Integer id) {
         return theatreService.deleteOrder(id);
     }
 
@@ -137,6 +137,10 @@ public class TheatreController {
         return theatreService.getShowsSorted();
     }
 
+    public List<Show> viewShowsFiltered() {
+        return theatreService.getShowsFiltered();
+    }
+
     public Show viewShow(Integer id) {
         return theatreService.getShow(id);
     }
@@ -147,6 +151,10 @@ public class TheatreController {
 
     public List<Order> viewOrdersSorted() {
         return theatreService.getOrdersSorted();
+    }
+
+    public List<Order> viewOrdersFiltered() {
+        return theatreService.getOrdersFiltered();
     }
 
     public Order viewOrder(Integer id) {

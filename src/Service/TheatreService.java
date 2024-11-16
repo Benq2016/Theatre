@@ -338,9 +338,38 @@ public class TheatreService {
         return true;
     }
 
-    public boolean deleteOrder(Integer id) {
-        return orderService.deleteOrder(id);
+    public int deleteOrder(Integer id) {
+        Order order = orderService.getOrder(id);
+        if (order == null)
+            return 0;
+
+        Show show = showService.getShow(order.getShowID());
+
+        Auditorium auditorium = show.getAudit();
+
+        List<Integer> seats = order.getSeats();
+
+        releaseSeats(auditorium, seats);
+
+        orderService.deleteOrder(id);
+
+        return order.getTotalPrice();
     }
+
+    public void releaseSeats(Auditorium auditorium, List<Integer> seats) {
+        int cols = auditorium.getCols();
+
+        for (int seat : seats) {
+            int row = (seat - 1) / cols;
+            int col = (seat - 1) % cols;
+            if (row >= 0 && row < auditorium.getRows() && col >= 0 && col < auditorium.getCols())
+                auditorium.getSeatPlace()[row][col] = true;
+        }
+    }
+
+//    public boolean deleteOrder(Integer id) {
+//        return orderService.deleteOrder(id);
+//    }
 
     ////////////////*** VIEW ***////////////////
     public List<Actor> getActors() {
@@ -395,7 +424,15 @@ public class TheatreService {
         return orderService.getOrdersSorted();
     }
 
+    public List<Order> getOrdersFiltered() {
+        return orderService.getOrdersFiltered();
+    }
+
     public List<Show> getShowsSorted() {
         return showService.getShowsSorted();
+    }
+
+    public List<Show> getShowsFiltered() {
+        return showService.getShowsFiltered();
     }
 }
