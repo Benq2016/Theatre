@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 //import static UI.UI.choosingBetweenLoginAndSignup;
 
 /**
- * The App class is the entry point of the theatre management system.
+ * The App class is the entry point of the theater management system.
  * It sets up the necessary repositories, services, and controllers, and runs the user interface.
  */
 public class App {
