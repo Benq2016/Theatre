@@ -1,23 +1,23 @@
 package Repository;
 
-import Domain.Admin;
+import Domain.Viewer;
 import Domain.EMail;
 
-public class AdminFileRepository extends FileRepository<Admin> {
+public class ViewerFileRepository extends FileRepository<Viewer> {
 
 
-    public AdminFileRepository(String filePath) {
+    public ViewerFileRepository(String filePath) {
         super(filePath);
     }
 
     @Override
-    protected String serialize(Admin obj) {
+    protected String serialize(Viewer obj) {
         return obj.getID() + "," + obj.getName() + "," + obj.getAge() + "," +
                 obj.getEmail().getEmailAddress()+ "," + obj.getEmail().getPassword();
     }
 
     @Override
-    protected Admin deserialize(String data) {
+    protected Viewer deserialize(String data) {
         String[] objectParts = data.split(",");
 
 
@@ -28,6 +28,7 @@ public class AdminFileRepository extends FileRepository<Admin> {
         String emailPassword = objectParts[4];
 
         EMail email = new EMail(emailAddress, emailPassword);
-        return new Admin(id, name, age, email);
+        return new Viewer(id, name, age, email);
     }
 }
+

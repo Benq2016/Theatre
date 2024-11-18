@@ -31,21 +31,21 @@ public class Ticket implements HasID{
         this.seat = seat;
     }
 
-//    public String getShowName() {
-//        return showName;
-//    }
-//    public String getViewerName() {
-//        return viewerName;
-//    }
-//    public String getAuditoriumName() {
-//        return auditoriumName;
-//    }
-//    public int getPrice() {
-//        return price;
-//    }
-//    public int getSeat() {
-//        return seat;
-//    }
+    public String getShowName() {
+        return showName;
+    }
+    public String getViewerName() {
+        return viewerName;
+    }
+    public String getAuditoriumName() {
+        return auditoriumName;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public int getSeat() {
+        return seat;
+    }
 
     /**
      * Provides a string representation of the Ticket object, detailing

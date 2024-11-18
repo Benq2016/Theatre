@@ -1,23 +1,22 @@
 package Repository;
 
-import Domain.Admin;
+import Domain.Actor;
 import Domain.EMail;
 
-public class AdminFileRepository extends FileRepository<Admin> {
+public class ActorFileRepository extends FileRepository<Actor> {
 
-
-    public AdminFileRepository(String filePath) {
+    public ActorFileRepository(String filePath) {
         super(filePath);
     }
 
     @Override
-    protected String serialize(Admin obj) {
+    protected String serialize(Actor obj) {
         return obj.getID() + "," + obj.getName() + "," + obj.getAge() + "," +
-                obj.getEmail().getEmailAddress()+ "," + obj.getEmail().getPassword();
+                obj.getEmail().getEmailAddress()+ "," + obj.getEmail().getPassword() + "," + obj.getSalary();
     }
 
     @Override
-    protected Admin deserialize(String data) {
+    protected Actor deserialize(String data) {
         String[] objectParts = data.split(",");
 
 
@@ -26,8 +25,9 @@ public class AdminFileRepository extends FileRepository<Admin> {
         int age = Integer.parseInt(objectParts[2]);
         String emailAddress = objectParts[3];
         String emailPassword = objectParts[4];
+        int salary = Integer.parseInt(objectParts[5]);
 
         EMail email = new EMail(emailAddress, emailPassword);
-        return new Admin(id, name, age, email);
+        return new Actor(id, name, age, email,salary);
     }
 }

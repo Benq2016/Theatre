@@ -2,6 +2,10 @@ import Controller.TheatreController;
 import Service.*;
 import Domain.*;
 import Repository.InMemoryRepository;
+import Repository.ViewerFileRepository;
+import Repository.ActorFileRepository;
+import Repository.OrderFileRepository;
+import Repository.AdminFileRepository;
 //import UI.UI;
 
 import java.io.IOException;

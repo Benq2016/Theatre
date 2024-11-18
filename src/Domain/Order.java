@@ -37,6 +37,10 @@ public class Order implements HasID{
         this.totalPrice = totalPrice;
     }
 
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
     /**
      * Returns the date and time when the order was placed.
      * @return the date and time of the order
