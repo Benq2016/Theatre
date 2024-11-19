@@ -2,15 +2,19 @@ import Controller.TheatreController;
 import Repository.*;
 import Service.*;
 import Domain.*;
-//import UI.UI;
+import UI.UI;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-//import static UI.UI.choosingBetweenLoginAndSignup;
+import static UI.UI.choosingBetweenLoginAndSignup;
+
 
 /**
  * The App class is the entry point of the theater management system.
@@ -123,24 +127,41 @@ public class App {
      * @param args command-line arguments (not used in this program)
      * @throws IOException if there is an issue with input or output during the program's execution
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
 
-        /*In Memory Repository instantiation*/
-//        InMemoryRepository<Admin> adminRepository = new InMemoryRepository<Admin>();
-//        InMemoryRepository<Actor> actorRepository = new InMemoryRepository<Actor>();
-//        InMemoryRepository<Auditorium> auditoriumRepository= new InMemoryRepository<Auditorium>();
-//        InMemoryRepository<Show> showRepository = new InMemoryRepository<Show>();
-//        InMemoryRepository<Viewer> viewerRepository = new InMemoryRepository<Viewer>();
-//        InMemoryRepository<Order> orderRepository = new InMemoryRepository<Order>();
+        String storageType = chooseStorageType();
 
+        Repository<Admin> adminRepository;
+        Repository<Actor> actorRepository;
+        Repository<Auditorium> auditoriumRepository;
+        Repository<Show> showRepository;
+        Repository<Viewer> viewerRepository;
+        Repository<Order> orderRepository;
 
-        /*File Memory instantiation*/
-        AdminFileRepository adminRepository = new AdminFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\AdminFile");
-        ActorFileRepository actorRepository = new ActorFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ActorFile");
-        AuditoriumFileRepository auditoriumRepository = new AuditoriumFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\AuditoriumFile");
-        ShowFileRepository showRepository = new ShowFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ShowFile");
-        ViewerFileRepository viewerRepository = new ViewerFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ViewerFile");
-        OrderFileRepository orderRepository = new OrderFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\OrderFile");
+        switch (storageType) {
+            case "1": {
+                // In-memory instantiation
+                adminRepository = new InMemoryRepository<Admin>();
+                actorRepository = new InMemoryRepository<Actor>();
+                auditoriumRepository = new InMemoryRepository<Auditorium>();
+                showRepository = new InMemoryRepository<Show>();
+                viewerRepository = new InMemoryRepository<Viewer>();
+                orderRepository = new InMemoryRepository<Order>();
+                break;
+            }
+            case "2": {
+                // File-based instantiation
+                adminRepository = new AdminFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\AdminFile");
+                actorRepository = new ActorFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ActorFile");
+                auditoriumRepository = new AuditoriumFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\AuditoriumFile");
+                showRepository = new ShowFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ShowFile");
+                viewerRepository = new ViewerFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ViewerFile");
+                orderRepository = new OrderFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\OrderFile");
+                break;
+            }
+            default:
+                throw new IllegalArgumentException("Invalid storage type selected.");
+        }
 
         ActorService actorService = new ActorService(actorRepository);
         AdminService adminService = new AdminService(adminRepository);
@@ -154,24 +175,30 @@ public class App {
                 viewerService, orderService);
 
         TheatreController tc = new TheatreController(ts);
+        if (storageType.equals("2")) {
+            ((ShowFileRepository) showRepository).setTheatreController(tc);
+        }
 
-        showRepository.setTheatreController(tc);
-
-        make_initial_objects(tc);
+        makeInitialObjects(tc);
 
 //        test_files(tc);
 
 //        /*It retrieves the email from the user*/
-//        EMail emailGotFromLoginSignIn = choosingBetweenLoginAndSignup(tc);
+        EMail emailGotFromLoginSignIn = choosingBetweenLoginAndSignup(tc);
 //
 //        /*Start of the program carrying out ui functions which carries out functions from other parts of the app*/
-//        UI ui = new UI(tc);
-//        ui.RUN(emailGotFromLoginSignIn);
+        UI ui = new UI(tc);
+        ui.RUN(emailGotFromLoginSignIn);
 
 
     }
 
-    public static void make_initial_objects(TheatreController tc) {
+    /***
+     * Creates some initial Objects
+     *
+     * @param tc - TheatreController for connecting with the running theaterController
+     */
+    public static void makeInitialObjects(TheatreController tc) {
         tc.createAdminAccount(1, "Boss David", 54, new EMail("david@gmail.com", "1230"));
 
         tc.createActorAccount(1, "Peter", 23, new EMail("peter@gmail.com", "123"), 1200);
@@ -179,13 +206,16 @@ public class App {
         tc.createActorAccount(3, "Anna", 21, new EMail("anna@gmail.com", "rte"), 2300);
         tc.createActorAccount(4, "Balazs", 26, new EMail("balazs@gmail.com", "hgf"), 1900);
         tc.createActorAccount(5, "Iosif", 44, new EMail("iosif@gmail.com", "123456"), 2230);
-        tc.viewActors().forEach(System.out::println);
+//        tc.viewActors().forEach(System.out::println);
 
         tc.createAuditorium(1, "Grand Hall", 6, 15);
         tc.createAuditorium(2, "Klein Stage", 7, 12);
-        tc.viewAuditoriums().forEach(System.out::println);
+//        tc.viewAuditoriums().forEach(System.out::println);
 
         Map<Actor, String> roles = new HashMap<Actor, String>();
+        roles.putIfAbsent(tc.viewActor(1),"Werther");
+        roles.putIfAbsent(tc.viewActor(3),"Luise");
+        roles.putIfAbsent(tc.viewActor(4),"Faust");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         String date1S = "2024-11-18";
@@ -196,7 +226,7 @@ public class App {
             throw new RuntimeException(e);
         }
 
-        String date2S = "2024-11-11";
+        String date2S = "2024-11-27";
         Date date2;
         try {
             date2 = sdf.parse(date2S);
@@ -206,13 +236,13 @@ public class App {
 
         tc.createShow(1, "Lets see if it runs!", date1, 1, roles, 25);
         tc.createShow(2, "Lets test the sort", date2, 2, roles, 30);
-        tc.viewShows().forEach(System.out::println);
-        System.out.println(" ");
+//        tc.viewShows().forEach(System.out::println);
+//        System.out.println(" ");
 //        tc.viewShowsSorted().forEach(System.out::println);
 //        tc.viewShowsFiltered().forEach(System.out::println);
 
         tc.createViewerAccount(1, "Victor Ross", 23, new EMail("victor@gmail.com", "123"));
-        tc.viewViewers().forEach(System.out::println);
+//        tc.viewViewers().forEach(System.out::println);
 
         List<Integer> seats1 = new ArrayList<Integer>();
         seats1.add(1);
@@ -227,64 +257,86 @@ public class App {
 
 
         tc.createOrder(1, 1, 1, seats1);
-        System.out.println(tc.viewAuditorium(1));
+//        System.out.println(tc.viewAuditorium(1));
 
         tc.createOrder(2, 1, 1, seats2);
-        System.out.println(tc.viewAuditorium(1));
+//        System.out.println(tc.viewAuditorium(1));
 //        System.out.println(tc.viewAuditorium(2));
 
 //        tc.viewOrders().forEach(System.out::println);
 //        tc.viewOrdersSorted().forEach(System.out::println);
-        tc.viewOrders().forEach(System.out::println);
+//        tc.viewOrders().forEach(System.out::println);
 
 //        tc.deleteOrder(1);
 //        tc.viewOrders().forEach(System.out::println);
 //        System.out.println(tc.viewAuditorium(1));
     }
 
-    public static void test_files(TheatreController tc) {
-        tc.createAdminAccount(1, "Istvan", 56, new EMail("istvan@gmail.com", "123"));
-//        System.out.println(tc.viewAdmin(1));
+//    public static void testFiles(TheatreController tc) {
+//        tc.createAdminAccount(1, "Istvan", 56, new EMail("istvan@gmail.com", "123"));
+////        System.out.println(tc.viewAdmin(1));
+//
+//        tc.createActorAccount(1, "Anna", 20, new EMail("anna@gmail.com", "123"), 5000);
+//        tc.createActorAccount(2, "Csongi", 21, new EMail("csongi@gmail.com", "234"), 2400);
+//        tc.createActorAccount(12, "Szandi", 19, new EMail("szandi@gmail.com", "345"), 3400);
+//
+////        tc.viewActors().forEach(System.out::println);
+//
+//        tc.createAuditorium(1, "Main Stage", 15, 10);
+//        tc.createAuditorium(2, "Uni Stage", 15, 12);
+////        tc.viewAuditoriums().forEach(System.out::println);
+//
+//        String date1S = "2024-11-18";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date1;
+//        try {
+//            date1 = sdf.parse(date1S);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        Map<Actor, String> actorRole = new HashMap<>();
+//        actorRole.putIfAbsent(tc.viewActor(1), "Fikusz");
+//
+//        tc.createShow(1, "Peter Pan", date1, 1, actorRole, 50);
+////        tc.viewShows().forEach(System.out::println);
+//
+//        tc.createViewerAccount(1, "Hose", 23, new EMail("hose@gmail.com", "456"));
+////        tc.viewViewers().forEach(System.out::println);
+//
+//        List<Integer> seats = new ArrayList<>();
+//        seats.add(1);
+//        seats.add(2);
+//        seats.add(45);
+//        List<Integer> seats2 = new ArrayList<>();
+//        seats2.add(4);
+//        seats2.add(7);
+//        seats2.add(64);
+//        tc.createOrder(1, 1, 1, seats);
+//        tc.createOrder(2, 1, 1, seats2);
+//
+//        tc.viewOrders().forEach(System.out::println);
+//    }
 
-        tc.createActorAccount(1, "Anna", 20, new EMail("anna@gmail.com", "123"), 5000);
-        tc.createActorAccount(2, "Csongi", 21, new EMail("csongi@gmail.com", "234"), 2400);
-        tc.createActorAccount(12, "Szandi", 19, new EMail("szandi@gmail.com", "345"), 3400);
+    /***
+     * Choosing the type of storage that the program uses
+     *
+     * @return - a string representing a number which indicates what type of storage the user wants
+     * @throws IOException
+     */
+    public static String chooseStorageType() throws IOException {
+        String choice;
+        while (true) {
+            System.out.println("WELCOME TO THE THEATER MANAGEMENT APP!\n");
+            System.out.println("To proceed please choose a storage format:");
+            System.out.println("1 - In Memory storage ");
+            System.out.println("2 - File storage ");
+            System.out.println("3 - Database storage (WORK IN PROGRESS)");
 
-//        tc.viewActors().forEach(System.out::println);
-
-        tc.createAuditorium(1, "Main Stage", 15, 10);
-        tc.createAuditorium(2, "Uni Stage", 15, 12);
-//        tc.viewAuditoriums().forEach(System.out::println);
-
-        String date1S = "2024-11-18";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1;
-        try {
-            date1 = sdf.parse(date1S);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            choice = String.valueOf(reader.readLine());
+            if (choice.equals("1") || choice.equals("2") || choice.equals("3"))
+                break;
         }
-        Map<Actor, String> actorRole = new HashMap<>();
-        actorRole.putIfAbsent(tc.viewActor(1), "Fikusz");
-
-        tc.createShow(1, "Peter Pan", date1, 1, actorRole, 50);
-//        tc.viewShows().forEach(System.out::println);
-
-        tc.createViewerAccount(1, "Hose", 23, new EMail("hose@gmail.com", "456"));
-//        tc.viewViewers().forEach(System.out::println);
-
-        List<Integer> seats = new ArrayList<>();
-        seats.add(1);
-        seats.add(2);
-        seats.add(45);
-        List<Integer> seats2 = new ArrayList<>();
-        seats2.add(4);
-        seats2.add(7);
-        seats2.add(64);
-        tc.createOrder(1, 1, 1, seats);
-        tc.createOrder(2, 1, 1, seats2);
-
-        tc.viewOrders().forEach(System.out::println);
+        return choice;
     }
-
 }

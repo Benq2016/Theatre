@@ -182,22 +182,22 @@ public class TheatreService {
         return myOrders;
     }
 
-    public Integer login(EMail eMail) {
+    public String login(EMail eMail) {
         List<Actor> actors = actorService.getAllActors();
         List<Admin> admins = adminService.getAllAdmins();
         List<Viewer> viewers = viewerService.getAllViewers();
         for (Actor actor : actors)
             if (actor.getEmail().equals(eMail))
-                return actorService.getActorID(eMail);
+                return "1";
 
         for (Admin admin : admins)
             if (admin.getEmail().equals(eMail))
-                return adminService.getActorID(eMail);
+                return "2";
 
         for (Viewer viewer : viewers)
             if (viewer.getEmail().equals(eMail))
-                return viewerService.getViewerID(eMail);
-        return null;
+                return "3";
+        return "0";
     }
 
 
@@ -367,9 +367,6 @@ public class TheatreService {
         }
     }
 
-//    public boolean deleteOrder(Integer id) {
-//        return orderService.deleteOrder(id);
-//    }
 
     ////////////////*** VIEW ***////////////////
     public List<Actor> getActors() {
@@ -402,6 +399,14 @@ public class TheatreService {
 
     public Auditorium getAuditorium(Integer id) {
         return auditoriumService.getAuditorium(id);
+    }
+
+    public Auditorium getAuditoriumByShow(Integer id) {
+        List<Show> shows = showService.getAllShows();
+        for (Show show : shows)
+            if (show.getID().equals(id))
+                return show.getAudit();
+        return null;
     }
 
     public List<Show> getShows() {

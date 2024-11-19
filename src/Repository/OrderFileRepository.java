@@ -8,11 +8,29 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A repository for managing Order objects, which are stored in a file.
+ * The CRUD operations are handled by the abstract class.
+ * It serializes and deserializes Order objects to and from a file.
+ */
 public class OrderFileRepository extends FileRepository<Order> {
+    /**
+     * Constructs an OrderFileRepository with the specified file path.
+     *
+     * @param filePath the path to the file used for storing order data
+     */
     public OrderFileRepository(String filePath) {
         super(filePath);
     }
-
+    /**
+     * Serializes an Order object into a string representation.
+     * The string format is: <id>,<date>,<viewerID>,<showID>,<seatsSerialized>,<ticketsSerialized>,<totalPrice>.
+     * - seatsSerialized is a pipe-separated list of seat numbers.
+     * - ticketsSerialized is a pipe-separated list of ticket details, each formatted as <ticketID>:<showName>:<viewerName>:<auditoriumName>:<price>:<seat>.
+     *
+     * @param obj the Order object to serialize
+     * @return a string representation of the Order object
+     */
     @Override
     protected String serialize(Order obj) {
         String seatsSerialized = obj.getSeats().stream()
@@ -33,6 +51,15 @@ public class OrderFileRepository extends FileRepository<Order> {
                 obj.getTotalPrice();
     }
 
+    /**
+     * Deserializes a string into an Order object.
+     * The expected string format is: <id>,<date>,<viewerID>,<showID>,<seatsSerialized>,<ticketsSerialized>,<totalPrice>.
+     * - seatsSerialized is a pipe-separated list of seat numbers.
+     * - ticketsSerialized is a pipe-separated list of ticket details, each formatted as <ticketID>:<showName>:<viewerName>:<auditoriumName>:<price>:<seat>.
+     *
+     * @param data the string data to deserialize
+     * @return the Order object constructed from the string data
+     */
     @Override
     protected Order deserialize(String data) {
         // Split the serialized string into parts

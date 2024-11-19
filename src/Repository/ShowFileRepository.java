@@ -13,18 +13,52 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The ShowFileRepository class is responsible for managing the persistence of Show objects to a file.
+ * It extends the FileRepository class and provides specific methods to serialize and
+ * deserialize Show objects.
+ * This class also interacts with the TheatreController to retrieve related entities such as
+ * Actor and Auditorium.
+ */
 public class ShowFileRepository extends FileRepository<Show> {
-    String filePath;
-    TheatreController tc;
+//    String filePath;
+    TheatreController tc; // it connects this Repository with the TheatreController,
+                            // for getting the auditorium of the show
 
+    /**
+     * Constructs a new ShowFileRepository with the specified file path.
+     *
+     * @param filePath the path to the file where Show objects are stored.
+     */
     public ShowFileRepository(String filePath){
         super(filePath);
     }
 
+    /**
+     * Sets the TheatreController to be used for retrieving related entities such as Actor
+     * and Auditorium.
+     * It is added by a setter because of circular dependency in the MAIN of the App
+     *
+     * @param tc the TheatreController instance.
+     */
     public void setTheatreController(TheatreController tc){
         this.tc = tc;
     }
 
+    /**
+     * Serializes a Show object into a string representation suitable for storing in a file.
+     * The serialized string format is: <id>,<title>,<date>,<auditId>,<rolesSerialized>,<price>
+     * Where:
+     * - <id>: the ID of the show (integer)
+     * - <title>: the title of the show (string)
+     * - <date>: the date of the show (string, formatted as "EEE MMM dd HH:mm:ss z yyyy")
+     * - <auditId>: the ID of the associated auditorium (integer)
+     * - <rolesSerialized>: a serialized string of roles in the format "actorID:role|actorID:role|..." (string)
+     * - <price>: the price of the show (integer)
+     *
+     * @param show the Show object to be serialized.
+     * @return a string representation of the Show object.
+     */
     protected String serialize(Show show) {
         String rolesSerialized = show.getRoles().entrySet().stream()
                 .map(entry -> entry.getKey().getID() + ":" + entry.getValue())
@@ -38,40 +72,25 @@ public class ShowFileRepository extends FileRepository<Show> {
                 show.getPrice();
     }
 
-//    protected Show deserialize(String data) {
-//        String[] objectParts = data.split(",");
-//
-//        int id = Integer.parseInt(objectParts[0]);
-//        String title = objectParts[1];
-//
-//        Date date = parseDate(objectParts[2]);
-//
-//        int auditId = Integer.parseInt(objectParts[3]);
-//        int price = Integer.parseInt(objectParts[5]);
-//
-//        Map<Integer, String> roles = Arrays.stream(objectParts[4].split("\\|"))
-//                .map(roleStr -> roleStr.split(":"))
-//                .collect(Collectors.toMap(
-//                        roleParts -> Integer.parseInt(roleParts[0]),
-//                        roleParts -> roleParts[1]
-//                ));
-//
-//        Auditorium auditorium = tc.viewAuditorium(auditId);
-//
-//        Map<Actor, String> actorRoles = mapActorsToRoles(roles);
-//
-//        // Return the Show object constructed from the deserialized data
-//        return new Show(id, title,date, auditorium, actorRoles, price);
-//    }
 
+    /**
+     * Deserializes a string representing a Show object into a Show instance.
+     *
+     * The format of the input string is expected to be: <id>,<title>,<date>,<auditId>,<roles>,<price>.
+     * Where <roles> is a pipe-separated list of actor ID and role pairs in the format:
+     * <actorID>:<roleName>|<actorID>:<roleName>...
+     *
+     * @param data The serialized string representing a Show.
+     * @return A Show object constructed from the serialized data.
+     * @throws IllegalArgumentException if any of the actor IDs referenced in the roles are not found.
+     */
     protected Show deserialize(String data) {
         String[] objectParts = data.split(",");
 
         int id = Integer.parseInt(objectParts[0]);
         String title = objectParts[1];
 
-        // Parse the date using the updated method
-        Date date = parseDate(objectParts[2]);
+        Date date = parseDate(objectParts[2]); // custom method for parsing Data objects
 
         int auditId = Integer.parseInt(objectParts[3]);
         int price = Integer.parseInt(objectParts[5]);

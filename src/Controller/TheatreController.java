@@ -14,7 +14,7 @@ public class TheatreController {
         this.theatreService = theatreService;
     }
 
-    public Integer login(EMail eMail) {
+    public String login(EMail eMail) {
         return theatreService.login(eMail);
     }
 
@@ -127,6 +127,10 @@ public class TheatreController {
 
     public Auditorium viewAuditorium(Integer id) {
         return theatreService.getAuditorium(id);
+    }
+
+    public Auditorium getAuditoriumByShow(Integer id) {
+        return theatreService.getAuditoriumByShow(id);
     }
 
     public List<Show> viewShows() {
