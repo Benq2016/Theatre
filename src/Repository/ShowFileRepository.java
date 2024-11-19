@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -37,12 +38,39 @@ public class ShowFileRepository extends FileRepository<Show> {
                 show.getPrice();
     }
 
+//    protected Show deserialize(String data) {
+//        String[] objectParts = data.split(",");
+//
+//        int id = Integer.parseInt(objectParts[0]);
+//        String title = objectParts[1];
+//
+//        Date date = parseDate(objectParts[2]);
+//
+//        int auditId = Integer.parseInt(objectParts[3]);
+//        int price = Integer.parseInt(objectParts[5]);
+//
+//        Map<Integer, String> roles = Arrays.stream(objectParts[4].split("\\|"))
+//                .map(roleStr -> roleStr.split(":"))
+//                .collect(Collectors.toMap(
+//                        roleParts -> Integer.parseInt(roleParts[0]),
+//                        roleParts -> roleParts[1]
+//                ));
+//
+//        Auditorium auditorium = tc.viewAuditorium(auditId);
+//
+//        Map<Actor, String> actorRoles = mapActorsToRoles(roles);
+//
+//        // Return the Show object constructed from the deserialized data
+//        return new Show(id, title,date, auditorium, actorRoles, price);
+//    }
+
     protected Show deserialize(String data) {
         String[] objectParts = data.split(",");
 
         int id = Integer.parseInt(objectParts[0]);
         String title = objectParts[1];
 
+        // Parse the date using the updated method
         Date date = parseDate(objectParts[2]);
 
         int auditId = Integer.parseInt(objectParts[3]);
@@ -60,14 +88,11 @@ public class ShowFileRepository extends FileRepository<Show> {
         Map<Actor, String> actorRoles = mapActorsToRoles(roles);
 
         // Return the Show object constructed from the deserialized data
-        return new Show(id, title,date, auditorium, actorRoles, price);
+        return new Show(id, title, date, auditorium, actorRoles, price);
     }
 
-    // Helper method to parse Date from a string
     private Date parseDate(String dateString) {
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
         try {
             return sdf.parse(dateString);  // Parse the string into a Date object
         } catch (ParseException e) {
