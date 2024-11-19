@@ -16,6 +16,7 @@ public class InMemoryRepository<T extends HasID> implements Repository<T> {
 
     private final Map<Integer, T> data = new HashMap<>();
 
+
     /**
      * Creates a new object in the repository, associating it with its unique ID.
      * If an object with the same ID already exists, the new object is not added.

@@ -38,9 +38,6 @@ public class OrderFileRepository extends FileRepository<Order> {
         // Split the serialized string into parts
         String[] objectParts = data.split(",");
 
-        if (objectParts.length < 7) {
-            throw new IllegalArgumentException("Invalid data format for Order deserialization");
-        }
 
         // Parse primitive fields
         int id = Integer.parseInt(objectParts[0]);

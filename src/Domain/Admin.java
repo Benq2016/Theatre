@@ -25,7 +25,7 @@ public class Admin extends Person implements HasID {
      */
     @Override
     public String toString() {
-        return "CEO{" +
+        return "Admin{" +
                 "ID=" + getID() +
                 ", name='" + getName() + '\'' +
                 ", age=" + getAge() +

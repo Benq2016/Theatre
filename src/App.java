@@ -1,11 +1,7 @@
 import Controller.TheatreController;
+import Repository.*;
 import Service.*;
 import Domain.*;
-import Repository.InMemoryRepository;
-import Repository.ViewerFileRepository;
-import Repository.ActorFileRepository;
-import Repository.OrderFileRepository;
-import Repository.AdminFileRepository;
 //import UI.UI;
 
 import java.io.IOException;
@@ -129,19 +125,30 @@ public class App {
      * @throws IOException if there is an issue with input or output during the program's execution
      */
     public static void main(String[] args) throws IOException {
-        InMemoryRepository<Admin> adminInMemoryRepository = new InMemoryRepository<Admin>();
-        InMemoryRepository<Actor> actorInMemoryRepository = new InMemoryRepository<Actor>();
-        InMemoryRepository<Auditorium> auditoriumInMemoryRepository= new InMemoryRepository<Auditorium>();
-        InMemoryRepository<Show> showInMemoryRepository = new InMemoryRepository<Show>();
-        InMemoryRepository<Viewer> viewerInMemoryRepository = new InMemoryRepository<Viewer>();
-        InMemoryRepository<Order> orderInMemoryRepository = new InMemoryRepository<Order>();
 
-        ActorService actorService = new ActorService(actorInMemoryRepository);
-        AdminService adminService = new AdminService(adminInMemoryRepository);
-        ViewerService viewerService = new ViewerService(viewerInMemoryRepository);
-        ShowService showService = new ShowService(showInMemoryRepository);
-        AuditoriumService auditoriumService = new AuditoriumService(auditoriumInMemoryRepository);
-        OrderService orderService = new OrderService(orderInMemoryRepository);
+        /*In Memory Repository instantiation*/
+//        InMemoryRepository<Admin> adminRepository = new InMemoryRepository<Admin>();
+//        InMemoryRepository<Actor> actorRepository = new InMemoryRepository<Actor>();
+//        InMemoryRepository<Auditorium> auditoriumRepository= new InMemoryRepository<Auditorium>();
+//        InMemoryRepository<Show> showRepository = new InMemoryRepository<Show>();
+//        InMemoryRepository<Viewer> viewerRepository = new InMemoryRepository<Viewer>();
+//        InMemoryRepository<Order> orderRepository = new InMemoryRepository<Order>();
+
+
+        /*File Memory instantiation*/
+        AdminFileRepository adminRepository = new AdminFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\AdminFile");
+        ActorFileRepository actorRepository = new ActorFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ActorFile");
+        AuditoriumFileRepository auditoriumRepository= new AuditoriumFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\AuditoriumFile");
+        ShowFileRepository showRepository = new ShowFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ShowFile");
+        ViewerFileRepository viewerRepository = new ViewerFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ViewerFile");
+        OrderFileRepository orderRepository = new OrderFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\OrderFile");
+
+        ActorService actorService = new ActorService(actorRepository);
+        AdminService adminService = new AdminService(adminRepository);
+        ViewerService viewerService = new ViewerService(viewerRepository);
+        ShowService showService = new ShowService(showRepository);
+        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
+        OrderService orderService = new OrderService(orderRepository);
 
 
         TheatreService ts = new TheatreService(adminService, actorService, auditoriumService, showService,
@@ -149,7 +156,11 @@ public class App {
 
         TheatreController tc = new TheatreController(ts);
 
-        make_initial_objects(tc);
+        showRepository.setTheatreController(tc);
+
+//        make_initial_objects(tc);
+
+        test_files(tc);
 
 //        /*It retrieves the email from the user*/
 //        EMail emailGotFromLoginSignIn = choosingBetweenLoginAndSignup(tc);
@@ -173,7 +184,7 @@ public class App {
 
         tc.createAuditorium(1,"Grand Hall", 6,15);
         tc.createAuditorium(2,"Klein Stage",7,12);
-//        tc.viewAuditoriums().forEach(System.out::println);
+        tc.viewAuditoriums().forEach(System.out::println);
 
         Map<Actor, String> roles = new HashMap<Actor, String>();
 
@@ -224,6 +235,35 @@ public class App {
 //        tc.deleteOrder(1);
 //        tc.viewOrders().forEach(System.out::println);
 //        System.out.println(tc.viewAuditorium(1));
+    }
+
+    public static void test_files(TheatreController tc){
+        tc.createAdminAccount(1,"Istvan",56, new EMail("istvan@gmail.com", "123"));
+//        System.out.println(tc.viewAdmin(1));
+
+        tc.createActorAccount(1,"Anna", 20, new EMail("anna@gmail.com","123"), 5000);
+        tc.createActorAccount(2,"Csongi", 21, new EMail("csongi@gmail.com","234"), 2400);
+        tc.createActorAccount(12,"Szandi", 19, new EMail("szandi@gmail.com","345"), 3400);
+
+//        tc.viewActors().forEach(System.out::println);
+
+        tc.createAuditorium(1,"Main Stage", 15,10);
+        tc.createAuditorium(2,"Uni Stage", 15,12);
+//        tc.viewAuditoriums().forEach(System.out::println);
+
+        String date1S = "2024-11-18";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1;
+        try {
+            date1 = sdf.parse(date1S);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Map<Actor,String> actorRole = new HashMap<>();
+        actorRole.putIfAbsent(tc.viewActor(1),"Fikusz");
+
+        tc.createShow(1,"Peter Pan",date1,1,actorRole,50);
+        tc.viewShows().forEach(System.out::println);
     }
 
 }

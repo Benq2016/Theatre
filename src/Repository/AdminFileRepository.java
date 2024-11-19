@@ -5,7 +5,6 @@ import Domain.EMail;
 
 public class AdminFileRepository extends FileRepository<Admin> {
 
-
     public AdminFileRepository(String filePath) {
         super(filePath);
     }
