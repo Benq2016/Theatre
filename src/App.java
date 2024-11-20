@@ -151,12 +151,12 @@ public class App {
             }
             case "2": {
                 // File-based instantiation
-                adminRepository = new AdminFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\AdminFile");
-                actorRepository = new ActorFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ActorFile");
-                auditoriumRepository = new AuditoriumFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\AuditoriumFile");
-                showRepository = new ShowFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ShowFile");
-                viewerRepository = new ViewerFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\ViewerFile");
-                orderRepository = new OrderFileRepository("C:\\Users\\nagyb\\Java_projects\\Theatre\\src\\OrderFile");
+                adminRepository = new AdminFileRepository("src/FilesForStorage/AdminFile");
+                actorRepository = new ActorFileRepository("src/FilesForStorage/ActorFile");
+                auditoriumRepository = new AuditoriumFileRepository("src/FilesForStorage/AuditoriumFile");
+                showRepository = new ShowFileRepository("src/FilesForStorage/ShowFile");
+                viewerRepository = new ViewerFileRepository("src/FilesForStorage/ViewerFile");
+                orderRepository = new OrderFileRepository("src/FilesForStorage/OrderFile");
                 break;
             }
             default:

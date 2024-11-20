@@ -74,11 +74,18 @@ public class ShowFileRepository extends FileRepository<Show> {
 
 
     /**
-     * Deserializes a string representing a Show object into a Show instance.
+     Deserializes a string into a `Show` object.
      *
-     * The format of the input string is expected to be: <id>,<title>,<date>,<auditId>,<roles>,<price>.
-     * Where <roles> is a pipe-separated list of actor ID and role pairs in the format:
-     * <actorID>:<roleName>|<actorID>:<roleName>...
+     * The input string format is:
+     * <id>,<title>,<date>,<auditId>,<roles>,<price>
+     * Where:
+     * - `<id>` is the unique identifier of the show.
+     * - `<title>` is the title of the show.
+     * - `<date>` is the show date, in the format "EEE MMM dd HH:mm:ss z yyyy".
+     * - `<auditId>` is the ID of the auditorium associated with the show.
+     * - `<roles>` is a pipe-separated list of actor-role pairs in the format:
+     *   `<actorID>:<roleName>|<actorID>:<roleName>`.
+     * - `<price>` is the price of the show.
      *
      * @param data The serialized string representing a Show.
      * @return A Show object constructed from the serialized data.
@@ -106,21 +113,32 @@ public class ShowFileRepository extends FileRepository<Show> {
 
         Map<Actor, String> actorRoles = mapActorsToRoles(roles);
 
-        // Return the Show object constructed from the deserialized data
         return new Show(id, title, date, auditorium, actorRoles, price);
     }
 
+    /**
+     * Parses a date string into a `Date` object.
+     *
+     * @param dateString The date string in the format "EEE MMM dd HH:mm:ss z yyyy".
+     * @return A `Date` object parsed from the string, or `null` if parsing fails.
+     */
     private Date parseDate(String dateString) {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
         try {
             return sdf.parse(dateString);  // Parse the string into a Date object
         } catch (ParseException e) {
             e.printStackTrace();
-            return null;  // Handle the error appropriately (e.g., return null or throw an exception)
+            return null;
         }
     }
 
-    // Method to retrieve an Actor by ID
+    /**
+     * Retrieves an `Actor` object by its ID.
+     *
+     * @param id The unique identifier of the actor.
+     * @return The `Actor` object with the specified ID.
+     * @throws IllegalArgumentException If no actor is found with the given ID.
+     */
     private Actor findActorById(int id) {
 
         return tc.viewActors().stream()
@@ -129,14 +147,18 @@ public class ShowFileRepository extends FileRepository<Show> {
                 .orElseThrow(() -> new IllegalArgumentException("Actor not found with ID: " + id));
     }
 
-    // Method to map Actor IDs to Actors and their respective roles
+    /**
+     * Maps actor IDs to `Actor` objects and their roles.
+     *
+     * @param roles A map where keys are actor IDs and values are role names.
+     * @return A map where keys are `Actor` objects and values are role names.
+     * @throws IllegalArgumentException If any actor ID is not found.
+     */
     private Map<Actor, String> mapActorsToRoles(Map<Integer, String> roles) {
-        // Convert the roles map (ActorID -> RoleName) to a map of Actor -> RoleName
+
         return roles.entrySet().stream()
                 .map(entry -> {
-                    // Get the actor by ID
                     Actor actor = findActorById(entry.getKey());
-                    // Map the actor to their role name
                     return Map.entry(actor, entry.getValue());
                 })
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
