@@ -115,10 +115,10 @@ public class UI {
                     theatreController.viewShowsFiltered().forEach(System.out::println);
                     break;
                 case "8":
-                    theatreController.viewOrdersSorted().forEach(System.out::println);
+                    theatreController.viewOrdersSorted(id).forEach(System.out::println);
                     break;
                 case "9":
-                    theatreController.viewOrdersFiltered().forEach(System.out::println);
+                    theatreController.viewOrdersFiltered(id).forEach(System.out::println);
                     break;
                 case "0":
                     return;

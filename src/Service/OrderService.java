@@ -3,47 +3,51 @@ package Service;
 import Repository.Repository;
 import Domain.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 
+/**
+ * Service class to manage order-related operations.
+ */
 public class OrderService {
     private final Repository<Order> orderRepository;
 
+    /**
+     * Constructs an OrderService with the specified repository.
+     * @param orderRepository The repository for managing Order objects.
+     */
     public OrderService(Repository<Order> orderRepository) {
         this.orderRepository = orderRepository;
     }
 
+    /**
+     * Retrieves an order by its unique ID.
+     * @param id The unique ID of the order.
+     * @return The Order object if found; otherwise, null.
+     */
     public Order getOrder(Integer id) {
         return orderRepository.getByID(id);
     }
 
+    /**
+     * Retrieves all orders.
+     * @return A list of all Order objects.
+     */
     public List<Order> getAllOrders() {
         return orderRepository.getAll();
     }
 
-    public List<Order> getOrdersSorted() {
-        List<Order> orders = orderRepository.getAll();
-        List<Order> mutableOrders = new ArrayList<>(orders);
-
-        mutableOrders.sort(Comparator.comparing(Order::getDate));
-        return mutableOrders;
-    }
-
-    public List<Order> getOrdersFiltered() {
-        LocalDate today = LocalDateTime.now().toLocalDate();
-        List<Order> orders = orderRepository.getAll();
-        return orders.stream().filter(order -> order.getDate().isAfter(today)).collect(Collectors.toList());
-    }
-
+    /**
+     * Creates a new order.
+     * @param order The Order object to be created.
+     */
     public void createOrder(Order order) {
         orderRepository.create(order);
     }
 
+    /**
+     * Deletes an order by its unique ID.
+     * @param id The unique ID of the order to delete.
+     */
     public void deleteOrder(Integer id) {
         orderRepository.delete(id);
     }
