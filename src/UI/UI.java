@@ -272,10 +272,14 @@ public class UI {
      * @throws IOException if an I/O error occurs during reading.
      */
     private void viewUpcomingShows(Integer id) throws IOException {
-        System.out.println("Listing all your upcoming shows");
+        System.out.println("Listing all your upcoming shows: \n");
         List<Show> myShows = theatreController.viewActorShows(id);
         for (Show myShow : myShows)
-            System.out.println(myShow);
+            System.out.println("Show With ID: "+myShow.getID()+"\n"+
+                    "Title of the show: "+ myShow.getTitle() + "\n"+
+                    "Date: " + myShow.getDate().toString() + "\n" +
+                    "Auditorium ID: " + myShow.getAudit().getID() + ", Auditorium name: " + myShow.getAudit().getName() + "\n" +
+                    "---------------------------------------------\n");
     }
 
     /**
@@ -506,7 +510,9 @@ public class UI {
 
         // Display available auditoriums and choose one
         System.out.println("Available auditoriums:");
-        System.out.println(theatreController.viewAuditoriums());
+        for (Auditorium auditorium : theatreController.viewAuditoriums()) {
+            System.out.println("ID: "+auditorium.getID()+", auditorium name: " + auditorium.getName() + ", number of seats: " + auditorium.getCapacity());
+        }
         System.out.print("Choose a valid auditorium by its ID: ");
         int auditoriumId = Integer.parseInt(reader.readLine());
 
@@ -515,9 +521,14 @@ public class UI {
         System.out.println("You can add as many actors as you want. Enter '0' to finish adding actors.");
 
         Integer id;
+
+        System.out.println("\nAll available actors:");
+        for (Actor actor : theatreController.viewActors()) {
+            System.out.println("ID: " + actor.getID() + ",name: " + actor.getName());
+        }
+
         while (true) {
-            System.out.println("\nAll available actors:");
-            System.out.println(theatreController.viewActors());
+
             System.out.print("Select the ID of an actor (or '0' to stop): ");
             id = Integer.parseInt(reader.readLine());
 
@@ -589,6 +600,9 @@ public class UI {
      * @throws IOException if an I/O error occurs during reading.
      */
     private void fireActor() throws IOException {
+        for(Actor actor : theatreController.viewActors()){
+            System.out.println("ID: " + actor.getID() + ", Name: " + actor.getName());
+        }
         System.out.print("\nEnter the ID of the actor to fire: ");
         int actorId = Integer.parseInt(reader.readLine());
         theatreController.deleteActorAccount(actorId);
@@ -600,6 +614,10 @@ public class UI {
      * @throws IOException if an I/O error occurs during reading.
      * */
     private void changeActorSalary() throws IOException {
+        for(Actor actor : theatreController.viewActors()){
+            System.out.println("ID: " + actor.getID() + ", name: " + actor.getName() + ", salary: " + actor.getSalary());
+        }
+
         System.out.print("\nEnter the ID of the actor whose salary you want to change: ");
         int actorId = Integer.parseInt(reader.readLine());
 
@@ -615,7 +633,11 @@ public class UI {
      * */
     private void listAllActors() {
         System.out.println("\nList of all actors:");
-        theatreController.viewActors().forEach(System.out::println);
+        for(Actor actor : theatreController.viewActors()){
+            System.out.println("ID: "+actor.getID() + ", Name: " + actor.getName() + ", age: "+ actor.getAge()
+                    + ", salary: " + actor.getSalary() + ", Email address: " + actor.getEmail().getEmailAddress() +
+                    ", Email password: " + actor.getEmail().getPassword()); // Let's assume that the Emails are institutional
+        }                                                                 //and that is why the admin can see it
     }
 
     /***

@@ -25,6 +25,7 @@ public class Auditorium implements HasID{
         }
     }
 
+
     public String getName() {
         return name;
     }
@@ -38,14 +39,14 @@ public class Auditorium implements HasID{
 //        this.name = name;
 //    }
 
-//    /**
-//     * Gets the seating capacity of the auditorium.
-//     *
-//     * @return the seating capacity of the auditorium
-//     */
-//    public int getCapacity() {
-//        return capacity;
-//    }
+    /**
+     * Gets the seating capacity of the auditorium.
+     *
+     * @return the seating capacity of the auditorium
+     */
+    public int getCapacity() {
+        return capacity;
+    }
 //
 //    public void setCapacity(int rows, int cols) {
 //        this.capacity = rows * cols;
