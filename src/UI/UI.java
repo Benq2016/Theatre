@@ -3,6 +3,7 @@ package UI;
 import Controller.TheatreController;
 import Domain.*;
 
+import javax.crypto.spec.PSource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -248,7 +249,11 @@ public class UI {
      * @throws IOException if an I/O error occurs during reading.
      */
     private Boolean manageActorAccount(Integer id) throws IOException {
-        System.out.println(theatreController.viewActor(id));
+//        System.out.println(theatreController.viewActor(id));
+        Actor self = theatreController.viewActor(id);
+        System.out.println("ID: " + self.getID() + ", name: " + self.getName() + ", age: " + self.getAge() +
+                ", salary: " + self.getSalary() + ", email address: " + self.getEmail().getEmailAddress() +
+                "email password: " + self.getEmail().getPassword());
         System.out.println("Enter new name: ");
         String name = reader.readLine();
         System.out.println("Enter new age: ");
@@ -328,7 +333,10 @@ public class UI {
      * @throws IOException if an I/O error occurs during reading.
      */
     private Boolean managePersonalAccountAdmin(Integer id) throws IOException {
-        System.out.println(theatreController.viewAdmin(id));
+        Admin self = theatreController.viewAdmin(id);
+        System.out.println("ID: " + self.getID() + ", name: " + self.getName() + ", age: " + self.getAge() +
+                ", email address: " + self.getEmail().getEmailAddress() +
+                "email password: " + self.getEmail().getPassword());
         System.out.println("Enter new name: ");
         String name = reader.readLine();
         System.out.println("Enter new age: ");
@@ -433,7 +441,10 @@ public class UI {
     * */
     private void listAllAuditoriums() throws IOException {
         System.out.println("List of all the auditoriums");
-        System.out.println(theatreController.viewAuditoriums());
+        for (Auditorium auditorium : theatreController.viewAuditoriums()){
+            System.out.println("ID: " + auditorium.getID() + ", name:" + auditorium.getName() +
+                    ", capacity: " + auditorium.getCapacity());
+        }
     }
 
     /**
@@ -442,8 +453,19 @@ public class UI {
      * @throws IOException if an I/O error occurs during reading.
      * */
     private void listAllShows() throws IOException {
-        System.out.println("List of all the shows");
-        System.out.println(theatreController.viewShows());
+        System.out.println("List of all the shows: \n");
+        for (Show show : theatreController.viewShows()){
+            System.out.println("ID: " + show.getID() + ", title: " + show.getTitle() + ", date: " + show.getDate());
+            System.out.println("auditorium name: " + show.getAudit().getName() + ", price:" + show.getPrice());
+            Map<Actor,String> roles = show.getRoles();
+            for (Map.Entry<Actor, String> entry : roles.entrySet()) {
+                Actor actor = entry.getKey();
+                String role = entry.getValue();
+                System.out.println("actor name: " + actor.getName() + ", role: " + role);
+            }
+            System.out.println();
+        }
+        System.out.println("----------------------------------------------");
     }
 
     /**
@@ -453,7 +475,9 @@ public class UI {
      * */
     private void deleteAuditorium() throws IOException {
         System.out.println("\nDeleting an auditorium");
-        System.out.println(theatreController.viewAuditoriums());
+        for(Auditorium auditorium : theatreController.viewAuditoriums()){
+            System.out.println("ID: " + auditorium.getID() + ", name: " + auditorium.getName());
+        }
         System.out.println("Id of the auditorium you want to delete:");
         Integer audId = Integer.parseInt(reader.readLine());
         theatreController.deleteAuditorium(audId);
@@ -467,7 +491,9 @@ public class UI {
      * */
     private void deleteShow() throws IOException {
         System.out.println("\nDeleting shows");
-        System.out.println(theatreController.viewShows());
+        for (Show show : theatreController.viewShows()){
+            System.out.println("ID: " + show.getID() + ", title: " + show.getTitle());
+        }
         System.out.println("Id of the show you want to delete:");
         Integer showId = Integer.parseInt(reader.readLine());
 
