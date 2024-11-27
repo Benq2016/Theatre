@@ -181,8 +181,6 @@ public class App {
 
         makeInitialObjects(tc);
 
-//        test_files(tc);
-
 //        /*It retrieves the email from the user*/
         EMail emailGotFromLoginSignIn = choosingBetweenLoginAndSignup(tc);
 //
@@ -206,11 +204,9 @@ public class App {
         tc.createActorAccount(3, "Anna", 21, new EMail("anna@gmail.com", "rte"), 2300);
         tc.createActorAccount(4, "Balazs", 26, new EMail("balazs@gmail.com", "hgf"), 1900);
         tc.createActorAccount(5, "Iosif", 44, new EMail("iosif@gmail.com", "123456"), 2230);
-//        tc.viewActors().forEach(System.out::println);
 
         tc.createAuditorium(1, "Grand Hall", 6, 15);
         tc.createAuditorium(2, "Klein Stage", 7, 12);
-//        tc.viewAuditoriums().forEach(System.out::println);
 
         Map<Actor, String> roles = new HashMap<Actor, String>();
         roles.putIfAbsent(tc.viewActor(1),"Werther");
@@ -236,25 +232,13 @@ public class App {
 
         tc.createShow(1, "Lets see if it runs!", date1, 1, roles, 25);
         tc.createShow(2, "Lets test the sort", date2, 2, roles, 30);
-//        tc.viewShows().forEach(System.out::println);
-//        System.out.println(" ");
-//        tc.viewShowsSorted().forEach(System.out::println);
-//        tc.viewShowsFiltered().forEach(System.out::println);
 
         tc.createViewerAccount(1, "Victor Ross", 23, new EMail("victor@gmail.com", "123"));
-//        tc.viewViewers().forEach(System.out::println);
 
         List<Integer> seats1 = new ArrayList<Integer>();
-        seats1.add(1);
-        seats1.add(2);
-        seats1.add(45);
-        seats1.add(46);
+        seats1.add(1); seats1.add(2); seats1.add(45); seats1.add(46);
         List<Integer> seats2 = new ArrayList<Integer>();
-        seats2.add(4);
-        seats2.add(7);
-        seats2.add(64);
-        seats2.add(84);
-
+        seats2.add(1); seats2.add(7); seats2.add(64); seats2.add(84);
 
         tc.createOrder(1, 1, 1, seats1);
 //        System.out.println(tc.viewAuditorium(1));
@@ -271,51 +255,6 @@ public class App {
 //        tc.viewOrders().forEach(System.out::println);
 //        System.out.println(tc.viewAuditorium(1));
     }
-
-//    public static void testFiles(TheatreController tc) {
-//        tc.createAdminAccount(1, "Istvan", 56, new EMail("istvan@gmail.com", "123"));
-////        System.out.println(tc.viewAdmin(1));
-//
-//        tc.createActorAccount(1, "Anna", 20, new EMail("anna@gmail.com", "123"), 5000);
-//        tc.createActorAccount(2, "Csongi", 21, new EMail("csongi@gmail.com", "234"), 2400);
-//        tc.createActorAccount(12, "Szandi", 19, new EMail("szandi@gmail.com", "345"), 3400);
-//
-////        tc.viewActors().forEach(System.out::println);
-//
-//        tc.createAuditorium(1, "Main Stage", 15, 10);
-//        tc.createAuditorium(2, "Uni Stage", 15, 12);
-////        tc.viewAuditoriums().forEach(System.out::println);
-//
-//        String date1S = "2024-11-18";
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//        Date date1;
-//        try {
-//            date1 = sdf.parse(date1S);
-//        } catch (ParseException e) {
-//            throw new RuntimeException(e);
-//        }
-//        Map<Actor, String> actorRole = new HashMap<>();
-//        actorRole.putIfAbsent(tc.viewActor(1), "Fikusz");
-//
-//        tc.createShow(1, "Peter Pan", date1, 1, actorRole, 50);
-////        tc.viewShows().forEach(System.out::println);
-//
-//        tc.createViewerAccount(1, "Hose", 23, new EMail("hose@gmail.com", "456"));
-////        tc.viewViewers().forEach(System.out::println);
-//
-//        List<Integer> seats = new ArrayList<>();
-//        seats.add(1);
-//        seats.add(2);
-//        seats.add(45);
-//        List<Integer> seats2 = new ArrayList<>();
-//        seats2.add(4);
-//        seats2.add(7);
-//        seats2.add(64);
-//        tc.createOrder(1, 1, 1, seats);
-//        tc.createOrder(2, 1, 1, seats2);
-//
-//        tc.viewOrders().forEach(System.out::println);
-//    }
 
     /***
      * Choosing the type of storage that the program uses
