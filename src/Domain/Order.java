@@ -10,6 +10,7 @@ import java.util.List;
  * This class implements the HasID interface, allowing each order to have a unique identifier.
  */
 public class Order implements HasID{
+    private static Integer idCounter = 0;
     private final int id;
     private LocalDate date;
     private int viewerID;
@@ -20,14 +21,32 @@ public class Order implements HasID{
 
     /**
      * Constructs a new Order with the specified details.
-     * @param id the unique identifier for the order
      * @param date the date and time when the order was placed
      * @param viewerID the ID of the viewer who placed the order
      * @param showID the ID of the show associated with the order
      * @param seats the list of seat numbers reserved in the order
      * @param tickets the list of tickets purchased in the order
      */
-    public Order(int id, LocalDate date, int viewerID, int showID, List<Integer> seats, List<Ticket> tickets, int totalPrice) {
+    public Order(LocalDate date, int viewerID, int showID, List<Integer> seats, List<Ticket> tickets, int totalPrice) {
+        this.id = ++idCounter;
+        this.date = date;
+        this.viewerID = viewerID;
+        this.showID = showID;
+        this.seats = seats;
+        this.tickets = tickets;
+        this.totalPrice = totalPrice;
+    }
+
+    /**
+     * Constructs a new Order with the specified details and a stored ID.
+     * @param id the stored ID from a DB or File
+     * @param date the date and time when the order was placed
+     * @param viewerID the ID of the viewer who placed the order
+     * @param showID the ID of the show associated with the order
+     * @param seats the list of seat numbers reserved in the order
+     * @param tickets the list of tickets purchased in the order
+     */
+    public Order(Integer id,LocalDate date, int viewerID, int showID, List<Integer> seats, List<Ticket> tickets, int totalPrice) {
         this.id = id;
         this.date = date;
         this.viewerID = viewerID;
@@ -92,5 +111,13 @@ public class Order implements HasID{
     @Override
     public Integer getID() {
         return id;
+    }
+
+    /**
+     * This is used for changing the IdCounter to be the next available id (Used for DB and File Repo)
+     * @param startingNumber - the number where the variable should start (to have unique ID for every auditorium)
+     * */
+    public void setIdCounter(Integer startingNumber) {
+        idCounter = startingNumber;
     }
 }

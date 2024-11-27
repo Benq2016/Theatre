@@ -49,16 +49,14 @@ public class ViewerService {
 
     /**
      * Creates a new viewer account.
-     * @param id    The unique ID of the viewer.
      * @param name  The name of the viewer.
      * @param age   The age of the viewer.
      * @param eMail The email of the viewer.
      * @return true if the viewer was successfully created; false if the viewer already exists.
      */
-    public boolean createViewer(Integer id, String name, int age, EMail eMail) {
-        if (getViewer(id) != null)
-            return false;
-        Viewer newViewer = new Viewer(id, name, age, eMail);
+    public boolean createViewer(String name, int age, EMail eMail) {
+
+        Viewer newViewer = new Viewer(name, age, eMail);
         viewerRepository.create(newViewer);
         return true;
     }

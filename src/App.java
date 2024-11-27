@@ -197,16 +197,16 @@ public class App {
      * @param tc - TheatreController for connecting with the running theaterController
      */
     public static void makeInitialObjects(TheatreController tc) {
-        tc.createAdminAccount(1, "Boss David", 54, new EMail("david@gmail.com", "1230"));
+        tc.createAdminAccount(1,"Boss David", 54, new EMail("david@gmail.com", "1230"));
 
-        tc.createActorAccount(1, "Peter", 23, new EMail("peter@gmail.com", "123"), 1200);
-        tc.createActorAccount(2, "Bence", 33, new EMail("bence@gmail.com", "asd"), 1500);
-        tc.createActorAccount(3, "Anna", 21, new EMail("anna@gmail.com", "rte"), 2300);
-        tc.createActorAccount(4, "Balazs", 26, new EMail("balazs@gmail.com", "hgf"), 1900);
-        tc.createActorAccount(5, "Iosif", 44, new EMail("iosif@gmail.com", "123456"), 2230);
+        tc.createActorAccount("Peter", 23, new EMail("peter@gmail.com", "123"), 1200);
+        tc.createActorAccount("Bence", 33, new EMail("bence@gmail.com", "asd"), 1500);
+        tc.createActorAccount("Anna", 21, new EMail("anna@gmail.com", "rte"), 2300);
+        tc.createActorAccount("Balazs", 26, new EMail("balazs@gmail.com", "hgf"), 1900);
+        tc.createActorAccount("Iosif", 44, new EMail("iosif@gmail.com", "123456"), 2230);
 
-        tc.createAuditorium(1, "Grand Hall", 6, 15);
-        tc.createAuditorium(2, "Klein Stage", 7, 12);
+        tc.createAuditorium("Grand Hall", 6, 15);
+        tc.createAuditorium("Klein Stage", 7, 12);
 
         Map<Actor, String> roles = new HashMap<Actor, String>();
         roles.putIfAbsent(tc.viewActor(1),"Werther");
@@ -230,20 +230,20 @@ public class App {
             throw new RuntimeException(e);
         }
 
-        tc.createShow(1, "Lets see if it runs!", date1, 1, roles, 25);
-        tc.createShow(2, "Lets test the sort", date2, 2, roles, 30);
+        tc.createShow("Lets see if it runs!", date1, 1, roles, 25);
+        tc.createShow("Lets test the sort", date2, 2, roles, 30);
 
-        tc.createViewerAccount(1, "Victor Ross", 23, new EMail("victor@gmail.com", "123"));
+        tc.createViewerAccount("Victor Ross", 23, new EMail("victor@gmail.com", "123"));
 
         List<Integer> seats1 = new ArrayList<Integer>();
         seats1.add(1); seats1.add(2); seats1.add(45); seats1.add(46);
         List<Integer> seats2 = new ArrayList<Integer>();
         seats2.add(1); seats2.add(7); seats2.add(64); seats2.add(84);
 
-        tc.createOrder(1, 1, 1, seats1);
+        tc.createOrder(1, 1,  seats1);
 //        System.out.println(tc.viewAuditorium(1));
 
-        tc.createOrder(2, 1, 1, seats2);
+        tc.createOrder(2, 1,  seats2);
 //        System.out.println(tc.viewAuditorium(1));
 //        System.out.println(tc.viewAuditorium(2));
 

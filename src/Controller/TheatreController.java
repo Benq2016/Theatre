@@ -36,14 +36,13 @@ public class TheatreController {
     /**
      * Creates a new viewer account.
      *
-     * @param id The unique ID of the viewer.
      * @param name The name of the viewer.
      * @param age The age of the viewer.
      * @param eMail The email address of the viewer.
      * @return True if the account is successfully created; otherwise, false.
      */
-    public boolean createViewerAccount(Integer id, String name, int age, EMail eMail) {
-        return theatreService.createViewerAccount(id, name, age, eMail);
+    public boolean createViewerAccount(String name, int age, EMail eMail) {
+        return theatreService.createViewerAccount(name, age, eMail);
     }
 
     /**
@@ -108,15 +107,14 @@ public class TheatreController {
     /**
      * Creates a new actor account.
      *
-     * @param id The unique ID of the actor.
      * @param name The name of the actor.
      * @param age The age of the actor.
      * @param eMail The email address of the actor.
      * @param salary The salary of the actor.
      * @return True if the account is successfully created; otherwise, false.
      */
-    public boolean createActorAccount(Integer id, String name, int age, EMail eMail, int salary) {
-        return theatreService.createActorAccount(id, name, age, eMail, salary);
+    public boolean createActorAccount(String name, int age, EMail eMail, int salary) {
+        return theatreService.createActorAccount(name, age, eMail, salary);
     }
 
     /**
@@ -156,14 +154,13 @@ public class TheatreController {
     /**
      * Creates a new auditorium.
      *
-     * @param id The unique ID of the auditorium.
      * @param name The name of the auditorium.
      * @param rows The number of rows in the auditorium.
      * @param cols The number of columns in the auditorium.
      * @return True if the auditorium is successfully created; otherwise, false.
      */
-    public boolean createAuditorium(Integer id, String name, int rows, int cols) {
-        return theatreService.createAuditorium(id, name, rows, cols);
+    public boolean createAuditorium(String name, int rows, int cols) {
+        return theatreService.createAuditorium(name, rows, cols);
     }
 
     /**
@@ -178,8 +175,7 @@ public class TheatreController {
 
     /**
      * Creates a new show.
-     *
-     * @param id The unique ID of the show.
+
      * @param title The title of the show.
      * @param date The date of the show.
      * @param auditoriumID The ID of the auditorium where the show takes place.
@@ -187,8 +183,8 @@ public class TheatreController {
      * @param price The ticket price for the show.
      * @return True if the show is successfully created; otherwise, false.
      */
-    public boolean createShow(Integer id, String title, Date date, Integer auditoriumID, Map<Actor, String> roles, int price) {
-        return theatreService.createShow(id, title, date, auditoriumID, roles, price);
+    public boolean createShow(String title, Date date, Integer auditoriumID, Map<Actor, String> roles, int price) {
+        return theatreService.createShow(title, date, auditoriumID, roles, price);
     }
 
     /**
@@ -204,14 +200,13 @@ public class TheatreController {
     /**
      * Creates a new order for tickets.
      *
-     * @param id The unique ID of the order.
      * @param viewerID The ID of the viewer placing the order.
      * @param showID The ID of the show for which tickets are ordered.
      * @param seats The list of seat numbers to be reserved.
      * @return True if the order is successfully created; otherwise, false.
      */
-    public boolean createOrder(Integer id, Integer viewerID, Integer showID, List<Integer> seats) {
-        return theatreService.createOrder(id, viewerID, showID, seats);
+    public boolean createOrder(Integer viewerID, Integer showID, List<Integer> seats) {
+        return theatreService.createOrder(viewerID, showID, seats);
     }
 
     /**

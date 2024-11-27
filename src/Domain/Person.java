@@ -7,19 +7,37 @@ package Domain;
  * This class implements the HasID interface, allowing each instance to have a unique identifier.
  */
 public abstract class Person implements HasID{
-    private final Integer ID;
+    private static int idCounter = 0;
+    private final int ID;
     private String name;
     private int age;
     private EMail email;
 
     /**
-     * Constructor for a new Person with specified details.
-     * @param ID the unique identifier of the person
+     * Constructor for a new Person with specified details and with automatic ID incrementation.
      * @param name the name of the person
      * @param age the age of the person
      * @param email the email address of the person
+     *
+     * ID increments itself for every type (role) of person via the idCounter variable
      */
-    public Person(int ID, String name, int age, EMail email) {
+    public Person(String name, int age, EMail email) {
+        this.ID = ++idCounter;
+        this.name = name;
+        this.age = age;
+        this.email = email;
+    }
+
+    /**
+     * Constructor for a new Person with specified details with a stored ID from a File or DB.
+     * @param ID the ID of the person
+     * @param name the name of the person
+     * @param age the age of the person
+     * @param email the email address of the person
+     *
+     * ID increments itself for every type (role) of person via the idCounter variable
+     */
+    public Person(Integer ID,String name, int age, EMail email) {
         this.ID = ID;
         this.name = name;
         this.age = age;
@@ -83,6 +101,12 @@ public abstract class Person implements HasID{
         this.email = email;
     }
 
-
+    /**
+     * This is used for changing the IdCounter to be the next available id (Used for DB and File Repo)
+     * @param startingNumber - the number where the variable should start (to have unique ID for everyone)
+     * */
+    public void setIdCounter(int startingNumber) {
+        idCounter = startingNumber;
+    }
 
 }

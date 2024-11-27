@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
  * casting roles, and date. Implements the HasID interface to uniquely identify each show.
  */
 public class Show implements HasID{
+    private static Integer idCounter;
     private final Integer id;
     private final String title;
     private final Auditorium audit;
@@ -17,7 +18,22 @@ public class Show implements HasID{
 
     /**
      * Constructor for a new Show with specified parameters.
-     * @param id the unique identifier of the show
+     * @param title the title of the show
+     * @param audit the auditorium where the show will be held
+     * @param roles a map of actors to their roles in the show
+     * @param date the date of the show
+     */
+    public Show(String title, Date date, Auditorium audit, Map<Actor, String> roles, int price) {
+        this.id = ++idCounter;
+        this.title = title;
+        this.audit = audit;
+        this.roles = roles;
+        this.date = date;
+        this.price = price;
+    }
+
+    /**
+     * Constructor for a new Show with specified parameters and a stored ID.
      * @param title the title of the show
      * @param audit the auditorium where the show will be held
      * @param roles a map of actors to their roles in the show
@@ -90,5 +106,13 @@ public class Show implements HasID{
                 ", casting=" + roles +
                 ", auditorium=" + audit.getName() +
                 "}";
+    }
+
+    /**
+     * This is used for changing the IdCounter to be the next available id (Used for DB and File Repo)
+     * @param startingNumber - the number where the variable should start (to have unique ID for every auditorium)
+     * */
+    public void setIdCounter(Integer startingNumber) {
+        idCounter = startingNumber;
     }
 }

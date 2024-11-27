@@ -6,6 +6,7 @@ package Domain;
  * Implements the HasID interface to uniquely identify each ticket.
  */
 public class Ticket implements HasID{
+    private static Integer idCounter;
     private final int id;
     private final String showName;
     private final String viewerName;
@@ -15,14 +16,31 @@ public class Ticket implements HasID{
 
     /**
      * Constructor for a new Ticket with specified parameters.
-     * @param id the unique identifier of the ticket
      * @param showName the name of the show associated with the ticket
      * @param viewerName the name of the viewer who purchased the ticket
      * @param auditoriumName the name of the auditorium where the show is held
      * @param price the price of the ticket
      * @param seat the seat number assigned to the ticket
      */
-    public Ticket(int id, String showName, String viewerName, String auditoriumName, int price, int seat) {
+    public Ticket(String showName, String viewerName, String auditoriumName, int price, int seat) {
+        this.id = ++idCounter;
+        this.showName = showName;
+        this.viewerName = viewerName;
+        this.auditoriumName = auditoriumName;
+        this.price = price;
+        this.seat = seat;
+    }
+
+    /**
+     * Constructor for a new Ticket with specified parameters and a stored ID.
+     * @param id the stored id from the File or DB
+     * @param showName the name of the show associated with the ticket
+     * @param viewerName the name of the viewer who purchased the ticket
+     * @param auditoriumName the name of the auditorium where the show is held
+     * @param price the price of the ticket
+     * @param seat the seat number assigned to the ticket
+     */
+    public Ticket(Integer id,String showName, String viewerName, String auditoriumName, int price, int seat) {
         this.id = id;
         this.showName = showName;
         this.viewerName = viewerName;
@@ -71,5 +89,13 @@ public class Ticket implements HasID{
     @Override
     public Integer getID() {
         return this.id;
+    }
+
+    /**
+     * This is used for changing the IdCounter to be the next available id (Used for DB and File Repo)
+     * @param startingNumber - the number where the variable should start (to have unique ID for every auditorium)
+     * */
+    public void setIdCounter(Integer startingNumber) {
+        idCounter = startingNumber;
     }
 }

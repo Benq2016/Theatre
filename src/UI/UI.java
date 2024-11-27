@@ -3,7 +3,6 @@ package UI;
 import Controller.TheatreController;
 import Domain.*;
 
-import javax.crypto.spec.PSource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -175,8 +174,7 @@ public class UI {
      * @throws IOException if an I/O error occurs during reading.
      */
     private void createOrder(Integer viewerId) throws IOException {
-        System.out.println("Id of your order:");
-        Integer id = Integer.parseInt(reader.readLine());
+
         System.out.println("All shows available: ");
         for (Show s : theatreController.viewShows())
             System.out.println(s);
@@ -194,7 +192,7 @@ public class UI {
             }
         }
 
-        theatreController.createOrder(id,viewerId,showId,seats);
+        theatreController.createOrder(viewerId,showId,seats);
         System.out.println("Order successfully created");
     }
 
@@ -508,8 +506,7 @@ public class UI {
      */
     private void createAuditorium() throws IOException {
         System.out.println("\nCreating auditorium");
-        System.out.println("Auditorium id:");
-        int id = Integer.parseInt(reader.readLine());
+
         System.out.println("Auditorium name:");
         String name = reader.readLine();
         System.out.println("Number of rows");
@@ -517,7 +514,7 @@ public class UI {
         System.out.println("Number of columns");
         int nrCols = Integer.parseInt(reader.readLine());
 
-        theatreController.createAuditorium(id, name, nrRows, nrCols);
+        theatreController.createAuditorium(name, nrRows, nrCols);
     }
 
 
@@ -528,8 +525,6 @@ public class UI {
     private void createShow() throws IOException, ParseException {
         System.out.println("\nCreating show");
 
-        System.out.print("Show ID: ");
-        int showId = Integer.parseInt(reader.readLine());
 
         System.out.print("Show title: ");
         String showTitle = reader.readLine();
@@ -585,7 +580,7 @@ public class UI {
 
 
         // Call createShow with the collected parameters
-        theatreController.createShow(showId, showTitle, date, auditoriumId, roleMap, price );
+        theatreController.createShow(showTitle, date, auditoriumId, roleMap, price );
         System.out.println("Show created successfully.");
     }
 
@@ -596,9 +591,6 @@ public class UI {
      */
     private void hireActor() throws IOException {
         System.out.println("\nHiring a new actor");
-
-        System.out.print("Actor ID: ");
-        int actorId = Integer.parseInt(reader.readLine());
 
         System.out.print("Actor Name: ");
         String actorName = reader.readLine();
@@ -615,7 +607,7 @@ public class UI {
         System.out.print("Actor Salary: ");
         int actorSalary = Integer.parseInt(reader.readLine());
 
-        theatreController.createActorAccount(actorId, actorName, actorAge,
+        theatreController.createActorAccount(actorName, actorAge,
                 new EMail(actorEmailAddress, actorEmailPassword), actorSalary);
         System.out.println("Actor hired successfully.");
     }
@@ -730,8 +722,6 @@ public class UI {
 
             System.out.println("Welcome new User");
             System.out.println("Please create you account as follows:");
-            System.out.println("Choose an Id:");
-            Integer id = Integer.parseInt(reader.readLine());
             System.out.println("Provide us with your name:");
             String name = reader.readLine();
             System.out.println("Your age:");
@@ -742,7 +732,7 @@ public class UI {
             String password = reader.readLine();
             newMail = new EMail(emailAddress, password);
 
-            boolean success = tc.createViewerAccount(id, name, age, newMail);
+            boolean success = tc.createViewerAccount(name, age, newMail);
             if (success) {
                 break;
             }

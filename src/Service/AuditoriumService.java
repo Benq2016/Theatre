@@ -39,16 +39,14 @@ public class AuditoriumService {
 
     /**
      * Creates a new auditorium.
-     * @param id The unique ID of the auditorium.
      * @param name The name of the auditorium.
      * @param rows The number of rows in the auditorium.
      * @param cols The number of columns in the auditorium.
      * @return True if the auditorium is successfully created; otherwise, false if an auditorium with the given ID already exists.
      */
-    public boolean createAuditorium(Integer id, String name, int rows, int cols) {
-        if (getAuditorium(id) != null)
-            return false;
-        Auditorium auditorium = new Auditorium(id, name, rows, cols);
+    public boolean createAuditorium(String name, int rows, int cols) {
+
+        Auditorium auditorium = new Auditorium(name, rows, cols);
         auditoriumRepository.create(auditorium);
         return true;
     }

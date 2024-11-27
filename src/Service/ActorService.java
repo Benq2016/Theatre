@@ -49,17 +49,16 @@ public class ActorService {
 
     /**
      * Creates a new actor.
-     * @param id The unique ID of the actor.
+
      * @param name The name of the actor.
      * @param age The age of the actor.
      * @param eMail The email address of the actor.
      * @param salary The salary of the actor.
      * @return True if the actor is successfully created; otherwise, false if an actor with the given ID already exists.
      */
-    public boolean createActor(Integer id, String name, int age, EMail eMail, int salary) {
-        if (getActor(id) != null)
-            return false;
-        Actor newActor =  new Actor(id, name, age, eMail, salary);
+    public boolean createActor(String name, int age, EMail eMail, int salary) {
+
+        Actor newActor =  new Actor(name, age, eMail, salary);
         actorRepository.create(newActor);
         return true;
     }

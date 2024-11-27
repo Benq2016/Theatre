@@ -3,7 +3,7 @@ package Domain;
 import java.util.Arrays;
 
 public class Auditorium implements HasID{
-
+    private static Integer idCounter = 0; /**Static variable for automatic ID incrementation*/
     private Integer id; /**Unique identifier*/
     private String name; /**Name of */
     private int capacity; /**Capacity of the auditorium*/
@@ -11,7 +11,21 @@ public class Auditorium implements HasID{
     public int cols; /**How many columns*/
     private boolean[][] seatPlace; /**A boolean matrix for the availability of the seat*/
 
-    public Auditorium(Integer id,String name, int rows, int cols) {
+    public Auditorium(String name, int rows, int cols) {
+        this.id = ++idCounter;
+        this.name = name;
+        this.capacity = rows * cols;
+        this.rows = rows;
+        this.cols = cols;
+        this.seatPlace = new boolean[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                seatPlace[i][j] = true;
+            }
+        }
+    }
+    /**Constructor with stored ID from DB or File*/
+    public Auditorium(int id,String name, int rows, int cols) {
         this.id = id;
         this.name = name;
         this.capacity = rows * cols;
@@ -123,5 +137,13 @@ public class Auditorium implements HasID{
     @Override
     public Integer getID() {
         return this.id;
+    }
+
+    /**
+     * This is used for changing the IdCounter to be the next available id (Used for DB and File Repo)
+     * @param startingNumber - the number where the variable should start (to have unique ID for every auditorium)
+     * */
+    public void setIdCounter(Integer startingNumber) {
+        idCounter = startingNumber;
     }
 }

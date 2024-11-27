@@ -120,14 +120,13 @@ public class TheatreService {
 
     /**
      * Creates a new viewer account.
-     * @param id The unique ID of the viewer.
      * @param name The name of the viewer.
      * @param age The age of the viewer.
      * @param eMail The email of the viewer.
      * @return true if the account was successfully created, false if the viewer already exists.
      */
-    public boolean createViewerAccount(Integer id, String name, int age, EMail eMail){
-        return viewerService.createViewer(id, name, age, eMail);
+    public boolean createViewerAccount(String name, int age, EMail eMail){
+        return viewerService.createViewer(name, age, eMail);
     }
 
     /**
@@ -186,15 +185,14 @@ public class TheatreService {
 
     /**
      * Creates a new actor account.
-     * @param id The unique ID of the actor.
      * @param name The name of the actor.
      * @param age The age of the actor.
      * @param eMail The email of the actor.
      * @param salary The salary of the actor.
      * @return true if the account was successfully created, false if the actor already exists.
      */
-    public boolean createActorAccount(Integer id, String name, int age, EMail eMail, int salary){
-        return actorService.createActor(id, name, age, eMail, salary);
+    public boolean createActorAccount(String name, int age, EMail eMail, int salary){
+        return actorService.createActor(name, age, eMail, salary);
     }
 
     /**
@@ -230,14 +228,13 @@ public class TheatreService {
 
     /**
      * Creates a new auditorium.
-     * @param id The unique ID of the auditorium.
      * @param name The name of the auditorium.
      * @param rows The number of rows in the auditorium.
      * @param cols The number of columns in the auditorium.
      * @return true if the auditorium was successfully created, false if the auditorium already exists.
      */
-    public boolean createAuditorium(Integer id, String name, int rows, int cols){
-        return auditoriumService.createAuditorium(id, name, rows, cols);
+    public boolean createAuditorium(String name, int rows, int cols){
+        return auditoriumService.createAuditorium(name, rows, cols);
     }
 
     /**
@@ -251,7 +248,6 @@ public class TheatreService {
 
     /**
      * Creates a new show.
-     * @param id The unique ID of the show.
      * @param title The title of the show.
      * @param date The date of the show.
      * @param auditoriumID The ID of the auditorium where the show will take place.
@@ -259,15 +255,13 @@ public class TheatreService {
      * @param price The price of the tickets for the show.
      * @return true if the show was successfully created, false if the show already exists or the auditorium is invalid.
      */
-    public boolean createShow(Integer id, String title, Date date, Integer auditoriumID, Map<Actor, String> roles, int price) {
-        if (showService.getShow(id) != null)
-            return false;
+    public boolean createShow(String title, Date date, Integer auditoriumID, Map<Actor, String> roles, int price) {
 
         if (auditoriumService.getAuditorium(auditoriumID) == null)
             return false;
 
         Auditorium auditorium = auditoriumService.getAuditorium(auditoriumID);
-        Show show = new Show(id, title, date, auditorium, roles, price);
+        Show show = new Show(title, date, auditorium, roles, price);
         showService.createShow(show);
         return true;
     }
@@ -283,15 +277,12 @@ public class TheatreService {
 
     /**
      * Creates a new order for a viewer to attend a show, selecting specific seats.
-     * @param id the unique identifier for the order
      * @param viewerID the unique identifier of the viewer placing the order
      * @param showID the unique identifier of the show
      * @param seats a list of seat numbers being reserved for the viewer
      * @return true if the order was created successfully, false if any of the provided identifiers are invalid or seats are unavailable
      */
-    public boolean createOrder(Integer id, Integer viewerID, int showID, List<Integer> seats) {
-        if (orderService.getOrder(id) != null)
-            return false;
+    public boolean createOrder(Integer viewerID, int showID, List<Integer> seats) {
 
         if (viewerService.getViewer(viewerID) == null)
             return false;
@@ -309,7 +300,7 @@ public class TheatreService {
         if(!occupySeats(showID, seats))
             return false;
 
-        Order order = new Order(id, date, viewerID, showID, seats, tickets, totalPrice);
+        Order order = new Order(date, viewerID, showID, seats, tickets, totalPrice);
         orderService.createOrder(order);
         return true;
     }

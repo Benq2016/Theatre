@@ -8,13 +8,23 @@ public class Viewer extends Person implements  HasID {
 
     /**
      * Constructor for a new Viewer object with specified ID, name, age, and email.
-     * @param id the unique identifier of the viewer
      * @param name the name of the viewer
      * @param age the age of the viewer
      * @param email the email address of the viewer
      */
-    public Viewer(Integer id, String name, int age, EMail email) {
-        super(id, name, age, email);
+    public Viewer(String name, int age, EMail email) {
+        super(name, age, email);
+    }
+
+    /**
+     * Constructor for a new Viewer object with specified ID, name, age, and email.
+     * @param id the stored id of the Viewer
+     * @param name the name of the viewer
+     * @param age the age of the viewer
+     * @param email the email address of the viewer
+     */
+    public Viewer(int id,String name, int age, EMail email) {
+        super(id,name, age, email);
     }
 
     /**
