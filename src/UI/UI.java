@@ -162,7 +162,14 @@ public class UI {
     private void viewMyOrders(Integer id) throws IOException {
         List<Order> myOrders = theatreController.viewViewerOrders(id);
         for (Order myOrder : myOrders) {
-            System.out.println(myOrder);
+
+            List<Ticket> myTickets = myOrder.getTickets();
+            System.out.println("Order ID: " + myOrder.getID());
+            System.out.println("Your tickets: ");
+            for (Ticket ticket : myTickets){
+                System.out.println("    Ticket Nr." + ticket.getID() + ", for the Show: " + ticket.getShowName() +
+                        ", in the auditorium: " + ticket.getAuditoriumName() +", Seat: " + ticket.getSeat());
+            }
         }
     }
 
@@ -176,8 +183,7 @@ public class UI {
     private void createOrder(Integer viewerId) throws IOException {
 
         System.out.println("All shows available: ");
-        for (Show s : theatreController.viewShows())
-            System.out.println(s);
+        viewAllShows();
         System.out.println("Choose a show by its id: ");
         Integer showId = Integer.parseInt(reader.readLine());
         Auditorium auditorium = theatreController.getAuditoriumByShow(showId);
@@ -203,8 +209,16 @@ public class UI {
      */
     private void viewAllShows() throws IOException {
         List<Show> allShows = theatreController.viewShows();
-        for(Show s : allShows)
-            System.out.println(s);
+        for(Show s : allShows) {
+            Map<Actor,String> allActors = s.getRoles();
+            System.out.println("Show ID: " + s.getID() + ", title: " + s.getTitle() + ", date: " + new SimpleDateFormat("yyyy-MM-dd").format(s.getDate()));
+            System.out.println("Casting: ");
+            for(Actor actor : allActors.keySet()) {
+                System.out.println("    Actor: " + actor.getName() + ", role: " + allActors.get(actor));
+            }
+            System.out.println();
+        }
+        System.out.println("-------------------------------------------------------");
     }
 
     /**

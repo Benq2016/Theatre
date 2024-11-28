@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
  * casting roles, and date. Implements the HasID interface to uniquely identify each show.
  */
 public class Show implements HasID{
-    private static Integer idCounter;
+    private static Integer idCounter = 0;
     private final Integer id;
     private final String title;
     private final Auditorium audit;
