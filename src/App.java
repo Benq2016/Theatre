@@ -151,6 +151,8 @@ public class App {
             }
             case "2": {
                 // File-based instantiation
+
+
                 adminRepository = new AdminFileRepository("src/FilesForStorage/AdminFile");
                 actorRepository = new ActorFileRepository("src/FilesForStorage/ActorFile");
                 auditoriumRepository = new AuditoriumFileRepository("src/FilesForStorage/AuditoriumFile");
@@ -175,11 +177,15 @@ public class App {
                 viewerService, orderService);
 
         TheatreController tc = new TheatreController(ts);
-        if (storageType.equals("2")) {
-            ((ShowFileRepository) showRepository).setTheatreController(tc);
+        if (storageType.equals("1")){
+            makeInitialObjects(tc);
         }
 
-        makeInitialObjects(tc);
+        if (storageType.equals("2")) {
+            ((ShowFileRepository) showRepository).setTheatreController(tc);
+            makeInitialObjects(tc);
+            setInitialStaticIDForEveryDomain(tc);
+        }
 
 //        /*It retrieves the email from the user*/
         EMail emailGotFromLoginSignIn = choosingBetweenLoginAndSignup(tc);
@@ -277,5 +283,53 @@ public class App {
                 break;
         }
         return choice;
+    }
+
+    /**
+     * Sets the static ID in the Domain not to start from 0 but from the next available id
+     * @param tc - a link to the Theatre controller
+     * */
+    public static void setInitialStaticIDForEveryDomain(TheatreController tc){
+        //for setting the auditorium static ID
+        int staticID = 0;
+        List<Auditorium> allAudit = tc.viewAuditoriums();
+        for (Auditorium auditorium : allAudit) {
+            if (staticID < auditorium.getID())
+                staticID = auditorium.getID();
+        }
+        Auditorium.setIdCounter(staticID);
+
+        //for setting the order static ID
+        staticID = 0;
+        List<Order> allOrder = tc.viewOrders();
+        for (Order order : allOrder) {
+            if (staticID < order.getID())
+                staticID = order.getID();
+        }
+        Order.setIdCounter(staticID);
+
+        //for setting the Show static ID
+        staticID = 0;
+        List<Show> allShow = tc.viewShows();
+        for (Show show : allShow) {
+            if(staticID < show.getID())
+                staticID = show.getID();
+        }
+        Show.setIdCounter(staticID);
+
+        //for setting the next Persons static ID
+        staticID = 0;
+        List<Actor> allActor = tc.viewActors();
+        List<Viewer> allViewers = tc.viewViewers();
+        for (Viewer viewer : allViewers) {
+            if (staticID < viewer.getID())
+                staticID = viewer.getID();
+        }
+        for (Actor actor : allActor) {
+            if (staticID < actor.getID())
+                staticID = actor.getID();
+        }
+        Person.setIdCounter(staticID);
+
     }
 }

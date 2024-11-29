@@ -112,7 +112,7 @@ public class Show implements HasID{
      * This is used for changing the IdCounter to be the next available id (Used for DB and File Repo)
      * @param startingNumber - the number where the variable should start (to have unique ID for every auditorium)
      * */
-    public void setIdCounter(Integer startingNumber) {
+    public static void setIdCounter(Integer startingNumber) {
         idCounter = startingNumber;
     }
 }

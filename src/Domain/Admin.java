@@ -6,16 +6,16 @@ package Domain;
  */
 public class Admin extends Person implements HasID {
 
-    /**
-     * Constructs a new Admin with the specified details.
-     *
-     * @param name   the name of the Admin
-     * @param age    the age of the Admin
-     * @param email  the email address of the Admin as an EMail object
-     */
-    public Admin(String name, int age, EMail email) {
-        super(name, age, email);
-    }
+//    /**
+//     * Constructs a new Admin with the specified details.
+//     *
+//     * @param name   the name of the Admin
+//     * @param age    the age of the Admin
+//     * @param email  the email address of the Admin as an EMail object
+//     */
+//    public Admin(String name, int age, EMail email) {
+//        super(name, age, email);
+//    }
 
     /**
      * Constructs a new Admin with the specified details and ID from DB and File.
