@@ -115,10 +115,10 @@ public class UI {
                     filterShows();
                     break;
                 case "8":
-                    sortOrders();
+                    sortOrders(id);
                     break;
                 case "9":
-                    filterOrders();
+                    filterOrders(id);
                     break;
                 case "0":
                     return;
@@ -294,7 +294,7 @@ public class UI {
         for (Show myShow : myShows)
             System.out.println("Show With ID: "+myShow.getID()+"\n"+
                     "Title of the show: "+ myShow.getTitle() + "\n"+
-                    "Date: " + myShow.getDate().toString() + "\n" +
+                    "Date: " + new SimpleDateFormat("yyyy-MM-dd").format(myShow.getDate()) + "\n" +
                     "Auditorium ID: " + myShow.getAudit().getID() + ", Auditorium name: " + myShow.getAudit().getName() + "\n" +
                     "---------------------------------------------\n");
     }
@@ -467,7 +467,7 @@ public class UI {
     private void listAllShows() throws IOException {
         System.out.println("List of all the shows: \n");
         for (Show show : theatreController.viewShows()){
-            System.out.println("ID: " + show.getID() + ", title: " + show.getTitle() + ", date: " + show.getDate());
+            System.out.println("ID: " + show.getID() + ", title: " + show.getTitle() + ", date: " + new SimpleDateFormat("yyyy-MM-dd").format(show.getDate()));
             System.out.println("auditorium name: " + show.getAudit().getName() + ", price:" + show.getPrice());
             Map<Actor,String> roles = show.getRoles();
             for (Map.Entry<Actor, String> entry : roles.entrySet()) {
@@ -704,15 +704,28 @@ public class UI {
     }
 
     private void filterShows(){
-
+        List<Show> shows = theatreController.viewShowsFiltered();
+        for (Show s : shows){
+            Map<Actor,String> actorsRole = s.getRoles();
+            System.out.println("Show id: " + s.getID() + ", title: " + s.getTitle() + ", date: " +
+                    new SimpleDateFormat("yyyy-MM-dd").format(s.getDate()) +
+                    ", auditorium: " + s.getAudit().getName());
+            System.out.println("Actors with their roles:");
+            for (Map.Entry<Actor, String> entry : actorsRole.entrySet()) {
+                Actor actor = entry.getKey();
+                String role = entry.getValue();
+                System.out.println("   " + actor.getName() + " as " + role);
+            }
+            System.out.println();
+        }
     }
 
-    private void sortOrders(){
-
+    private void sortOrders(Integer id){
+        theatreController.viewOrdersSorted(id);
     }
 
-    private void filterOrders(){
-
+    private void filterOrders(Integer id){
+        theatreController.viewOrdersFiltered(id);
     }
     /**
      * Facilitates login or signup options for the user.
