@@ -109,16 +109,16 @@ public class UI {
                     deleteOrder(id);
                     break;
                 case "6":
-                    theatreController.viewShowsSorted().forEach(System.out::println);
+                    sortShows();
                     break;
                 case "7":
-                    theatreController.viewShowsFiltered().forEach(System.out::println);
+                    filterShows();
                     break;
                 case "8":
-                    theatreController.viewOrdersSorted(id).forEach(System.out::println);
+                    sortOrders();
                     break;
                 case "9":
-                    theatreController.viewOrdersFiltered(id).forEach(System.out::println);
+                    filterOrders();
                     break;
                 case "0":
                     return;
@@ -686,6 +686,34 @@ public class UI {
         System.out.println("You have been refunded with:"+refund);
     }
 
+    private void sortShows(){
+       List<Show> shows = theatreController.viewShowsSorted();
+       for (Show s : shows){
+           Map<Actor,String> actorsRole = s.getRoles();
+           System.out.println("Show id: " + s.getID() + ", title: " + s.getTitle() + ", date: " +
+                   new SimpleDateFormat("yyyy-MM-dd").format(s.getDate()) +
+                   ", auditorium: " + s.getAudit().getName());
+           System.out.println("Actors with their roles:");
+           for (Map.Entry<Actor, String> entry : actorsRole.entrySet()) {
+               Actor actor = entry.getKey();
+               String role = entry.getValue();
+               System.out.println("   " + actor.getName() + " as " + role);
+           }
+           System.out.println();
+       }
+    }
+
+    private void filterShows(){
+
+    }
+
+    private void sortOrders(){
+
+    }
+
+    private void filterOrders(){
+
+    }
     /**
      * Facilitates login or signup options for the user.
      *
