@@ -725,7 +725,7 @@ public class UI {
     }
 
     private void filterOrders(Integer id){
-        theatreController.viewOrdersFiltered(id);
+        theatreController.viewOrdersFiltered(id).forEach(System.out::println);
     }
     /**
      * Facilitates login or signup options for the user.

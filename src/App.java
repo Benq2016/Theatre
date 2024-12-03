@@ -236,8 +236,26 @@ public class App {
             throw new RuntimeException(e);
         }
 
+        String date3S = "2024-12-05";
+        Date date3;
+        try {
+            date3 = sdf.parse(date3S);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        String date4S = "2024-12-25";
+        Date date4;
+        try {
+            date4 = sdf.parse(date4S);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
         tc.createShow("Lets see if it runs!", date1, 1, roles, 25);
         tc.createShow("Lets test the sort", date2, 2, roles, 30);
+        tc.createShow("New show1", date3, 1, roles, 25);
+        tc.createShow("New show2", date4, 2, roles, 30);
 
         tc.createViewerAccount("Victor Ross", 23, new EMail("victor@gmail.com", "123"));
 
