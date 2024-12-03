@@ -183,7 +183,8 @@ public class UI {
     private void createOrder(Integer viewerId) throws IOException {
 
         System.out.println("All shows available: ");
-        viewAllShows();
+//        viewAllShows();
+        filterShows();
         System.out.println("Choose a show by its id: ");
         Integer showId = Integer.parseInt(reader.readLine());
         Auditorium auditorium = theatreController.getAuditoriumByShow(showId);
@@ -721,11 +722,32 @@ public class UI {
     }
 
     private void sortOrders(Integer id){
-        theatreController.viewOrdersSorted(id);
+       List<Order> myOrders = theatreController.viewOrdersSorted(id);
+
+        for (Order myOrder : myOrders) {
+            List<Ticket> myTickets = myOrder.getTickets();
+            System.out.println("Order ID: " + myOrder.getID());
+            System.out.println("Your tickets: ");
+            for (Ticket ticket : myTickets){
+                System.out.println("    Ticket Nr." + ticket.getID() + ", for the Show: " + ticket.getShowName() +
+                        ", in the auditorium: " + ticket.getAuditoriumName() +", Seat: " + ticket.getSeat());
+            }
+        }
+
     }
 
     private void filterOrders(Integer id){
-        theatreController.viewOrdersFiltered(id).forEach(System.out::println);
+        List<Order> myOrders = theatreController.viewOrdersFiltered(id);
+
+        for (Order myOrder : myOrders) {
+            List<Ticket> myTickets = myOrder.getTickets();
+            System.out.println("Order ID: " + myOrder.getID());
+            System.out.println("Your tickets: ");
+            for (Ticket ticket : myTickets){
+                System.out.println("    Ticket Nr." + ticket.getID() + ", for the Show: " + ticket.getShowName() +
+                        ", in the auditorium: " + ticket.getAuditoriumName() +", Seat: " + ticket.getSeat());
+            }
+        }
     }
     /**
      * Facilitates login or signup options for the user.
