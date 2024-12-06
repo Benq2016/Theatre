@@ -3,6 +3,7 @@ import Repository.*;
 import Service.*;
 import Domain.*;
 import UI.UI;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -260,6 +261,35 @@ public class App {
 
 
     public static void testDBStuff(){
+        Repository<Admin> adminRepository;
+        Repository<Actor> actorRepository;
+        Repository<Auditorium> auditoriumRepository;
+        Repository<Show> showRepository;
+        Repository<Viewer> viewerRepository;
+        Repository<Order> orderRepository;
+
+        adminRepository = new InMemoryRepository<Admin>();
+        actorRepository = new ActorDBRepository();
+        auditoriumRepository = new InMemoryRepository<Auditorium>();
+        showRepository = new InMemoryRepository<Show>();
+        viewerRepository = new InMemoryRepository<Viewer>();
+        orderRepository = new InMemoryRepository<Order>();
+
+        ActorService actorService = new ActorService(actorRepository);
+        AdminService adminService = new AdminService(adminRepository);
+        ViewerService viewerService = new ViewerService(viewerRepository);
+        ShowService showService = new ShowService(showRepository);
+        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
+        OrderService orderService = new OrderService(orderRepository);
+
+
+        TheatreService ts = new TheatreService(adminService, actorService, auditoriumService, showService,
+                viewerService, orderService);
+
+        TheatreController tc = new TheatreController(ts);
+        System.out.println(tc.viewActors());
+        tc.createActorAccount("Peter",34,new EMail("peter@gmail.com","asd"), 1200);
+        System.out.println(tc.viewActors());
 
     }
 }

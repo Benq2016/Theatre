@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActorDBRepository implements Repository<Actor>{
-    private final String url = "jdbc:sqlserver://localhost:1433;databaseName=Theatre;encrypt=true;trustServerCertificate=true";
+    private final String url = "jdbc:sqlserver://localhost:1433;databaseName=Theatre_MAP_Project;encrypt=true;trustServerCertificate=true";
     private final String userName = "SystemAdmin";
     private final String password = "0000";
 
