@@ -20,7 +20,8 @@ import java.text.SimpleDateFormat;
  */
 public class UI {
 
-    private final TheatreController theatreController; // Links the UI with the TheatreController
+    private final TheatreController theatreController;
+    // Links the UI with the TheatreController
 
     private final BufferedReader reader; // for input from the console
 
@@ -37,7 +38,8 @@ public class UI {
 
     /**
      * The main method that acts as the central hub for all UI interactions.
-     * Determines the user's role and directs them to the appropriate UI section (Viewer, Actor, or Admin).
+     * Determines the user's role and directs them to the appropriate
+     * UI section (Viewer, Actor, or Admin).
      *
      * @param userEmail the email of the user attempting to log in.
      * @throws IOException if an I/O error occurs during reading.
@@ -125,7 +127,8 @@ public class UI {
                 case "0":
                     return;
                 default:
-                    System.out.println("Invalid option. Please choose 1, 2, 3, 4, 5, 6, 7, 8, 9 or 0.");
+                    System.out.println("Invalid option. Please choose " +
+                            "1, 2, 3, 4, 5, 6, 7, 8, 9 or 0.");
             }
         }
     }
@@ -134,7 +137,8 @@ public class UI {
      * Modifies the details about the Viewer
      *
      * @param id - Viewer ID
-     * @return - true if success (in the current state of the code if the Email was modified) else false
+     * @return - true if success (in the current state of the
+     * code if the Email was modified) else false
      * @throws IOException if an I/O error occurs during reading.
      */
     private Boolean managePersonalAccountViewer(Integer id) throws IOException {
@@ -157,6 +161,7 @@ public class UI {
                     throw new InvalidFormatException("Your name should contain only letters, not other characters");
             } catch (InvalidStringLenghtException | InvalidFormatException e) {
                 System.out.println("Error occurred: " + e.getMessage());
+                System.out.println("Enter new name: ");
             }
         }
 
@@ -168,7 +173,7 @@ public class UI {
                 break;
             }catch (NumberFormatException e) {
                 System.out.println("Invalid Input. Input must be an integer");
-                System.out.println("Age (integer): ");
+                System.out.println("Enter new age: ");
             }
         }
         System.out.println("Enter new email address: ");
@@ -182,6 +187,7 @@ public class UI {
                     throw new InvalidEmailFormatException("Email address must contain '@' symbol");
             }catch(InvalidEmailFormatException e){
                 System.out.println("Problem with your Email address: " + e.getMessage());
+                System.out.println("Enter new email address: ");
             }
         }
         System.out.println("Enter new password: ");
@@ -215,8 +221,10 @@ public class UI {
             System.out.println("Order ID: " + myOrder.getID());
             System.out.println("Your tickets: ");
             for (Ticket ticket : myTickets){
-                System.out.println("    Ticket Nr." + ticket.getID() + ", for the Show: " + ticket.getShowName() +
-                        ", in the auditorium: " + ticket.getAuditoriumName() +", Seat: " + ticket.getSeat());
+                System.out.println("    Ticket Nr." + ticket.getID() +
+                        ", for the Show: " + ticket.getShowName() +
+                        ", in the auditorium: " + ticket.getAuditoriumName() +
+                        ", Seat: " + ticket.getSeat());
             }
         }
     }
@@ -239,6 +247,7 @@ public class UI {
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Invalid input. Input must be an integer");
+                System.out.println("Choose a show by its id: ");
             }
         }
         Auditorium auditorium = theatreController.getAuditoriumByShow(showId);
@@ -328,14 +337,17 @@ public class UI {
      * Modifies the details about the Actor
      *
      * @param id - actor ID
-     * @return - true if success (in the current state of the code if the Email was modified) else false
+     * @return - true if success (in the current state of the code
+     * if the Email was modified) else false
      * @throws IOException if an I/O error occurs during reading.
      */
     private Boolean manageActorAccount(Integer id) throws IOException {
 //        System.out.println(theatreController.viewActor(id));
         Actor self = theatreController.viewActor(id);
-        System.out.println("ID: " + self.getID() + ", name: " + self.getName() + ", age: " + self.getAge() +
-                ", salary: " + self.getSalary() + ", email address: " + self.getEmail().getEmailAddress() +
+        System.out.println("ID: " + self.getID() + ", name: " + self.getName() +
+                ", age: " + self.getAge() +
+                ", salary: " + self.getSalary() + ", email address: " +
+                self.getEmail().getEmailAddress() +
                 "email password: " + self.getEmail().getPassword());
 
         System.out.println("Enter new name: ");
@@ -352,6 +364,7 @@ public class UI {
                     throw new InvalidFormatException("Your name should contain only letters, not other characters");
             } catch (InvalidStringLenghtException | InvalidFormatException e) {
                 System.out.println("Error occurred: " + e.getMessage());
+                System.out.println("Enter new name: ");
             }
         }
 
@@ -363,7 +376,7 @@ public class UI {
                 break;
             }catch (NumberFormatException e) {
                 System.out.println("Invalid Input. Input must be an integer");
-                System.out.println("Age (integer): ");
+                System.out.println("Enter new age: ");
             }
         }
         System.out.println("Enter new email address: ");
@@ -377,6 +390,7 @@ public class UI {
                     throw new InvalidEmailFormatException("Email address must contain '@' symbol");
             }catch(InvalidEmailFormatException e){
                 System.out.println("Problem with your Email address: " + e.getMessage());
+                System.out.println("Enter new email address: ");
             }
         }
         System.out.println("Enter new password: ");
@@ -446,12 +460,14 @@ public class UI {
      * Modifies the details about the Admin
      *
      * @param id - admin ID
-     * @return - true if success (in the current state of the code if the Email was modified) else false
+     * @return - true if success (in the current state of the
+     * code if the Email was modified) else false
      * @throws IOException if an I/O error occurs during reading.
      */
     private Boolean managePersonalAccountAdmin(Integer id) throws IOException {
         Admin self = theatreController.viewAdmin(id);
-        System.out.println("ID: " + self.getID() + ", name: " + self.getName() + ", age: " + self.getAge() +
+        System.out.println("ID: " + self.getID() + ", name: " + self.getName() +
+                ", age: " + self.getAge() +
                 ", email address: " + self.getEmail().getEmailAddress() +
                 "email password: " + self.getEmail().getPassword());
         System.out.println("Enter new name: ");
@@ -468,6 +484,7 @@ public class UI {
                     throw new InvalidFormatException("Your name should contain only letters, not other characters");
             } catch (InvalidStringLenghtException | InvalidFormatException e) {
                 System.out.println("Error occurred: " + e.getMessage());
+                System.out.println("Enter new name: ");
             }
         }
 
@@ -479,7 +496,7 @@ public class UI {
                 break;
             }catch (NumberFormatException e) {
                 System.out.println("Invalid Input. Input must be an integer");
-                System.out.println("Age (integer): ");
+                System.out.println("Enter new age: ");
             }
         }
         System.out.println("Enter new email address: ");
@@ -493,6 +510,7 @@ public class UI {
                     throw new InvalidEmailFormatException("Email address must contain '@' symbol");
             }catch(InvalidEmailFormatException e){
                 System.out.println("Problem with your Email address: " + e.getMessage());
+                System.out.println("Enter new email address: ");
             }
         }
         System.out.println("Enter new password: ");
@@ -542,7 +560,8 @@ public class UI {
     }
 
     /**
-     * Allows the Admin to manage shows and auditoriums, including adding new shows or viewing current ones.
+     * Allows the Admin to manage shows and auditoriums,
+     * including adding new shows or viewing current ones.
      *
      * @throws IOException if an I/O error occurs during reading.
      */
@@ -634,6 +653,7 @@ public class UI {
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer");
+                System.out.println("Id of the auditorium you want to delete:");
             }
         }
         theatreController.deleteAuditorium(audId);
@@ -658,6 +678,7 @@ public class UI {
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer");
+                System.out.println("Id of the show you want to delete:");
             }
         }
 
@@ -686,6 +707,7 @@ public class UI {
             }
             }catch (InvalidStringLenghtException e){
                 System.out.println(e.getMessage());
+                System.out.println("Auditorium name:");
             }
         }
         System.out.println("Number of rows");
@@ -696,6 +718,7 @@ public class UI {
                 break;
             } catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer");
+                System.out.println("Number of rows");
             }
         }
         System.out.println("Number of columns");
@@ -706,6 +729,7 @@ public class UI {
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer");
+                System.out.println("Number of columns");
             }
         }
 
@@ -731,6 +755,7 @@ public class UI {
                 else throw new InvalidStringLenghtException("Show title should contain minim 1 letter");
             }catch (InvalidStringLenghtException e){
                 System.out.println(e.getMessage());
+                System.out.print("Show title: ");
             }
         }
 
@@ -748,6 +773,7 @@ public class UI {
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer");
+                System.out.print("Choose a valid auditorium by its ID: ");
             }
         }
 
@@ -787,6 +813,7 @@ public class UI {
                     else throw new InvalidStringLenghtException("Role should contain minim 1 letter");
                 }catch (InvalidStringLenghtException e){
                     System.out.println(e.getMessage());
+                    System.out.print("Role for actor " + actor.getName() + ": ");
                 }
             }
 
@@ -840,23 +867,71 @@ public class UI {
      *
      * @throws IOException if an I/O error occurs during reading.
      */
+
     private void hireActor() throws IOException {
         System.out.println("\nHiring a new actor");
 
         System.out.print("Actor Name: ");
-        String actorName = reader.readLine();
+        String actorName;
+        while(true){
+            try {
+                actorName = reader.readLine();
+                if (actorName.length() > 2 && actorName.matches("[a-zA-Z]+"))
+                    break;
+                else if (actorName.length() <= 2)
+                    throw new InvalidStringLenghtException("Your name should contain minim 3 letters");
+                else if (!actorName.matches("[a-zA-Z]+"))
+                    throw new InvalidFormatException("Your name should contain only letters, not other characters");
+            }catch (InvalidStringLenghtException e){
+                System.out.println(e.getMessage());
+                System.out.print("Actor Name: ");
+            }catch (InvalidFormatException e){
+                System.out.println(e.getMessage());
+                System.out.print("Actor Name: ");
+            }
+        }
+
 
         System.out.print("Actor Age: ");
-        int actorAge = Integer.parseInt(reader.readLine());
+        int actorAge;
+        while(true){
+            try {
+                actorAge = Integer.parseInt(reader.readLine());
+                break;
+            }catch (NumberFormatException e){
+                System.out.println("Invalid Input. Input must be an integer");
+                System.out.print("Actor Age: ");
+            }
+        }
 
         System.out.print("Actor Email address: ");
-        String actorEmailAddress = reader.readLine();
+        String actorEmailAddress;
+        while(true){
+            try {
+                actorEmailAddress = reader.readLine();
+                if(validEmailAdress(actorEmailAddress))
+                    break;
+                else throw new InvalidEmailFormatException("Email should contain a '@' symbol");
+            }catch (InvalidEmailFormatException e){
+                System.out.println(e.getMessage());
+                System.out.print("Actor Email address: ");
+            }
+        }
 
         System.out.print("Actor Email password: ");
         String actorEmailPassword = reader.readLine();
 
         System.out.print("Actor Salary: ");
-        int actorSalary = Integer.parseInt(reader.readLine());
+        int actorSalary;
+        while(true){
+            try {
+                actorSalary = Integer.parseInt(reader.readLine());
+                break;
+            }catch (NumberFormatException e){
+                System.out.println("Invalid Input. Input must be an integer");
+                System.out.print("Actor Salary: ");
+            }
+        }
 
         theatreController.createActorAccount(actorName, actorAge,
                 new EMail(actorEmailAddress, actorEmailPassword), actorSalary);
@@ -873,7 +948,16 @@ public class UI {
             System.out.println("ID: " + actor.getID() + ", Name: " + actor.getName());
         }
         System.out.print("\nEnter the ID of the actor to fire: ");
-        int actorId = Integer.parseInt(reader.readLine());
+        int actorId;
+        while(true){
+            try {
+                actorId = Integer.parseInt(reader.readLine());
+                break;
+            }catch (NumberFormatException e){
+                System.out.println("Invalid Input. Input must be an integer");
+                System.out.print("\nEnter the ID of the actor to fire: ");
+            }
+        }
         theatreController.deleteActorAccount(actorId);
         System.out.println("Actor fired successfully.");
     }
@@ -884,14 +968,32 @@ public class UI {
      * */
     private void changeActorSalary() throws IOException {
         for(Actor actor : theatreController.viewActors()){
-            System.out.println("ID: " + actor.getID() + ", name: " + actor.getName() + ", salary: " + actor.getSalary());
+            System.out.println("ID: " + actor.getID() + ", name: " +
+                    actor.getName() + ", salary: " + actor.getSalary());
         }
 
         System.out.print("\nEnter the ID of the actor whose salary you want to change: ");
-        int actorId = Integer.parseInt(reader.readLine());
-
+        int actorId;
+        while(true){
+            try {
+                actorId = Integer.parseInt(reader.readLine());
+                break;
+            }catch (NumberFormatException e){
+                System.out.println("Invalid Input. Input must be an integer");
+                System.out.print("\nEnter the ID of the actor whose salary you want to change: ");
+            }
+        }
         System.out.print("Enter the new salary: ");
-        int newSalary = Integer.parseInt(reader.readLine());
+        int newSalary;
+        while(true){
+            try {
+                newSalary = Integer.parseInt(reader.readLine());
+                break;
+            }catch (NumberFormatException e){
+                System.out.println("Invalid Input. Input must be an integer");
+                System.out.print("Enter the new salary: ");
+            }
+        }
 
         theatreController.changeSalary(actorId, newSalary);
         System.out.println("Actor's salary updated successfully.");
@@ -903,10 +1005,13 @@ public class UI {
     private void listAllActors() {
         System.out.println("\nList of all actors:");
         for(Actor actor : theatreController.viewActors()){
-            System.out.println("ID: "+actor.getID() + ", Name: " + actor.getName() + ", age: "+ actor.getAge()
-                    + ", salary: " + actor.getSalary() + ", Email address: " + actor.getEmail().getEmailAddress() +
-                    ", Email password: " + actor.getEmail().getPassword()); // Let's assume that the Emails are institutional
-        }                                                                 //and that is why the admin can see it
+            System.out.println("ID: "+actor.getID() + ", Name: " + actor.getName()
+                    + ", age: "+ actor.getAge()
+                    + ", salary: " + actor.getSalary() + ", Email address: "
+                    + actor.getEmail().getEmailAddress() +
+                    ", Email password: " + actor.getEmail().getPassword());
+            // Let's assume that the Emails are institutional
+        }    //and that is why the admin can see it
     }
 
     /***
@@ -918,9 +1023,18 @@ public class UI {
     private void deleteOrder(Integer id) throws IOException {
         viewMyOrders(id);
         System.out.println("Id of the order you want to delete: ");
-        Integer orderId = Integer.parseInt(reader.readLine());
+        Integer orderId;
+        while (true){
+            try {
+                orderId = Integer.parseInt(reader.readLine());
+                break;
+            }catch (NumberFormatException e){
+                System.out.println(e.getMessage());
+                System.out.println("Id of the order you want to delete: ");
+            }
+        }
         int refund = theatreController.deleteOrder(orderId);
-        System.out.println("You have been refunded with:"+refund);
+        System.out.println("You have been refunded with: "+refund);
     }
 
     private void sortShows(){
@@ -965,8 +1079,10 @@ public class UI {
             System.out.println("Order ID: " + myOrder.getID());
             System.out.println("Your tickets: ");
             for (Ticket ticket : myTickets){
-                System.out.println("    Ticket Nr." + ticket.getID() + ", for the Show: " + ticket.getShowName() +
-                        ", in the auditorium: " + ticket.getAuditoriumName() +", Seat: " + ticket.getSeat());
+                System.out.println("    Ticket Nr." + ticket.getID() +
+                        ", for the Show: " + ticket.getShowName() +
+                        ", in the auditorium: " + ticket.getAuditoriumName() +
+                        ", Seat: " + ticket.getSeat());
             }
         }
 
@@ -980,8 +1096,10 @@ public class UI {
             System.out.println("Order ID: " + myOrder.getID());
             System.out.println("Your tickets: ");
             for (Ticket ticket : myTickets){
-                System.out.println("    Ticket Nr." + ticket.getID() + ", for the Show: " + ticket.getShowName() +
-                        ", in the auditorium: " + ticket.getAuditoriumName() +", Seat: " + ticket.getSeat());
+                System.out.println("    Ticket Nr." + ticket.getID() +
+                        ", for the Show: " + ticket.getShowName() +
+                        ", in the auditorium: " + ticket.getAuditoriumName() +
+                        ", Seat: " + ticket.getSeat());
             }
         }
     }
@@ -995,7 +1113,6 @@ public class UI {
     public static EMail choosingBetweenLoginAndSignup(TheatreController tc) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("Welcome to the theater management system");
         System.out.println("If you want to proceed please chose an option");
         System.out.println("1 - Login");
         System.out.println("2 - Sign up");
@@ -1036,11 +1153,46 @@ public class UI {
             System.out.println("Welcome new User");
             System.out.println("Please create you account as follows:");
             System.out.println("Provide us with your name:");
-            String name = reader.readLine();
+            String name;
+            while(true){
+                try {
+                    name = reader.readLine();
+                    if (name.length() > 2 && name.matches("[a-zA-Z]+"))
+                        break;
+                    else if (name.length() <= 2)
+                        throw new InvalidStringLenghtException("Your name should contain minim 3 letters");
+                    else if (!name.matches("[a-zA-Z]+"))
+                        throw new InvalidFormatException("Your name should contain only letters, not other characters");
+                }catch (InvalidStringLenghtException | InvalidFormatException e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Provide us with your name:");
+                }
+            }
+
             System.out.println("Your age:");
-            int age = Integer.parseInt(reader.readLine());
+            int age;
+            while (true){
+                try {
+                    age = Integer.parseInt(reader.readLine());
+                    break;
+                }catch (NumberFormatException e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Your age:");
+                }
+            }
             System.out.println("Your emailAddress:");
-            String emailAddress = reader.readLine();
+            String emailAddress;
+            while (true){
+                try {
+                    emailAddress = reader.readLine();
+                    if (validEmailAdress(emailAddress))
+                        break;
+                    else throw new InvalidEmailFormatException("The email should contain a '@' symbol");
+                }catch (InvalidEmailFormatException e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Your emailAddress:");
+                }
+            }
             System.out.println("Your password:");
             String password = reader.readLine();
             newMail = new EMail(emailAddress, password);
@@ -1071,7 +1223,18 @@ public class UI {
         System.out.println("Welcome Back! Please type in your email for authentication.");
         while (true) {
             System.out.println("Email Address:");
-            String emailAddress = reader.readLine();
+            String emailAddress;
+            while(true){
+                try {
+                    emailAddress = reader.readLine();
+                    if(validEmailAdress(emailAddress))
+                        break;
+                    else throw new InvalidEmailFormatException("Email should contain a '@' symbol");
+                }catch (InvalidEmailFormatException e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Email Address:");
+                }
+            }
             System.out.println("Password:");
             String password = reader.readLine();
             eMail = new EMail(emailAddress, password);

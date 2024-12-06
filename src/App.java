@@ -299,6 +299,8 @@ public class App {
             choice = String.valueOf(reader.readLine());
             if (choice.equals("1") || choice.equals("2") || choice.equals("3"))
                 break;
+            else
+                System.out.println("Invalid type, please select 1, 2 or 3");
         }
         return choice;
     }
