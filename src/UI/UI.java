@@ -40,7 +40,6 @@ public class UI {
      * The main method that acts as the central hub for all UI interactions.
      * Determines the user's role and directs them to the appropriate
      * UI section (Viewer, Actor, or Admin).
-     *
      * @param userEmail the email of the user attempting to log in.
      * @throws IOException if an I/O error occurs during reading.
      */
@@ -75,7 +74,6 @@ public class UI {
     /**
      * Displays the Viewer-specific menu and handles user actions related to viewing shows,
      * managing orders, and personal account management.
-     *
      * @param id the ID of the Viewer user.
      * @throws IOException if an I/O error occurs during reading.
      */
@@ -133,9 +131,8 @@ public class UI {
         }
     }
 
-    /***
+    /**
      * Modifies the details about the Viewer
-     *
      * @param id - Viewer ID
      * @return - true if success (in the current state of the
      * code if the Email was modified) else false
@@ -153,11 +150,11 @@ public class UI {
         while (true) {
             try {
                 name = reader.readLine();
-                if (name.length() > 2 && name.matches("[a-zA-Z]+"))
+                if (name.length() > 2 && name.matches("[a-zA-Z ]+"))
                     break;
                 else if (name.length() <= 2)
                     throw new InvalidStringLenghtException("Your name should contain minim 3 letters");
-                else if (!name.matches("[a-zA-Z]+"))
+                else if (!name.matches("[a-zA-Z ]+"))
                     throw new InvalidFormatException("Your name should contain only letters, not other characters");
             } catch (InvalidStringLenghtException | InvalidFormatException e) {
                 System.out.println("Error occurred: " + e.getMessage());
@@ -181,7 +178,7 @@ public class UI {
         while (true) {
             try {
                 emailAddress = reader.readLine();
-                if (validEmailAdress(emailAddress))
+                if (validEmailAddress(emailAddress))
                     break;
                 else
                     throw new InvalidEmailFormatException("Email address must contain '@' symbol");
@@ -194,23 +191,20 @@ public class UI {
         String password = reader.readLine();
         EMail newMail = new EMail(emailAddress,password);
         System.out.println("Account details changed successfully");
-        if (theatreController.manageViewerAccount(id, name,age,newMail))
-            return true;
-        return false;
+        return theatreController.manageViewerAccount(id, name, age, newMail);
 
     }
     /**
      * @param email - the email that should be verified
      * returns true if there is exactly 1 @ symbol in the email address, false otherwise
      * */
-    private static boolean validEmailAdress(String email) {
+    private static boolean validEmailAddress(String email) {
         int atCount = email.length() - email.replace("@", "").length();
         return atCount == 1;
     }
 
     /**
      * Displays all orders associated with the Viewer.
-     *
      * @param id the ID of the Viewer.
      */
     private void viewMyOrders(Integer id) {
@@ -232,7 +226,6 @@ public class UI {
     /**
      * Allows the Viewer to create an order by selecting a show, an auditorium,
      * and seat numbers.
-     *
      * @param viewerId the ID of the Viewer.
      */
     private void createOrder(Integer viewerId) {
@@ -285,7 +278,6 @@ public class UI {
 
     /**
      * Displays all available shows in the system.
-     *
      */
     private void viewAllShows() {
         List<Show> allShows = theatreController.viewShows();
@@ -304,7 +296,6 @@ public class UI {
     /**
      * Displays the Actor-specific menu and handles actions such as viewing upcoming shows
      * and managing their personal account.
-     *
      * @param id the ID of the Actor user.
      * @throws IOException if an I/O error occurs during reading.
      */
@@ -333,16 +324,14 @@ public class UI {
         }
     }
 
-    /***
+    /**
      * Modifies the details about the Actor
-     *
      * @param id - actor ID
      * @return - true if success (in the current state of the code
      * if the Email was modified) else false
      * @throws IOException if an I/O error occurs during reading.
      */
     private Boolean manageActorAccount(Integer id) throws IOException {
-//        System.out.println(theatreController.viewActor(id));
         Actor self = theatreController.viewActor(id);
         System.out.println("ID: " + self.getID() + ", name: " + self.getName() +
                 ", age: " + self.getAge() +
@@ -356,11 +345,11 @@ public class UI {
         while (true) {
             try {
                 name = reader.readLine();
-                if (name.length() > 2 && name.matches("[a-zA-Z]+"))
+                if (name.length() > 2 && name.matches("[a-zA-Z ]+"))
                     break;
                 else if (name.length() <= 2)
                     throw new InvalidStringLenghtException("Your name should contain minim 3 letters");
-                else if (!name.matches("[a-zA-Z]+"))
+                else if (!name.matches("[a-zA-Z ]+"))
                     throw new InvalidFormatException("Your name should contain only letters, not other characters");
             } catch (InvalidStringLenghtException | InvalidFormatException e) {
                 System.out.println("Error occurred: " + e.getMessage());
@@ -384,7 +373,7 @@ public class UI {
         while (true) {
             try {
                 emailAddress = reader.readLine();
-                if (validEmailAdress(emailAddress))
+                if (validEmailAddress(emailAddress))
                     break;
                 else
                     throw new InvalidEmailFormatException("Email address must contain '@' symbol");
@@ -396,16 +385,18 @@ public class UI {
         System.out.println("Enter new password: ");
         String password = reader.readLine();
         EMail newMail = new EMail(emailAddress,password);
-        System.out.println("Account details changed successfully");
-        if (theatreController.manageActorAccount(id, name,age,newMail))
+        try {
+            Actor newActor = theatreController.manageActorAccount(id, name,age,newMail);
+            System.out.println("Account details to: " + newActor.getName() + " changed successfully!");
             return true;
-        return false;
-
+        }catch (UserExistenceException e ){
+            System.out.println("Error: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
      * Displays all upcoming shows associated with the Actor.
-     *
      * @param id the ID of the Actor.
      */
     private void viewUpcomingShows(Integer id) {
@@ -421,7 +412,6 @@ public class UI {
     /**
      * Displays the Admin-specific menu and handles actions such as managing actors,
      * shows, auditoriums, and their personal account.
-     *
      * @param id the ID of the Admin user.
      * @throws IOException if an I/O error occurs during reading.
      * @throws ParseException if there is an error parsing user input or date-related fields.
@@ -456,9 +446,8 @@ public class UI {
         }
     }
 
-    /***
+    /**
      * Modifies the details about the Admin
-     *
      * @param id - admin ID
      * @return - true if success (in the current state of the
      * code if the Email was modified) else false
@@ -468,19 +457,18 @@ public class UI {
         Admin self = theatreController.viewAdmin(id);
         System.out.println("ID: " + self.getID() + ", name: " + self.getName() +
                 ", age: " + self.getAge() +
-                ", email address: " + self.getEmail().getEmailAddress() +
-                "email password: " + self.getEmail().getPassword());
+                ", email address: " + self.getEmail().getEmailAddress());
         System.out.println("Enter new name: ");
         String name;
 
         while (true) {
             try {
                 name = reader.readLine();
-                if (name.length() > 2 && name.matches("[a-zA-Z]+"))
+                if (name.length() > 2 && name.matches("[a-zA-Z ]+"))
                     break;
                 else if (name.length() <= 2)
                     throw new InvalidStringLenghtException("Your name should contain minim 3 letters");
-                else if (!name.matches("[a-zA-Z]+"))
+                else if (!name.matches("[a-zA-Z ]+"))
                     throw new InvalidFormatException("Your name should contain only letters, not other characters");
             } catch (InvalidStringLenghtException | InvalidFormatException e) {
                 System.out.println("Error occurred: " + e.getMessage());
@@ -504,7 +492,7 @@ public class UI {
         while (true) {
             try {
                 emailAddress = reader.readLine();
-                if (validEmailAdress(emailAddress))
+                if (validEmailAddress(emailAddress))
                     break;
                 else
                     throw new InvalidEmailFormatException("Email address must contain '@' symbol");
@@ -516,16 +504,19 @@ public class UI {
         System.out.println("Enter new password: ");
         String password = reader.readLine();
         EMail newMail = new EMail(emailAddress,password);
-        System.out.println("Account details changed successfully");
-        if (theatreController.manageAdminAccount(id, name,age,newMail))
+        try {
+            Admin newAdmin = theatreController.manageAdminAccount(id, name, age, newMail);
+            System.out.println("Account details to: " + newAdmin.getName() + " changed successfully!");
             return true;
-        return false;
 
+        } catch (UserExistenceException e) {
+            System.out.println("Error: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
      * Allows the Admin to manage actors within the theater system, such as adding or viewing actors.
-     *
      * @throws IOException if an I/O error occurs during reading.
      */
     private void manageActors() throws IOException {
@@ -562,7 +553,6 @@ public class UI {
     /**
      * Allows the Admin to manage shows and auditoriums,
      * including adding new shows or viewing current ones.
-     *
      * @throws IOException if an I/O error occurs during reading.
      */
     private void manageShowsAndAuditoriums() throws IOException, ParseException {
@@ -606,8 +596,8 @@ public class UI {
     }
 
     /**
-    * Lists all available auditoriums
-     *  */
+     * Lists all available auditoriums
+     */
     private void listAllAuditoriums() {
         System.out.println("List of all the auditoriums");
         for (Auditorium auditorium : theatreController.viewAuditoriums()){
@@ -618,7 +608,7 @@ public class UI {
 
     /**
      * Lists all shows
-     *  */
+     */
     private void listAllShows() {
         System.out.println("List of all the shows: \n");
         for (Show show : theatreController.viewShows()){
@@ -637,9 +627,8 @@ public class UI {
 
     /**
      * Deletes an auditorium
-     *
      * @throws IOException if an I/O error occurs during reading.
-     * */
+     */
     private void deleteAuditorium() throws IOException {
         System.out.println("\nDeleting an auditorium");
         for(Auditorium auditorium : theatreController.viewAuditoriums()){
@@ -662,9 +651,8 @@ public class UI {
 
     /**
      * Cancels a show
-     *
      * @throws IOException if an I/O error occurs during reading.
-     * */
+     */
     private void deleteShow() throws IOException {
         System.out.println("\nDeleting shows");
         for (Show show : theatreController.viewShows()){
@@ -686,9 +674,8 @@ public class UI {
         System.out.println("Show successfully deleted.");
     }
 
-    /***
+    /**
      *Creates a new auditorium
-     *
      * @throws IOException if an I/O error occurs during reading.
      */
     private void createAuditorium() throws IOException {
@@ -702,8 +689,7 @@ public class UI {
             if(!name.isEmpty())
                 break;
             else {
-                InvalidStringLenghtException e =new InvalidStringLenghtException("Auditorium name should contain minim 1 letter");
-                throw e;
+                throw new InvalidStringLenghtException("Auditorium name should contain minim 1 letter");
             }
             }catch (InvalidStringLenghtException e){
                 System.out.println(e.getMessage());
@@ -737,7 +723,7 @@ public class UI {
     }
 
 
-    /***
+    /**
      * Creates a new show - after this the Viewer can buy tickets for the show
      * @throws IOException if an I/O error occurs during reading.
      */
@@ -854,7 +840,6 @@ public class UI {
     }
 
     /**
-     *
      * @param showDate - a date format that should be verified to parse it to a DATE object
      * @return - true if the format is correct, false otherwise
      */
@@ -862,9 +847,8 @@ public class UI {
         String regex = "^\\d{4}-((0[1-9])|(1[0-2]))-([0-2][1-9]|3[01])$";
         return showDate.matches(regex);
     }
-    /***
+    /**
      * Creates a new actor
-     *
      * @throws IOException if an I/O error occurs during reading.
      */
 
@@ -876,11 +860,11 @@ public class UI {
         while(true){
             try {
                 actorName = reader.readLine();
-                if (actorName.length() > 2 && actorName.matches("[a-zA-Z]+"))
+                if (actorName.length() > 2 && actorName.matches("[a-zA-Z ]+"))
                     break;
                 else if (actorName.length() <= 2)
                     throw new InvalidStringLenghtException("Your name should contain minim 3 letters");
-                else if (!actorName.matches("[a-zA-Z]+"))
+                else if (!actorName.matches("[a-zA-Z ]+"))
                     throw new InvalidFormatException("Your name should contain only letters, not other characters");
             }catch (InvalidStringLenghtException e){
                 System.out.println(e.getMessage());
@@ -909,7 +893,7 @@ public class UI {
         while(true){
             try {
                 actorEmailAddress = reader.readLine();
-                if(validEmailAdress(actorEmailAddress))
+                if(validEmailAddress(actorEmailAddress))
                     break;
                 else throw new InvalidEmailFormatException("Email should contain a '@' symbol");
             }catch (InvalidEmailFormatException e){
@@ -933,14 +917,16 @@ public class UI {
             }
         }
 
-        theatreController.createActorAccount(actorName, actorAge,
-                new EMail(actorEmailAddress, actorEmailPassword), actorSalary);
-        System.out.println("Actor hired successfully.");
+        try {
+            Actor newActor = theatreController.createActorAccount(actorName, actorAge, new EMail(actorEmailAddress, actorEmailPassword), actorSalary);
+            System.out.println("Actor: " + newActor.getName() + " hired successfully.");
+        }catch (UserExistenceException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
-    /***
+    /**
      * Deletes an actor
-     *
      * @throws IOException if an I/O error occurs during reading.
      */
     private void fireActor() throws IOException {
@@ -958,14 +944,18 @@ public class UI {
                 System.out.print("\nEnter the ID of the actor to fire: ");
             }
         }
-        theatreController.deleteActorAccount(actorId);
-        System.out.println("Actor fired successfully.");
+        try {
+            theatreController.deleteActorAccount(actorId);
+            System.out.println("Actor fired successfully.");
+        }catch (UserExistenceException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
-    /**Changes the salary of an actor
-     *
+    /**
+     * Changes the salary of an actor
      * @throws IOException if an I/O error occurs during reading.
-     * */
+     */
     private void changeActorSalary() throws IOException {
         for(Actor actor : theatreController.viewActors()){
             System.out.println("ID: " + actor.getID() + ", name: " +
@@ -995,28 +985,29 @@ public class UI {
             }
         }
 
-        theatreController.changeSalary(actorId, newSalary);
-        System.out.println("Actor's salary updated successfully.");
+        try {
+            theatreController.changeSalary(actorId, newSalary);
+            System.out.println("Actor's salary updated successfully.");
+        } catch (UserExistenceException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
      * Lists all the actors of the theatre
-     * */
+     */
     private void listAllActors() {
         System.out.println("\nList of all actors:");
         for(Actor actor : theatreController.viewActors()){
-            System.out.println("ID: "+actor.getID() + ", Name: " + actor.getName()
-                    + ", age: "+ actor.getAge()
-                    + ", salary: " + actor.getSalary() + ", Email address: "
-                    + actor.getEmail().getEmailAddress() +
-                    ", Email password: " + actor.getEmail().getPassword());
-            // Let's assume that the Emails are institutional
-        }    //and that is why the admin can see it
+            System.out.println("ID: " + actor.getID() + ", Name: " + actor.getName()
+                    + ", Age: " + actor.getAge()
+                    + ", Salary: " + actor.getSalary()
+                    + ", Email Address: " + actor.getEmail().getEmailAddress());
+        }
     }
 
-    /***
+    /**
      * Deletes an order based on its ID and refunds for the Viewer(a simple print)
-     *
      * @param id - the id of the Viewer
      * @throws IOException
      */
@@ -1105,7 +1096,6 @@ public class UI {
     }
     /**
      * Facilitates login or signup options for the user.
-     *
      * @param tc the TheatreController instance managing domain interactions.
      * @return the email of the newly logged in or signed-up user.
      * @throws IOException if an I/O error occurs during reading.
@@ -1140,7 +1130,6 @@ public class UI {
 
     /**
      * Allows a Viewer to sign up and create a new account.
-     *
      * @param tc the TheatreController instance managing domain interactions.
      * @return the email of the signed-up user.
      * @throws IOException if an I/O error occurs during reading.
@@ -1157,11 +1146,11 @@ public class UI {
             while(true){
                 try {
                     name = reader.readLine();
-                    if (name.length() > 2 && name.matches("[a-zA-Z]+"))
+                    if (name.length() > 2 && name.matches("[a-zA-Z ]+"))
                         break;
                     else if (name.length() <= 2)
                         throw new InvalidStringLenghtException("Your name should contain minim 3 letters");
-                    else if (!name.matches("[a-zA-Z]+"))
+                    else if (!name.matches("[a-zA-Z ]+"))
                         throw new InvalidFormatException("Your name should contain only letters, not other characters");
                 }catch (InvalidStringLenghtException | InvalidFormatException e){
                     System.out.println(e.getMessage());
@@ -1185,7 +1174,7 @@ public class UI {
             while (true){
                 try {
                     emailAddress = reader.readLine();
-                    if (validEmailAdress(emailAddress))
+                    if (validEmailAddress(emailAddress))
                         break;
                     else throw new InvalidEmailFormatException("The email should contain a '@' symbol");
                 }catch (InvalidEmailFormatException e){
@@ -1212,7 +1201,6 @@ public class UI {
 
     /**
      * Allows a user to log in to the system.
-     *
      * @param tc the TheatreController instance managing domain interactions.
      * @return the email of the logged-in user.
      * @throws IOException if an I/O error occurs during reading.
@@ -1227,7 +1215,7 @@ public class UI {
             while(true){
                 try {
                     emailAddress = reader.readLine();
-                    if(validEmailAdress(emailAddress))
+                    if(validEmailAddress(emailAddress))
                         break;
                     else throw new InvalidEmailFormatException("Email should contain a '@' symbol");
                 }catch (InvalidEmailFormatException e){
@@ -1253,4 +1241,3 @@ public class UI {
     }
 
 }
-

@@ -1,5 +1,6 @@
 package Service;
 
+import Exceptions.UserExistenceException;
 import Repository.Repository;
 import Domain.*;
 import java.util.List;
@@ -42,70 +43,70 @@ public class ActorService {
      */
     public Integer getActorID(EMail eMail) {
         for (Actor actor : getAllActors())
-            if (actor.getEmail().equals(eMail))
+            if (actor.getEmail().getEmailAddress().equals(eMail.getEmailAddress()))
                 return actor.getID();
         return null;
     }
 
     /**
-     * Creates a new actor.
-
+     * Creates a new actor and adds it to the repository.
      * @param name The name of the actor.
      * @param age The age of the actor.
      * @param eMail The email address of the actor.
      * @param salary The salary of the actor.
-     * @return True if the actor is successfully created; otherwise, false if an actor with the given ID already exists.
+     * @return The newly created Actor object.
+     * @throws UserExistenceException If an actor with the same email address already exists.
      */
-    public boolean createActor(String name, int age, EMail eMail, int salary) {
-
+    public Actor createActor(String name, int age, EMail eMail, int salary) {
+        if (getActor(getActorID(eMail)) != null)
+            throw new UserExistenceException("Email address already exists!");
         Actor newActor =  new Actor(name, age, eMail, salary);
         actorRepository.create(newActor);
-        return true;
+        return newActor;
     }
 
     /**
-     * Updates an existing actor's information.
+     * Updates the details of an existing actor.
      * @param id The unique ID of the actor to update.
      * @param name The new name of the actor.
      * @param age The new age of the actor.
      * @param eMail The new email address of the actor.
-     * @return True if the actor is successfully updated; otherwise, false if an actor with the new email already exists.
+     * @return The updated Actor object.
+     * @throws UserExistenceException If an actor with the same email address already exists.
      */
-    public boolean updateActor(Integer id, String name, int age, EMail eMail) {
+    public Actor updateActor(Integer id, String name, int age, EMail eMail) {
         if (getActor(getActorID(eMail)) != null)
-            return false;
+            throw new UserExistenceException("Email address already exists!");
         Actor actor = getActor(id);
         actor.setName(name);
         actor.setAge(age);
         actor.setEmail(eMail);
         actorRepository.update(actor);
-        return true;
+        return actor;
     }
 
     /**
      * Deletes an actor by their unique ID.
      * @param id The unique ID of the actor to delete.
-     * @return True if the actor is successfully deleted; otherwise, false if the actor does not exist.
+     * @throws UserExistenceException If no actor with the specified ID exists.
      */
-    public boolean deleteActor(Integer id) {
+    public void deleteActor(Integer id) {
         if (getActor(id) == null)
-            return false;
+            throw new UserExistenceException("Actor does not exist!");
         actorRepository.delete(id);
-        return true;
     }
 
     /**
-     * Changes the salary of an actor.
-     * @param id The unique ID of the actor whose salary is to be changed.
-     * @param newSalary The new salary for the actor.
-     * @return True if the salary is successfully updated; otherwise, false if the actor does not exist.
+     * Changes the salary of an existing actor.
+     * @param id The unique ID of the actor.
+     * @param newSalary The new salary amount.
+     * @throws UserExistenceException If no actor with the specified ID exists.
      */
-    public boolean changeSalary(Integer id, int newSalary) {
+    public void changeSalary(Integer id, int newSalary) {
         if (getActor(id) == null)
-            return false;
+            throw new UserExistenceException("Actor does not exist!");
         Actor actor = getActor(id);
         actor.setSalary(newSalary);
         actorRepository.update(actor);
-        return true;
     }
 }

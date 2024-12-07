@@ -3,7 +3,7 @@ import Repository.*;
 import Service.*;
 import Domain.*;
 import UI.UI;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
+//import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,85 +27,77 @@ public class App {
      * The main method of the application. This is where the repositories, services, and controllers
      * are instantiated, and the application's flow starts by creating initial objects.
      * It also retrieves user input for login or signup and starts the user interface.
-     *
      * @param args command-line arguments (not used in this program)
      * @throws IOException if there is an issue with input or output during the program's execution
      */
     public static void main(String[] args) throws IOException, ParseException {
 
-//        String storageType = chooseStorageType();
-//
-//        Repository<Admin> adminRepository;
-//        Repository<Actor> actorRepository;
-//        Repository<Auditorium> auditoriumRepository;
-//        Repository<Show> showRepository;
-//        Repository<Viewer> viewerRepository;
-//        Repository<Order> orderRepository;
-//
-//        switch (storageType) {
-//            case "1": {
-//                // In-memory instantiation
-//                adminRepository = new InMemoryRepository<Admin>();
-//                actorRepository = new InMemoryRepository<Actor>();
-//                auditoriumRepository = new InMemoryRepository<Auditorium>();
-//                showRepository = new InMemoryRepository<Show>();
-//                viewerRepository = new InMemoryRepository<Viewer>();
-//                orderRepository = new InMemoryRepository<Order>();
-//                break;
-//            }
-//            case "2": {
-//                // File-based instantiation
-//
-//
-//                adminRepository = new AdminFileRepository("src/FilesForStorage/AdminFile");
-//                actorRepository = new ActorFileRepository("src/FilesForStorage/ActorFile");
-//                auditoriumRepository = new AuditoriumFileRepository("src/FilesForStorage/AuditoriumFile");
-//                showRepository = new ShowFileRepository("src/FilesForStorage/ShowFile");
-//                viewerRepository = new ViewerFileRepository("src/FilesForStorage/ViewerFile");
-//                orderRepository = new OrderFileRepository("src/FilesForStorage/OrderFile");
-//                break;
-//            }
-//            default:
-//                throw new IllegalArgumentException("Invalid storage type selected.");
-//        }
-//
-//        ActorService actorService = new ActorService(actorRepository);
-//        AdminService adminService = new AdminService(adminRepository);
-//        ViewerService viewerService = new ViewerService(viewerRepository);
-//        ShowService showService = new ShowService(showRepository);
-//        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
-//        OrderService orderService = new OrderService(orderRepository);
-//
-//
-//        TheatreService ts = new TheatreService(adminService, actorService, auditoriumService, showService,
-//                viewerService, orderService);
-//
-//        TheatreController tc = new TheatreController(ts);
-//        if (storageType.equals("1")){
-//            makeInitialObjects(tc);
-//        }
-//
-//        if (storageType.equals("2")) {
-//            ((ShowFileRepository) showRepository).setTheatreController(tc);
-//            makeInitialObjects(tc);
-//            setInitialStaticIDForEveryDomain(tc);
-//        }
-//
-////        /*It retrieves the email from the user*/
-//        EMail emailGotFromLoginSignIn = choosingBetweenLoginAndSignup(tc);
-////
-////        /*Start of the program carrying out ui functions which carries out functions from other parts of the app*/
-//        UI ui = new UI(tc);
-//        ui.RUN(emailGotFromLoginSignIn);
+        String storageType = chooseStorageType();
 
-        testDBStuff();
+        Repository<Admin> adminRepository;
+        Repository<Actor> actorRepository;
+        Repository<Auditorium> auditoriumRepository;
+        Repository<Show> showRepository;
+        Repository<Viewer> viewerRepository;
+        Repository<Order> orderRepository;
+
+        switch (storageType) {
+            case "1": {
+//                 In-memory instantiation
+                adminRepository = new InMemoryRepository<Admin>();
+                actorRepository = new InMemoryRepository<Actor>();
+                auditoriumRepository = new InMemoryRepository<Auditorium>();
+                showRepository = new InMemoryRepository<Show>();
+                viewerRepository = new InMemoryRepository<Viewer>();
+                orderRepository = new InMemoryRepository<Order>();
+                break;
+            }
+            case "2": {
+//                 File-based instantiation
+                adminRepository = new AdminFileRepository("src/FilesForStorage/AdminFile");
+                actorRepository = new ActorFileRepository("src/FilesForStorage/ActorFile");
+                auditoriumRepository = new AuditoriumFileRepository("src/FilesForStorage/AuditoriumFile");
+                showRepository = new ShowFileRepository("src/FilesForStorage/ShowFile");
+                viewerRepository = new ViewerFileRepository("src/FilesForStorage/ViewerFile");
+                orderRepository = new OrderFileRepository("src/FilesForStorage/OrderFile");
+                break;
+            }
+            default:
+                throw new IllegalArgumentException("Invalid storage type selected.");
+        }
+
+        ActorService actorService = new ActorService(actorRepository);
+        AdminService adminService = new AdminService(adminRepository);
+        ViewerService viewerService = new ViewerService(viewerRepository);
+        ShowService showService = new ShowService(showRepository);
+        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
+        OrderService orderService = new OrderService(orderRepository);
 
 
+        TheatreService ts = new TheatreService(adminService, actorService, auditoriumService, showService,
+                viewerService, orderService);
+
+        TheatreController tc = new TheatreController(ts);
+        if (storageType.equals("1")){
+            makeInitialObjects(tc);
+        }
+
+        if (storageType.equals("2")) {
+            ((ShowFileRepository) showRepository).setTheatreController(tc);
+            makeInitialObjects(tc);
+            setInitialStaticIDForEveryDomain(tc);
+        }
+
+        EMail emailGotFromLoginSignIn = choosingBetweenLoginAndSignup(tc);
+
+        UI ui = new UI(tc);
+        ui.RUN(emailGotFromLoginSignIn);
+
+//        testDBStuff();
     }
 
-    /***
+    /**
      * Creates some initial Objects
-     *
      * @param tc - TheatreController for connecting with the running theaterController
      */
     public static void makeInitialObjects(TheatreController tc) {
@@ -120,7 +112,7 @@ public class App {
         tc.createAuditorium("Grand Hall", 6, 15);
         tc.createAuditorium("Klein Stage", 7, 12);
 
-        Map<Actor, String> roles = new HashMap<Actor, String>();
+        Map<Actor, String> roles = new HashMap<>();
         roles.putIfAbsent(tc.viewActor(1),"Werther");
         roles.putIfAbsent(tc.viewActor(3),"Luise");
         roles.putIfAbsent(tc.viewActor(4),"Faust");
@@ -165,9 +157,9 @@ public class App {
 
         tc.createViewerAccount("Victor Ross", 23, new EMail("victor@gmail.com", "123"));
 
-        List<Integer> seats1 = new ArrayList<Integer>();
+        List<Integer> seats1 = new ArrayList<>();
         seats1.add(1); seats1.add(2); seats1.add(45); seats1.add(46);
-        List<Integer> seats2 = new ArrayList<Integer>();
+        List<Integer> seats2 = new ArrayList<>();
         seats2.add(1); seats2.add(7); seats2.add(64); seats2.add(84);
 
         tc.createOrder(1, 1,  seats1);
@@ -186,11 +178,9 @@ public class App {
 //        System.out.println(tc.viewAuditorium(1));
     }
 
-    /***
+    /**
      * Choosing the type of storage that the program uses
-     *
      * @return - a string representing a number which indicates what type of storage the user wants
-     * @throws IOException
      */
     public static String chooseStorageType() throws IOException {
         String choice;
@@ -216,7 +206,7 @@ public class App {
      * @param tc - a link to the Theatre controller
      * */
     public static void setInitialStaticIDForEveryDomain(TheatreController tc){
-        //for setting the auditorium static ID
+//        for setting the auditorium static ID
         int staticID = 0;
         List<Auditorium> allAudit = tc.viewAuditoriums();
         for (Auditorium auditorium : allAudit) {
@@ -225,7 +215,7 @@ public class App {
         }
         Auditorium.setIdCounter(staticID);
 
-        //for setting the order static ID
+//        for setting the order static ID
         staticID = 0;
         List<Order> allOrder = tc.viewOrders();
         for (Order order : allOrder) {
@@ -234,7 +224,7 @@ public class App {
         }
         Order.setIdCounter(staticID);
 
-        //for setting the Show static ID
+//        for setting the Show static ID
         staticID = 0;
         List<Show> allShow = tc.viewShows();
         for (Show show : allShow) {
@@ -243,7 +233,7 @@ public class App {
         }
         Show.setIdCounter(staticID);
 
-        //for setting the next Persons static ID
+//        for setting the next Persons static ID
         staticID = 0;
         List<Actor> allActor = tc.viewActors();
         List<Viewer> allViewers = tc.viewViewers();
@@ -256,7 +246,6 @@ public class App {
                 staticID = actor.getID();
         }
         Person.setIdCounter(staticID);
-
     }
 
 

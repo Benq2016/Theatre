@@ -150,80 +150,32 @@ public class TheatreService {
         return viewerService.deleteViewer(id);
     }
 
-    /**
-     * Creates a new admin account with the specified details.
-     * @param id the unique identifier of the admin
-     * @param name the name of the admin
-     * @param age the age of the admin
-     * @param eMail the email address of the admin
-     * @return true if the admin account was created successfully, false if the admin with the given id already exists
-     */
-    public boolean createAdminAccount(Integer id, String name, int age, EMail eMail){
+    public Admin createAdminAccount(Integer id, String name, int age, EMail eMail){
         return adminService.createAdmin(id, name, age, eMail);
     }
 
-    /**
-     * Modifies an existing admin account with the specified details.
-     * @param id the unique identifier of the admin
-     * @param name the new name of the admin
-     * @param age the new age of the admin
-     * @param eMail the new email address of the admin
-     * @return true if the admin account was updated successfully, false if the admin with the given id was not found
-     */
-    public boolean manageAdminAccount(Integer id, String name, int age, EMail eMail) {
+    public Admin manageAdminAccount(Integer id, String name, int age, EMail eMail) {
         return adminService.updateAdmin(id, name, age, eMail);
     }
 
-    /**
-     * Deletes an admin account based on the provided id.
-     * @param id the unique identifier of the admin to be deleted
-     * @return true if the admin account was deleted successfully, false if no admin was found with the given id
-     */
-    public boolean deleteAdminAccount(Integer id) {
-        return adminService.deleteAdmin(id);
+    public void deleteAdminAccount(Integer id) {
+        adminService.deleteAdmin(id);
     }
 
-    /**
-     * Creates a new actor account.
-     * @param name The name of the actor.
-     * @param age The age of the actor.
-     * @param eMail The email of the actor.
-     * @param salary The salary of the actor.
-     * @return true if the account was successfully created, false if the actor already exists.
-     */
-    public boolean createActorAccount(String name, int age, EMail eMail, int salary){
+    public Actor createActorAccount(String name, int age, EMail eMail, int salary){
         return actorService.createActor(name, age, eMail, salary);
     }
 
-    /**
-     * Updates an existing actor's account.
-     * @param id The unique ID of the actor.
-     * @param name The updated name of the actor.
-     * @param age The updated age of the actor.
-     * @param eMail The updated email of the actor.
-     * @return true if the account was successfully updated, false if the actor does not exist.
-     */
-    public boolean manageActorAccount(Integer id, String name, int age, EMail eMail) {
+    public Actor manageActorAccount(Integer id, String name, int age, EMail eMail) {
         return actorService.updateActor(id, name, age, eMail);
     }
 
-    /**
-     * Deletes an actor account.
-     * @param id The unique ID of the actor.
-     * @return true if the account was successfully deleted, false if the actor does not exist.
-     */
-    public boolean deleteActorAccount(Integer id) {
-        return actorService.deleteActor(id);
+    public void deleteActorAccount(Integer id) {
+        actorService.deleteActor(id);
     }
 
-    /**
-     * Change the salary of an actor.
-     * @param id The unique ID of the actor.
-     * @param salary The new salary for the actor.
-     * @return true if the salary was successfully updated, false if the actor does not exist.
-     */
-    public boolean changeSalary(Integer id, int salary) {
-        return actorService.changeSalary(id, salary);
+    public void changeSalary(Integer id, int salary) {
+        actorService.changeSalary(id, salary);
     }
 
     /**
