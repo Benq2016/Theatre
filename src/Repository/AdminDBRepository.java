@@ -1,25 +1,25 @@
 package Repository;
 
-import Domain.Actor;
+import Domain.Admin;
 import Domain.EMail;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActorDBRepository implements Repository<Actor>{
+public class AdminDBRepository implements Repository<Admin>{
     private final String url = "jdbc:sqlserver://localhost:1433;databaseName=Theatre_MAP_Project;encrypt=true;trustServerCertificate=true";
     private final String userName = "SystemAdmin";
     private final String password = "0000";
 
     @Override
-    public void create(Actor obj) {
+    public void create(Admin obj) {
 
         if (exists(obj.getID())) {  // if the object is present in the database, skip the creation of the same(new) object
             return;
         }
 
-        String sql = "INSERT INTO Actor(ID,name,age,emailAddress,emailPassword,salary) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO Admin(ID,name,age,emailAddress,emailPassword) VALUES(?,?,?,?,?)";
         try (Connection conn = DriverManager.getConnection(url, userName, password);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -28,32 +28,31 @@ public class ActorDBRepository implements Repository<Actor>{
             ps.setInt(3, obj.getAge());
             ps.setString(4, obj.getEmail().getEmailAddress());
             ps.setString(5, obj.getEmail().getPassword());
-            ps.setInt(6, obj.getSalary());
 
             ps.executeUpdate();
         }catch (SQLException e) {
-            System.out.println("Error adding Actor into the database");
+            System.out.println("Error adding Admin into the database");
         }
     }
 
     @Override
     public void delete(Integer objID) {
-        String sql = "DELETE FROM Actor WHERE ID=?";
+        String sql = "DELETE FROM Admin WHERE ID=?";
         try (Connection conn = DriverManager.getConnection(url, userName, password);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, objID);
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error deleting Actor from the database");
+            System.out.println("Error deleting Admin from the database");
             e.printStackTrace();
         }
 
     }
 
     @Override
-    public void update(Actor obj) {
-        String sql = "UPDATE Actor SET name = ?, age = ?, emailAddress = ?, emailPassword = ?, salary = ? WHERE ID = ?";
+    public void update(Admin obj) {
+        String sql = "UPDATE Admin SET name = ?, age = ?, emailAddress = ?, emailPassword = ? WHERE ID = ?";
         try (Connection conn = DriverManager.getConnection(url, userName, password);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -61,19 +60,18 @@ public class ActorDBRepository implements Repository<Actor>{
             ps.setInt(2, obj.getAge());
             ps.setString(3, obj.getEmail().getEmailAddress());
             ps.setString(4, obj.getEmail().getPassword());
-            ps.setInt(5, obj.getSalary());
-            ps.setInt(6, obj.getID());
+            ps.setInt(5, obj.getID());
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error updating Actor in the database");
+            System.out.println("Error updating Admin in the database");
             e.printStackTrace();
         }
     }
 
     @Override
-    public Actor getByID(Integer id) {
-        String sql = "SELECT * FROM Actor WHERE ID = ?";
+    public Admin getByID(Integer id) {
+        String sql = "SELECT * FROM Admin WHERE ID = ?";
         try (Connection conn = DriverManager.getConnection(url, userName, password);
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -82,26 +80,25 @@ public class ActorDBRepository implements Repository<Actor>{
 
             if (rs.next()) {
                 EMail email = new EMail(rs.getString("emailAddress"), rs.getString("emailPassword"));
-                Actor actor = new Actor(
+                Admin admin = new Admin(
                         rs.getInt("ID"),
                         rs.getString("name"),
                         rs.getInt("age"),
-                        email,
-                        rs.getInt("salary")
+                        email
                 );
-                return actor;
+                return admin;
             }
         } catch (SQLException e) {
-            System.out.println("Error retrieving Actor from the database");
+            System.out.println("Error retrieving Admin from the database");
             e.printStackTrace();
         }
         return null;
     }
 
     @Override
-    public List<Actor> getAll() {
-        String sql = "SELECT * FROM Actor";
-        List<Actor> actors = new ArrayList<>();
+    public List<Admin> getAll() {
+        String sql = "SELECT * FROM Admin";
+        List<Admin> admins = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(url, userName, password);
              Statement stmt = conn.createStatement()) {
 
@@ -109,24 +106,23 @@ public class ActorDBRepository implements Repository<Actor>{
 
             while (rs.next()) {
                 EMail email = new EMail(rs.getString("emailAddress"), rs.getString("emailPassword"));
-                Actor actor = new Actor(
+                Admin admin = new Admin(
                         rs.getInt("ID"),
                         rs.getString("name"),
                         rs.getInt("age"),
-                        email,
-                        rs.getInt("salary")
+                        email
                 );
-                actors.add(actor);
+                admins.add(admin);
             }
         } catch (SQLException e) {
-            System.out.println("Error retrieving all Actors from the database");
+            System.out.println("Error retrieving all Admins from the database");
             e.printStackTrace();
         }
-        return actors;
+        return admins;
     }
 
     private boolean exists(int id) {
-        String sql = "SELECT COUNT(*) FROM Actor WHERE ID = ?";
+        String sql = "SELECT COUNT(*) FROM Admin WHERE ID = ?";
         try (Connection conn = DriverManager.getConnection(url, userName, password);
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -140,7 +136,5 @@ public class ActorDBRepository implements Repository<Actor>{
         }
         return false;
     }
-
-
 }
 

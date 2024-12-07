@@ -39,7 +39,6 @@ public class Auditorium implements HasID{
         }
     }
 
-
     public String getName() {
         return name;
     }

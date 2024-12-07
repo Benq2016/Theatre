@@ -62,6 +62,16 @@ public class App {
                 orderRepository = new OrderFileRepository("src/FilesForStorage/OrderFile");
                 break;
             }
+            case "3": {
+//                  Database instantiation
+                adminRepository = new AdminDBRepository();
+                actorRepository = new ActorDBRepository();
+                auditoriumRepository = new AuditoriumDBRepository();
+                showRepository = new ShowDBRepository();
+                viewerRepository = new ViewerDBRepository();
+                orderRepository = new InMemoryRepository<Order>();
+                break;
+            }
             default:
                 throw new IllegalArgumentException("Invalid storage type selected.");
         }
@@ -84,6 +94,11 @@ public class App {
 
         if (storageType.equals("2")) {
             ((ShowFileRepository) showRepository).setTheatreController(tc);
+            makeInitialObjects(tc);
+            setInitialStaticIDForEveryDomain(tc);
+        }
+
+        if (storageType.equals("3")) {
             makeInitialObjects(tc);
             setInitialStaticIDForEveryDomain(tc);
         }
@@ -276,9 +291,12 @@ public class App {
                 viewerService, orderService);
 
         TheatreController tc = new TheatreController(ts);
+
+        Actor.setIdCounter(1);
+
         System.out.println(tc.viewActors());
         tc.createActorAccount("Peter",34,new EMail("peter@gmail.com","asd"), 1200);
-        System.out.println(tc.viewActors());
+//        System.out.println(tc.viewActors());
 
     }
 }

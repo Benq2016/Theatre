@@ -1,6 +1,7 @@
 package Service;
 
 import Domain.*;
+import Repository.AdminDBRepository;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -532,4 +533,5 @@ public class TheatreService {
     public List<Show> getShowsFiltered() {
         return showService.getShowsFiltered();
     }
+
 }
