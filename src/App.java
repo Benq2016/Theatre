@@ -69,7 +69,7 @@ public class App {
                 auditoriumRepository = new AuditoriumDBRepository();
                 showRepository = new ShowDBRepository();
                 viewerRepository = new ViewerDBRepository();
-                orderRepository = new InMemoryRepository<Order>();
+                orderRepository = new OrderDBRepository();
                 break;
             }
             default:
