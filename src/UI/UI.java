@@ -79,21 +79,20 @@ public class UI {
         while (true) {
             System.out.println("\nWelcome Viewer");
             System.out.println("What do you want to do?");
-            System.out.println("1 - View shows");
+            System.out.println("1 - View upcoming shows");
             System.out.println("2 - Create order");
             System.out.println("3 - View my orders");
             System.out.println("4 - Manage personal account");
             System.out.println("5 - Delete order");
-            System.out.println("6 - Sort show");
-            System.out.println("7 - View upcoming shows");
-            System.out.println("8 - Sort order");
-            System.out.println("9 - Filter order");
+            System.out.println("6 - Sort show by date");
+            System.out.println("7 - Sort order by date");
+            System.out.println("8 - Filter order by date");
             System.out.println("0 - Log out");
 
             String input = reader.readLine();
             switch (input) {
                 case "1":
-                    viewAllShows();
+                    filterShows();
                     break;
                 case "2":
                     createOrder(id);
@@ -112,19 +111,16 @@ public class UI {
                     sortShows();
                     break;
                 case "7":
-                    filterShows();
-                    break;
-                case "8":
                     sortOrders(id);
                     break;
-                case "9":
+                case "8":
                     filterOrders(id);
                     break;
                 case "0":
                     return;
                 default:
                     System.out.println("Invalid option. Please choose " +
-                            "1, 2, 3, 4, 5, 6, 7, 8, 9 or 0.");
+                            "1, 2, 3, 4, 5, 6, 7, 8 or 0.");
             }
         }
     }

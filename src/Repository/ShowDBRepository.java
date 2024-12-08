@@ -177,7 +177,7 @@ public class ShowDBRepository implements Repository<Show> {
 
         // SQL query to fetch actors and roles for a particular show
         String sql = "SELECT actor.ID, actor.name, actor.age, actor.emailAddress, actor.emailPassword, Show_Actor_Roles.Role " +
-                "FROM Show_Actor_Roles" +
+                "FROM Show_Actor_Roles " +
                 "INNER JOIN Actor ON Show_Actor_Roles.ActorID = Actor.ID " +
                 "WHERE Show_Actor_Roles.ShowID = ?";
 
@@ -211,7 +211,7 @@ public class ShowDBRepository implements Repository<Show> {
         try (Connection connection = DriverManager.getConnection(url, userName, password);
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ResultSet rs = ps.executeQuery(sql);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 int auditoriumId = rs.getInt("AuditoriumID");
@@ -228,6 +228,7 @@ public class ShowDBRepository implements Repository<Show> {
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving all Shows from the database");
+            e.printStackTrace();
         }
         return shows;
     }

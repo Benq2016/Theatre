@@ -108,7 +108,6 @@ public class App {
         UI ui = new UI(tc);
         ui.RUN(emailGotFromLoginSignIn);
 
-//        testDBStuff();
     }
 
     /**
@@ -176,7 +175,9 @@ public class App {
         List<Integer> seats2 = new ArrayList<>();
         seats2.add(3); seats2.add(7); seats2.add(64); seats2.add(84);
 
-        tc.createOrder(viewer1.getID(), 1,  seats1);
+//        System.out.println("Until here it is working!");
+
+        tc.createOrder(viewer1.getID(), 1,  seats1);  // DONT FORGET TO MAKE IT UNCOMMENTED
         tc.createOrder(viewer1.getID(), 3,  seats2);
     }
 
@@ -250,40 +251,4 @@ public class App {
         Person.setIdCounter(staticID);
     }
 
-
-    public static void testDBStuff(){
-        Repository<Admin> adminRepository;
-        Repository<Actor> actorRepository;
-        Repository<Auditorium> auditoriumRepository;
-        Repository<Show> showRepository;
-        Repository<Viewer> viewerRepository;
-        Repository<Order> orderRepository;
-
-        adminRepository = new InMemoryRepository<Admin>();
-        actorRepository = new ActorDBRepository();
-        auditoriumRepository = new InMemoryRepository<Auditorium>();
-        showRepository = new InMemoryRepository<Show>();
-        viewerRepository = new InMemoryRepository<Viewer>();
-        orderRepository = new InMemoryRepository<Order>();
-
-        ActorService actorService = new ActorService(actorRepository);
-        AdminService adminService = new AdminService(adminRepository);
-        ViewerService viewerService = new ViewerService(viewerRepository);
-        ShowService showService = new ShowService(showRepository);
-        AuditoriumService auditoriumService = new AuditoriumService(auditoriumRepository);
-        OrderService orderService = new OrderService(orderRepository);
-
-
-        TheatreService ts = new TheatreService(adminService, actorService, auditoriumService, showService,
-                viewerService, orderService);
-
-        TheatreController tc = new TheatreController(ts);
-
-        Actor.setIdCounter(1);
-
-        System.out.println(tc.viewActors());
-        tc.createActorAccount("Peter",34,new EMail("peter@gmail.com","asd"), 1200);
-//        System.out.println(tc.viewActors());
-
-    }
 }

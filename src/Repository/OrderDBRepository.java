@@ -19,7 +19,7 @@ public class OrderDBRepository implements Repository<Order> {
         if (exists(obj.getID()))
             return;
 
-        String orderSql = "INSERT INTO Order(ID, date, viewerID, showID, totalPrice) VALUES (?, ?, ?, ?, ?))";
+        String orderSql = "INSERT INTO [Order](ID, date, viewerID, showID, totalPrice) VALUES (?, ?, ?, ?, ?)";
         String ticketSql =  "INSERT INTO Ticket (ID, ShowName, ViewerName, AuditoriumName, Price," +
                 " Seat, OrderID) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -51,7 +51,11 @@ public class OrderDBRepository implements Repository<Order> {
                         psTicket.addBatch();
                     }
 
-                    psTicket.executeBatch();
+                    if (obj.getTickets().isEmpty()) {
+                        System.out.println("No tickets to insert for the order.");
+                    } else {
+                        psTicket.executeBatch();
+                    }
                 }
 
                 connection.commit();
@@ -187,19 +191,23 @@ public class OrderDBRepository implements Repository<Order> {
     }
 
 
-    private boolean exists(int id) {
-        String sql = "SELECT COUNT(*) FROM Order WHERE ID = ?";
-        try (Connection conn = DriverManager.getConnection(url, userName, password);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1) > 0; // Returns true if count > 0
-                }
+    private boolean exists(int orderId) {
+        String orderSql = "SELECT 1 FROM [Order] WHERE ID = ?";
+
+        try (Connection connection = DriverManager.getConnection(url, userName, password);
+             PreparedStatement psOrder = connection.prepareStatement(orderSql)) {
+
+            psOrder.setInt(1, orderId);
+
+            try (ResultSet rs = psOrder.executeQuery()) {
+                return rs.next(); //if exists -> true
             }
+
         } catch (SQLException e) {
-//            e.printStackTrace();
+            System.out.println("Error checking existence of order.");
+            e.printStackTrace();
         }
+
         return false;
     }
 }
