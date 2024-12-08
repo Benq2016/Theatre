@@ -1,5 +1,7 @@
 package Service;
 
+import Exceptions.EntityNotFoundException;
+import Exceptions.ValidationException;
 import Repository.Repository;
 import Domain.*;
 
@@ -30,6 +32,20 @@ public class AuditoriumService {
     }
 
     /**
+     * Retrieves an auditorium by its name.
+     * @param name The name of the auditorium to retrieve.
+     * @return The Auditorium object with the specified name, or {@code null} if no auditorium is found.
+     */
+    public Auditorium getAuditoriumByName(String name) {
+        List<Auditorium> auditoriums = auditoriumRepository.getAll();
+        for (Auditorium auditorium : auditoriums) {
+            if (auditorium.getName().equals(name))
+                return auditorium;
+        }
+        return null;
+    }
+
+    /**
      * Retrieves all auditoriums.
      * @return A list of all Auditorium objects.
      */
@@ -38,28 +54,28 @@ public class AuditoriumService {
     }
 
     /**
-     * Creates a new auditorium.
+     * Creates a new auditorium and adds it to the repository.
      * @param name The name of the auditorium.
      * @param rows The number of rows in the auditorium.
      * @param cols The number of columns in the auditorium.
-     * @return True if the auditorium is successfully created; otherwise, false if an auditorium with the given ID already exists.
+     * @return The newly created Auditorium object.
      */
-    public boolean createAuditorium(String name, int rows, int cols) {
-
+    public Auditorium createAuditorium(String name, int rows, int cols) {
+        if (getAuditoriumByName(name) != null)
+            throw new ValidationException("Auditorium with this name already exists!");
         Auditorium auditorium = new Auditorium(name, rows, cols);
         auditoriumRepository.create(auditorium);
-        return true;
+        return auditorium;
     }
 
     /**
      * Deletes an auditorium by its unique ID.
      * @param id The unique ID of the auditorium to delete.
-     * @return True if the auditorium is successfully deleted; otherwise, false if the auditorium does not exist.
+     * @throws EntityNotFoundException If no auditorium with the specified ID exists.
      */
-    public boolean deleteAuditorium(Integer id) {
+    public void deleteAuditorium(Integer id) {
         if (getAuditorium(id) == null)
-            return false;
+            throw new EntityNotFoundException("Auditorium not found!");
         auditoriumRepository.delete(id);
-        return true;
     }
 }

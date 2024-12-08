@@ -1,6 +1,8 @@
 package Service;
 
 import Domain.*;
+import Exceptions.EntityNotFoundException;
+import Exceptions.ValidationException;
 import Repository.AdminDBRepository;
 
 import java.time.LocalDate;
@@ -119,62 +121,107 @@ public class TheatreService {
 
     ////////////////*** CREATE *** UPDATE *** DELETE ***////////////////
 
+
     /**
-     * Creates a new viewer account.
+     * Creates a viewer account.
      * @param name The name of the viewer.
      * @param age The age of the viewer.
-     * @param eMail The email of the viewer.
-     * @return true if the account was successfully created, false if the viewer already exists.
-     */
-    public boolean createViewerAccount(String name, int age, EMail eMail){
+     * @param eMail The email address of the viewer.
+     * @return The newly created Viewer object.
+     * */
+    public Viewer createViewerAccount(String name, int age, EMail eMail) {
         return viewerService.createViewer(name, age, eMail);
     }
 
     /**
-     * Updates an existing viewer's account.
+     * Updates a viewer's account information.
      * @param id The unique ID of the viewer.
      * @param name The updated name of the viewer.
      * @param age The updated age of the viewer.
-     * @param eMail The updated email of the viewer.
-     * @return true if the account was successfully updated, false if the viewer does not exist.
+     * @param eMail The updated email address of the viewer.
+     * @return The updated Viewer object.
      */
-    public boolean manageViewerAccount(Integer id, String name, int age, EMail eMail) {
+    public Viewer manageViewerAccount(Integer id, String name, int age, EMail eMail) {
         return viewerService.updateViewer(id, name, age, eMail);
     }
 
     /**
      * Deletes a viewer account.
-     * @param id The unique ID of the viewer.
-     * @return true if the account was successfully deleted, false if the viewer does not exist.
+     * @param id The unique ID of the viewer to delete.
      */
-    public boolean deleteViewerAccount(Integer id) {
-        return viewerService.deleteViewer(id);
+    public void deleteViewerAccount(Integer id) {
+        viewerService.deleteViewer(id);
     }
 
-    public Admin createAdminAccount(Integer id, String name, int age, EMail eMail){
+    /**
+     * Creates an admin account.
+     * @param id The unique ID of the admin.
+     * @param name The name of the admin.
+     * @param age The age of the admin.
+     * @param eMail The email address of the admin.
+     * @return The newly created Admin object.
+     */
+    public Admin createAdminAccount(Integer id, String name, int age, EMail eMail) {
         return adminService.createAdmin(id, name, age, eMail);
     }
 
+    /**
+     * Updates an admin's account information.
+     * @param id The unique ID of the admin.
+     * @param name The updated name of the admin.
+     * @param age The updated age of the admin.
+     * @param eMail The updated email address of the admin.
+     * @return The updated Admin object.
+     */
     public Admin manageAdminAccount(Integer id, String name, int age, EMail eMail) {
         return adminService.updateAdmin(id, name, age, eMail);
     }
 
+    /**
+     * Deletes an admin account.
+     * @param id The unique ID of the admin to delete.
+     */
     public void deleteAdminAccount(Integer id) {
         adminService.deleteAdmin(id);
     }
 
-    public Actor createActorAccount(String name, int age, EMail eMail, int salary){
+    /**
+     * Creates an actor account.
+     * @param name The name of the actor.
+     * @param age The age of the actor.
+     * @param eMail The email address of the actor.
+     * @param salary The salary of the actor.
+     * @return The newly created Actor object.
+     */
+    public Actor createActorAccount(String name, int age, EMail eMail, int salary) {
         return actorService.createActor(name, age, eMail, salary);
     }
 
+    /**
+     * Updates an actor's account information.
+     * @param id The unique ID of the actor.
+     * @param name The updated name of the actor.
+     * @param age The updated age of the actor.
+     * @param eMail The updated email address of the actor.
+     * @return The updated Actor object.
+     */
     public Actor manageActorAccount(Integer id, String name, int age, EMail eMail) {
         return actorService.updateActor(id, name, age, eMail);
     }
 
+    /**
+     * Deletes an actor account.
+     * @param id The unique ID of the actor to delete.
+     */
     public void deleteActorAccount(Integer id) {
         actorService.deleteActor(id);
     }
 
+    /**
+     * Changes the salary of an actor.
+     * @param id The unique ID of the actor.
+     * @param salary The new salary of the actor.
+     */
     public void changeSalary(Integer id, int salary) {
         actorService.changeSalary(id, salary);
     }
@@ -184,78 +231,83 @@ public class TheatreService {
      * @param name The name of the auditorium.
      * @param rows The number of rows in the auditorium.
      * @param cols The number of columns in the auditorium.
-     * @return true if the auditorium was successfully created, false if the auditorium already exists.
+     * @return The newly created Auditorium object.
      */
-    public boolean createAuditorium(String name, int rows, int cols){
+    public Auditorium createAuditorium(String name, int rows, int cols) {
         return auditoriumService.createAuditorium(name, rows, cols);
     }
 
     /**
      * Deletes an auditorium.
-     * @param id The unique ID of the auditorium.
-     * @return true if the auditorium was successfully deleted, false if the auditorium does not exist.
+     * @param id The unique ID of the auditorium to delete.
      */
-    public boolean deleteAuditorium(Integer id) {
-        return auditoriumService.deleteAuditorium(id);
+    public void deleteAuditorium(Integer id) {
+        auditoriumService.deleteAuditorium(id);
     }
 
     /**
-     * Creates a new show.
+     * Creates a new show and adds it to the repository.
      * @param title The title of the show.
-     * @param date The date of the show.
-     * @param auditoriumID The ID of the auditorium where the show will take place.
-     * @param roles The roles played by actors in the show.
-     * @param price The price of the tickets for the show.
-     * @return true if the show was successfully created, false if the show already exists or the auditorium is invalid.
+     * @param date The date and time of the show.
+     * @param auditoriumID The ID of the auditorium where the show will be held.
+     * @param roles A map of actors and their corresponding roles in the show.
+     * @param price The ticket price for the show.
+     * @return The newly created Show object.
+     * @throws EntityNotFoundException If the auditorium with the specified ID does not exist.
      */
-    public boolean createShow(String title, Date date, Integer auditoriumID, Map<Actor, String> roles, int price) {
+    public Show createShow(String title, Date date, Integer auditoriumID, Map<Actor, String> roles, int price) {
 
         if (auditoriumService.getAuditorium(auditoriumID) == null)
-            return false;
+            throw new EntityNotFoundException("Auditorium does not exist!");
 
         Auditorium auditorium = auditoriumService.getAuditorium(auditoriumID);
         Show show = new Show(title, date, auditorium, roles, price);
         showService.createShow(show);
-        return true;
+        return show;
     }
 
     /**
-     * Deletes a show by its unique identifier.
-     * @param id the unique identifier of the show to be deleted
-     * @return true if the show was successfully deleted, false if no show was found with the given id
+     * Deletes a show by its unique ID.
+     * @param id The unique ID of the show to delete.
      */
-    public boolean deleteShow(Integer id) {
-        return showService.deleteShow(id);
+    public void deleteShow(Integer id) {
+        showService.deleteShow(id);
     }
 
     /**
-     * Creates a new order for a viewer to attend a show, selecting specific seats.
-     * @param viewerID the unique identifier of the viewer placing the order
-     * @param showID the unique identifier of the show
-     * @param seats a list of seat numbers being reserved for the viewer
-     * @return true if the order was created successfully, false if any of the provided identifiers are invalid or seats are unavailable
+     * Creates a new order for a specified viewer and show.
+     * @param viewerID The unique ID of the viewer placing the order.
+     * @param showID The unique ID of the show for which the order is being placed.
+     * @param seats A list of seat numbers the viewer wants to book.
+     * @return The newly created Order object.
+     * @throws EntityNotFoundException If the viewer or show with the specified IDs does not exist.
+     * @throws ValidationException If the specified seats are already occupied.
      */
-    public boolean createOrder(Integer viewerID, int showID, List<Integer> seats) {
+    public Order createOrder(Integer viewerID, int showID, List<Integer> seats) {
+        List<Integer> simplifiedSeats = new ArrayList<>();
+        for (int seat : seats)
+            if (!simplifiedSeats.contains(seat))
+                simplifiedSeats.add(seat);
 
         if (viewerService.getViewer(viewerID) == null)
-            return false;
+            throw new EntityNotFoundException("Viewer does not exist!");
 
         if (showService.getShow(showID) == null)
-            return false;
+            throw new EntityNotFoundException("Show does not exist!");
 
         LocalDate date = LocalDateTime.now().toLocalDate();
 
         int price = showService.getShow(showID).getPrice();
-        int totalPrice = price * seats.size();
+        int totalPrice = price * simplifiedSeats.size();
 
-        List<Ticket> tickets = createTickets(viewerID, showID, seats, price);
+        List<Ticket> tickets = createTickets(viewerID, showID, simplifiedSeats, price);
 
-        if(!occupySeats(showID, seats))
-            return false;
+        if(!occupySeats(showID, simplifiedSeats))
+            throw new ValidationException("Seats were already occupied!");
 
-        Order order = new Order(date, viewerID, showID, seats, tickets, totalPrice);
+        Order order = new Order(date, viewerID, showID, simplifiedSeats, tickets, totalPrice);
         orderService.createOrder(order);
-        return true;
+        return order;
     }
 
     /**
@@ -324,16 +376,28 @@ public class TheatreService {
     }
 
     /**
-     * Deletes an order by its unique identifier, and releases the occupied seats.
-     * @param id the unique identifier of the order to be deleted
-     * @return the total price of the order if successfully deleted, 0 if no order was found with the given id
+     * Deletes an order by its unique ID and releases the associated seats.
+     * @param id The unique ID of the order to delete.
+     * @return The total price of the deleted order.
+     * @throws EntityNotFoundException If no order with the specified ID exists or if the Show was already played.
      */
     public int deleteOrder(Integer id) {
         Order order = orderService.getOrder(id);
         if (order == null)
-            return 0;
+            throw new EntityNotFoundException("Order does not exist!");
 
         Show show = showService.getShow(order.getShowID());
+
+        List<Show> futureShows = getShowsFiltered();
+
+        int ok = 0;
+        for (Show show2 : futureShows) {
+            if (show.equals(show2))
+                ok++;
+        }
+
+        if (ok == 0)
+            throw new EntityNotFoundException("Action unavailable for shows which were already played!");
 
         Auditorium auditorium = show.getAudit();
 
@@ -533,5 +597,4 @@ public class TheatreService {
     public List<Show> getShowsFiltered() {
         return showService.getShowsFiltered();
     }
-
 }

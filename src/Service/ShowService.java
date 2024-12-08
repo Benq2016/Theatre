@@ -1,5 +1,6 @@
 package Service;
 
+import Exceptions.EntityNotFoundException;
 import Repository.Repository;
 import Domain.*;
 
@@ -72,13 +73,11 @@ public class ShowService {
     /**
      * Deletes a show by its unique ID.
      * @param id The unique ID of the show to delete.
-     * @return true if the show was successfully deleted, false otherwise.
+     * @throws EntityNotFoundException If no show with the specified ID exists.
      */
-    public boolean deleteShow(Integer id) {
+    public void deleteShow(Integer id) {
         if (getShow(id) == null)
-            return false;
+            throw new EntityNotFoundException("Show does not exist!");
         showRepository.delete(id);
-        return true;
     }
-
 }

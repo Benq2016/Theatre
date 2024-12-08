@@ -16,7 +16,6 @@ public class TheatreController {
 
     /**
      * Constructor for TheatreController.
-     *
      * @param theatreService The service instance handling theatre operations.
      */
     public TheatreController(TheatreService theatreService) {
@@ -25,7 +24,6 @@ public class TheatreController {
 
     /**
      * Logs in a user using their email.
-     *
      * @param eMail The email of the user.
      * @return A session token if login is successful.
      */
@@ -34,129 +32,163 @@ public class TheatreController {
     }
 
     /**
-     * Creates a new viewer account.
-     *
+     * Creates a viewer account with the specified details.
      * @param name The name of the viewer.
      * @param age The age of the viewer.
      * @param eMail The email address of the viewer.
-     * @return True if the account is successfully created; otherwise, false.
+     * @return The created Viewer object.
      */
-    public boolean createViewerAccount(String name, int age, EMail eMail) {
+    public Viewer createViewerAccount(String name, int age, EMail eMail) {
         return theatreService.createViewerAccount(name, age, eMail);
     }
 
     /**
-     * Updates an existing viewer account.
-     *
+     * Updates a viewer account with the specified details.
      * @param id The unique ID of the viewer.
-     * @param name The updated name of the viewer.
-     * @param age The updated age of the viewer.
-     * @param eMail The updated email address of the viewer.
-     * @return True if the account is successfully updated; otherwise, false.
+     * @param name The new name of the viewer.
+     * @param age The new age of the viewer.
+     * @param eMail The new email address of the viewer.
+     * @return The updated Viewer object.
      */
-    public boolean manageViewerAccount(Integer id, String name, int age, EMail eMail) {
+    public Viewer manageViewerAccount(Integer id, String name, int age, EMail eMail) {
         return theatreService.manageViewerAccount(id, name, age, eMail);
     }
 
     /**
-     * Deletes a viewer account.
-     *
-     * @param id The unique ID of the viewer.
-     * @return True if the account is successfully deleted; otherwise, false.
+     * Deletes a viewer account by its unique ID.
+     * @param id The unique ID of the viewer to delete.
      */
-    public boolean deleteViewerAccount(Integer id) {
-        return theatreService.deleteViewerAccount(id);
+    public void deleteViewerAccount(Integer id) {
+        theatreService.deleteViewerAccount(id);
     }
 
+    /**
+     * Creates an admin account with the specified details.
+     * @param id The unique ID of the admin.
+     * @param name The name of the admin.
+     * @param age The age of the admin.
+     * @param eMail The email address of the admin.
+     * @return The created Admin object.
+     */
     public Admin createAdminAccount(Integer id, String name, int age, EMail eMail) {
         return theatreService.createAdminAccount(id, name, age, eMail);
     }
 
+    /**
+     * Updates an admin account with the specified details.
+     * @param id The unique ID of the admin.
+     * @param name The new name of the admin.
+     * @param age The new age of the admin.
+     * @param eMail The new email address of the admin.
+     * @return The updated Admin object.
+     */
     public Admin manageAdminAccount(Integer id, String name, int age, EMail eMail) {
         return theatreService.manageAdminAccount(id, name, age, eMail);
     }
 
+    /**
+     * Deletes an admin account by its unique ID.
+     * @param id The unique ID of the admin to delete.
+     */
     public void deleteAdminAccount(Integer id) {
         theatreService.deleteAdminAccount(id);
     }
 
+    /**
+     * Creates an actor account with the specified details.
+     * @param name The name of the actor.
+     * @param age The age of the actor.
+     * @param eMail The email address of the actor.
+     * @param salary The salary of the actor.
+     * @return The created Actor object.
+     */
     public Actor createActorAccount(String name, int age, EMail eMail, int salary) {
         return theatreService.createActorAccount(name, age, eMail, salary);
     }
 
+    /**
+     * Updates an actor account with the specified details.
+     * @param id The unique ID of the actor.
+     * @param name The new name of the actor.
+     * @param age The new age of the actor.
+     * @param eMail The new email address of the actor.
+     * @return The updated Actor object.
+     */
     public Actor manageActorAccount(Integer id, String name, int age, EMail eMail) {
         return theatreService.manageActorAccount(id, name, age, eMail);
     }
 
+    /**
+     * Deletes an actor account by its unique ID.
+     * @param id The unique ID of the actor to delete.
+     */
     public void deleteActorAccount(Integer id) {
         theatreService.deleteActorAccount(id);
     }
 
+    /**
+     * Updates the salary of an actor.
+     * @param id The unique ID of the actor.
+     * @param salary The new salary of the actor.
+     */
     public void changeSalary(Integer id, int salary) {
         theatreService.changeSalary(id, salary);
     }
 
     /**
-     * Creates a new auditorium.
-     *
+     * Creates an auditorium with the specified details.
      * @param name The name of the auditorium.
      * @param rows The number of rows in the auditorium.
      * @param cols The number of columns in the auditorium.
-     * @return True if the auditorium is successfully created; otherwise, false.
+     * @return The created Auditorium object.
      */
-    public boolean createAuditorium(String name, int rows, int cols) {
+    public Auditorium createAuditorium(String name, int rows, int cols) {
         return theatreService.createAuditorium(name, rows, cols);
     }
 
     /**
-     * Deletes an auditorium.
-     *
-     * @param id The unique ID of the auditorium.
-     * @return True if the auditorium is successfully deleted; otherwise, false.
+     * Deletes an auditorium by its unique ID.
+     * @param id The unique ID of the auditorium to delete.
      */
-    public boolean deleteAuditorium(Integer id) {
-        return theatreService.deleteAuditorium(id);
+    public void deleteAuditorium(Integer id) {
+        theatreService.deleteAuditorium(id);
     }
 
     /**
-     * Creates a new show.
-
+     * Creates a show with the specified details.
+     *
      * @param title The title of the show.
      * @param date The date of the show.
-     * @param auditoriumID The ID of the auditorium where the show takes place.
-     * @param roles A map of actors to their roles in the show.
-     * @param price The ticket price for the show.
-     * @return True if the show is successfully created; otherwise, false.
+     * @param auditoriumID The unique ID of the auditorium hosting the show.
+     * @param roles A map of actors and their roles in the show.
+     * @param price The price of a ticket for the show.
+     * @return The created Show object.
      */
-    public boolean createShow(String title, Date date, Integer auditoriumID, Map<Actor, String> roles, int price) {
+    public Show createShow(String title, Date date, Integer auditoriumID, Map<Actor, String> roles, int price) {
         return theatreService.createShow(title, date, auditoriumID, roles, price);
     }
 
     /**
-     * Deletes a show.
-     *
-     * @param id The unique ID of the show.
-     * @return True if the show is successfully deleted; otherwise, false.
+     * Deletes a show by its unique ID.
+     * @param id The unique ID of the show to delete.
      */
-    public boolean deleteShow(Integer id) {
-        return theatreService.deleteShow(id);
+    public void deleteShow(Integer id) {
+        theatreService.deleteShow(id);
     }
 
     /**
      * Creates a new order for tickets.
-     *
      * @param viewerID The ID of the viewer placing the order.
      * @param showID The ID of the show for which tickets are ordered.
      * @param seats The list of seat numbers to be reserved.
-     * @return True if the order is successfully created; otherwise, false.
+     * @return An Order if the order is successfully created; otherwise, null.
      */
-    public boolean createOrder(Integer viewerID, Integer showID, List<Integer> seats) {
+    public Order createOrder(Integer viewerID, Integer showID, List<Integer> seats) {
         return theatreService.createOrder(viewerID, showID, seats);
     }
 
     /**
      * Deletes an existing order.
-     *
      * @param id The unique ID of the order to be deleted.
      * @return The total refund amount for the deleted order, or -1 if deletion fails.
      */
@@ -169,7 +201,6 @@ public class TheatreController {
 
     /**
      * Views account details for a specific email.
-     *
      * @param eMail The email address associated with the account.
      * @return The Person object representing the account details.
      */
@@ -179,7 +210,6 @@ public class TheatreController {
 
     /**
      * Views the list of shows in which a specific actor is performing.
-     *
      * @param id The unique ID of the actor.
      * @return A list of Show objects associated with the actor.
      */
@@ -189,7 +219,6 @@ public class TheatreController {
 
     /**
      * Views all orders placed by a specific viewer.
-     *
      * @param id The unique ID of the viewer.
      * @return A list of Order objects associated with the viewer.
      */
@@ -199,7 +228,6 @@ public class TheatreController {
 
     /**
      * Views all actors.
-     *
      * @return A list of Actor objects.
      */
     public List<Actor> viewActors() {
@@ -208,7 +236,6 @@ public class TheatreController {
 
     /**
      * Views details of a specific actor.
-     *
      * @param id The unique ID of the actor.
      * @return The Actor object representing the actor details.
      */
@@ -218,7 +245,6 @@ public class TheatreController {
 
     /**
      * Views all viewers.
-     *
      * @return A list of Viewer objects.
      */
     public List<Viewer> viewViewers() {
@@ -227,7 +253,6 @@ public class TheatreController {
 
     /**
      * Views details of a specific viewer.
-     *
      * @param id The unique ID of the viewer.
      * @return The Viewer object representing the viewer details.
      */
@@ -237,7 +262,6 @@ public class TheatreController {
 
     /**
      * Views all admins.
-     *
      * @return A list of Admin objects.
      */
     public List<Admin> viewAdmins() {
@@ -246,7 +270,6 @@ public class TheatreController {
 
     /**
      * Views details of a specific admin.
-     *
      * @param id The unique ID of the admin.
      * @return The Admin object representing the admin details.
      */
@@ -256,7 +279,6 @@ public class TheatreController {
 
     /**
      * Views all auditoriums.
-     *
      * @return A list of Auditorium objects.
      */
     public List<Auditorium> viewAuditoriums() {
@@ -265,7 +287,6 @@ public class TheatreController {
 
     /**
      * Views details of a specific auditorium.
-     *
      * @param id The unique ID of the auditorium.
      * @return The Auditorium object representing the auditorium details.
      */
@@ -275,7 +296,6 @@ public class TheatreController {
 
     /**
      * Gets the auditorium associated with a specific show.
-     *
      * @param id The unique ID of the show.
      * @return The Auditorium object associated with the show.
      */
@@ -285,7 +305,6 @@ public class TheatreController {
 
     /**
      * Views all shows.
-     *
      * @return A list of Show objects.
      */
     public List<Show> viewShows() {
@@ -294,7 +313,6 @@ public class TheatreController {
 
     /**
      * Views all shows sorted by date or other criteria.
-     *
      * @return A sorted list of Show objects.
      */
     public List<Show> viewShowsSorted() {
@@ -303,7 +321,6 @@ public class TheatreController {
 
     /**
      * Views shows that meet specific filtering criteria.
-     *
      * @return A filtered list of Show objects.
      */
     public List<Show> viewShowsFiltered() {
@@ -312,7 +329,6 @@ public class TheatreController {
 
     /**
      * Views details of a specific show.
-     *
      * @param id The unique ID of the show.
      * @return The Show object representing the show details.
      */
@@ -322,7 +338,6 @@ public class TheatreController {
 
     /**
      * Views all orders.
-     *
      * @return A list of Order objects.
      */
     public List<Order> viewOrders() {
@@ -331,7 +346,6 @@ public class TheatreController {
 
     /**
      * Views orders sorted by specific criteria.
-     *
      * @param id The ID to filter or sort orders for (e.g., viewer or show ID).
      * @return A sorted list of Order objects.
      */
@@ -341,7 +355,6 @@ public class TheatreController {
 
     /**
      * Views orders filtered by specific criteria (e.g., viewer or show details).
-     *
      * @param id The ID to filter orders for (e.g., viewer ID).
      * @return A filtered list of Order objects.
      */
@@ -351,7 +364,6 @@ public class TheatreController {
 
     /**
      * Views details of a specific order.
-     *
      * @param id The unique ID of the order.
      * @return The Order object representing the order details.
      */

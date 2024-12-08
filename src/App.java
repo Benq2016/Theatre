@@ -170,27 +170,14 @@ public class App {
         tc.createShow("New show1", date3, 1, roles, 25);
         tc.createShow("New show2", date4, 2, roles, 30);
 
-        tc.createViewerAccount("Victor Ross", 23, new EMail("victor@gmail.com", "123"));
-
+        Viewer viewer1 = tc.createViewerAccount("Victor Ross", 23, new EMail("victor@gmail.com", "123"));
         List<Integer> seats1 = new ArrayList<>();
         seats1.add(1); seats1.add(2); seats1.add(45); seats1.add(46);
         List<Integer> seats2 = new ArrayList<>();
-        seats2.add(1); seats2.add(7); seats2.add(64); seats2.add(84);
+        seats2.add(3); seats2.add(7); seats2.add(64); seats2.add(84);
 
-        tc.createOrder(1, 1,  seats1);
-//        System.out.println(tc.viewAuditorium(1));
-
-        tc.createOrder(2, 1,  seats2);
-//        System.out.println(tc.viewAuditorium(1));
-//        System.out.println(tc.viewAuditorium(2));
-
-//        tc.viewOrders().forEach(System.out::println);
-//        tc.viewOrdersSorted().forEach(System.out::println);
-//        tc.viewOrders().forEach(System.out::println);
-
-//        tc.deleteOrder(1);
-//        tc.viewOrders().forEach(System.out::println);
-//        System.out.println(tc.viewAuditorium(1));
+        tc.createOrder(viewer1.getID(), 1,  seats1);
+        tc.createOrder(viewer1.getID(), 3,  seats2);
     }
 
     /**
