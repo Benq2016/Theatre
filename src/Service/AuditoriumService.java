@@ -61,8 +61,8 @@ public class AuditoriumService {
      * @return The newly created Auditorium object.
      */
     public Auditorium createAuditorium(String name, int rows, int cols) {
-//        if (getAuditoriumByName(name) != null)
-//            throw new ValidationException("Auditorium with this name already exists!");
+        if (getAuditoriumByName(name) != null)
+            throw new ValidationException("Auditorium with this name already exists!");
         Auditorium auditorium = new Auditorium(name, rows, cols);
         auditoriumRepository.create(auditorium);
         return auditorium;

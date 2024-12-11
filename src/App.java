@@ -1,4 +1,7 @@
 import Controller.TheatreController;
+import Exceptions.EntityNotFoundException;
+import Exceptions.UserExistenceException;
+import Exceptions.ValidationException;
 import Repository.*;
 import Service.*;
 import Domain.*;
@@ -115,16 +118,32 @@ public class App {
      * @param tc - TheatreController for connecting with the running theaterController
      */
     public static void makeInitialObjects(TheatreController tc) {
+        try {
         tc.createAdminAccount(1,"Boss David", 54, new EMail("david@gmail.com", "1230"));
+        } catch (UserExistenceException ignored) {}
 
+        try {
         tc.createActorAccount("Peter", 23, new EMail("peter@gmail.com", "123"), 1200);
+        } catch (UserExistenceException ignored) {}
+        try {
         tc.createActorAccount("Bence", 33, new EMail("bence@gmail.com", "asd"), 1500);
+        } catch (UserExistenceException ignored) {}
+        try {
         tc.createActorAccount("Anna", 21, new EMail("anna@gmail.com", "rte"), 2300);
+        } catch (UserExistenceException ignored) {}
+        try {
         tc.createActorAccount("Balazs", 26, new EMail("balazs@gmail.com", "hgf"), 1900);
+        } catch (UserExistenceException ignored) {}
+        try {
         tc.createActorAccount("Iosif", 44, new EMail("iosif@gmail.com", "123456"), 2230);
+        } catch (UserExistenceException ignored) {}
 
+        try{
         tc.createAuditorium("Grand Hall", 6, 15);
+        } catch (ValidationException ignored) {}
+        try {
         tc.createAuditorium("Klein Stage", 7, 12);
+        } catch (ValidationException ignored) {}
 
         Map<Actor, String> roles = new HashMap<>();
         roles.putIfAbsent(tc.viewActor(1),"Werther");
@@ -164,21 +183,33 @@ public class App {
             throw new RuntimeException(e);
         }
 
+        try {
         tc.createShow("Lets see if it runs!", date1, 1, roles, 25);
+        } catch (EntityNotFoundException ignored) {}
+        try {
         tc.createShow("Lets test the sort", date2, 2, roles, 30);
+        } catch (EntityNotFoundException ignored) {}
+        try {
         tc.createShow("New show1", date3, 1, roles, 25);
+        } catch (EntityNotFoundException ignored) {}
+        try{
         tc.createShow("New show2", date4, 2, roles, 30);
+        } catch (EntityNotFoundException ignored) {}
 
-        Viewer viewer1 = tc.createViewerAccount("Victor Ross", 23, new EMail("victor@gmail.com", "123"));
+        try {
+            tc.createViewerAccount("Victor Ross", 23, new EMail("victor@gmail.com", "123"));
+        } catch (UserExistenceException ignored) {}
         List<Integer> seats1 = new ArrayList<>();
         seats1.add(1); seats1.add(2); seats1.add(45); seats1.add(46);
         List<Integer> seats2 = new ArrayList<>();
         seats2.add(3); seats2.add(7); seats2.add(64); seats2.add(84);
 
-//        System.out.println("Until here it is working!");
-
-        tc.createOrder(viewer1.getID(), 1,  seats1);  // DONT FORGET TO MAKE IT UNCOMMENTED
-        tc.createOrder(viewer1.getID(), 3,  seats2);
+        try {
+        tc.createOrder(6, 1,  seats1);
+        } catch (EntityNotFoundException | ValidationException ignored) {}
+        try {
+        tc.createOrder(6, 3,  seats2);
+        } catch (EntityNotFoundException | ValidationException ignored) {}
     }
 
     /**
