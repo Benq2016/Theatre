@@ -1,5 +1,7 @@
 package Domain;
 
+import java.util.Objects;
+
 /**
  * The EMail class represents an email account with an email address and password.
  * It provides methods for accessing and comparing email details.

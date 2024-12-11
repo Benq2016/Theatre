@@ -97,12 +97,12 @@ public class App {
 
         if (storageType.equals("2")) {
             ((ShowFileRepository) showRepository).setTheatreController(tc);
-            makeInitialObjects(tc);
+//            makeInitialObjects(tc);
             setInitialStaticIDForEveryDomain(tc);
         }
 
         if (storageType.equals("3")) {
-            makeInitialObjects(tc);
+//            makeInitialObjects(tc);
             setInitialStaticIDForEveryDomain(tc);
         }
 

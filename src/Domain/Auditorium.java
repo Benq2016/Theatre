@@ -1,6 +1,7 @@
 package Domain;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Auditorium implements HasID{
     private static Integer idCounter = 0; /**Static variable for automatic ID incrementation*/
@@ -144,5 +145,21 @@ public class Auditorium implements HasID{
      * */
     public static void setIdCounter(Integer startingNumber) {
         idCounter = startingNumber;
+    }
+
+    /** Override equals() to compare Auditorium objects based on their fields */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true; // Check if the objects are the same instance
+        if (obj == null || getClass() != obj.getClass()) return false; // Ensure the same type
+
+        Auditorium that = (Auditorium) obj;
+
+        return id.equals(that.id) &&
+                capacity == that.capacity &&
+                rows == that.rows &&
+                cols == that.cols &&
+                Objects.equals(name, that.name) &&
+                Arrays.deepEquals(seatPlace, that.seatPlace); // Compare the 2D seatPlace array
     }
 }
