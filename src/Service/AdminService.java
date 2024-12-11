@@ -58,8 +58,8 @@ public class AdminService {
      * @throws UserExistenceException If an admin with the same ID already exists.
      */
     public Admin createAdmin(Integer id, String name, int age, EMail eMail) {
-        if (getAdmin(getAdminID(eMail)) != null)
-            throw new UserExistenceException("Email address already exists!");
+//        if (getAdmin(getAdminID(eMail)) != null)
+//            throw new UserExistenceException("Email address already exists!");
         Admin admin = new Admin(id, name, age, eMail);
         adminRepository.create(admin);
         return admin;
