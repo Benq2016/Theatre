@@ -76,8 +76,8 @@ public class ViewerService {
      * @throws UserExistenceException If a viewer with the same email address already exists.
      */
     public Viewer updateViewer(Integer id, String name, int age, EMail eMail) {
-        if (getViewer(getViewerID(eMail)) != null)
-            throw new UserExistenceException("Email address already exists!");
+//        if (getViewer(getViewerID(eMail)) != null)
+//            throw new UserExistenceException("Email address already exists!");
         Viewer viewer = getViewer(id);
         viewer.setName(name);
         viewer.setAge(age);

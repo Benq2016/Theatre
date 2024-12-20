@@ -58,7 +58,7 @@ public class ActorService {
      * @throws UserExistenceException If an actor with the same email address already exists.
      */
     public Actor createActor(String name, int age, EMail eMail, int salary) {
-//        if (getActor(getActorID(eMail.)) != null)
+//        if (getActor(getActorID(eMail)) != null)
 //            throw new UserExistenceException("Email address already exists!");
         Actor newActor =  new Actor(name, age, eMail, salary);
         actorRepository.create(newActor);
