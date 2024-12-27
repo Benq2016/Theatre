@@ -1,7 +1,9 @@
 package Domain;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Auditorium implements HasID{
     private static Integer idCounter = 0; /**Static variable for automatic ID incrementation*/
@@ -25,6 +27,29 @@ public class Auditorium implements HasID{
             }
         }
     }
+
+    public Auditorium(String name, int rows, int cols, Set<Integer> occupiedSeats) {
+        this.id = ++idCounter;
+        this.name = name;
+        this.capacity = rows * cols;
+        this.rows = rows;
+        this.cols = cols;
+        this.seatPlace = new boolean[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                seatPlace[i][j] = true;
+            }
+        }
+
+        for (Integer seatNumber : occupiedSeats) {
+            int row = (seatNumber - 1) / cols;
+            int col = (seatNumber - 1) % cols;
+            if (row >= 0 && row < rows && col >= 0 && col < cols) {
+                seatPlace[row][col] = false;
+            }
+        }
+    }
+
     /**Constructor with stored ID from DB or File*/
     public Auditorium(int id,String name, int rows, int cols) {
         this.id = id;

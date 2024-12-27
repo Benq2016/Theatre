@@ -370,4 +370,8 @@ public class TheatreController {
     public Order viewOrder(Integer id) {
         return theatreService.getOrder(id);
     }
+
+    public Auditorium getAuditoriumWithOccupiedSeats(Integer showID, Integer auditoriumID){
+        return theatreService.getAuditoriumWithOccupiedSeatsExcluded(showID,auditoriumID);
+    }
 }

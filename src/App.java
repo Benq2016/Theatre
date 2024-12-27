@@ -97,7 +97,7 @@ public class App {
 
         if (storageType.equals("2")) {
             ((ShowFileRepository) showRepository).setTheatreController(tc);
-//            makeInitialObjects(tc);
+            makeInitialObjects(tc);
             setInitialStaticIDForEveryDomain(tc);
         }
 
@@ -151,7 +151,7 @@ public class App {
         roles.putIfAbsent(tc.viewActor(4),"Faust");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        String date1S = "2024-11-18";
+        String date1S = "2024-12-18";
         Date date1;
         try {
             date1 = sdf.parse(date1S);
@@ -159,7 +159,7 @@ public class App {
             throw new RuntimeException(e);
         }
 
-        String date2S = "2024-11-27";
+        String date2S = "2024-12-26";
         Date date2;
         try {
             date2 = sdf.parse(date2S);
@@ -167,7 +167,7 @@ public class App {
             throw new RuntimeException(e);
         }
 
-        String date3S = "2024-12-05";
+        String date3S = "2025-02-05";
         Date date3;
         try {
             date3 = sdf.parse(date3S);
@@ -175,7 +175,7 @@ public class App {
             throw new RuntimeException(e);
         }
 
-        String date4S = "2024-12-25";
+        String date4S = "2025-01-25";
         Date date4;
         try {
             date4 = sdf.parse(date4S);
@@ -190,10 +190,10 @@ public class App {
         tc.createShow("Lets test the sort", date2, 2, roles, 30);
         } catch (EntityNotFoundException ignored) {}
         try {
-        tc.createShow("New show1", date3, 1, roles, 25);
+        tc.createShow("Future show1", date3, 1, roles, 25);
         } catch (EntityNotFoundException ignored) {}
         try{
-        tc.createShow("New show2", date4, 2, roles, 30);
+        tc.createShow("Future show2", date4, 2, roles, 30);
         } catch (EntityNotFoundException ignored) {}
 
         try {

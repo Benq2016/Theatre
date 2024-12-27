@@ -249,7 +249,8 @@ public class UI {
         if (auditorium == null)
             throw new EntityNotFoundException("There is no auditorium for the selected show");
 
-        System.out.println(theatreController.viewAuditorium(auditorium.getID()));
+//        System.out.println(theatreController.viewAuditorium(auditorium.getID()));
+        System.out.println(theatreController.getAuditoriumWithOccupiedSeats(showId,auditorium.getID()));
         int seatNr = -1;
         List<Integer> seats = new ArrayList<>();
         while (seatNr != 0) {

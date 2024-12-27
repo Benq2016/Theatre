@@ -597,4 +597,21 @@ public class TheatreService {
     public List<Show> getShowsFiltered() {
         return showService.getShowsFiltered();
     }
+
+    public Auditorium getAuditoriumWithOccupiedSeatsExcluded(Integer showId,Integer auditoriumId) {
+        Auditorium auditorium = auditoriumService.getAuditorium(auditoriumId);
+        List<Order> allOrders = orderService.getAllOrders();
+        Set<Integer> occupiedSeats = new HashSet<>();
+        for (Order order : allOrders) {
+            Show show = showService.getShow(order.getShowID());
+            if(show.getAudit().getID().equals(auditoriumId) && show.getID().equals(showId)){
+                List<Ticket> tickets = order.getTickets();
+                for (Ticket ticket : tickets) {
+                    occupiedSeats.add(ticket.getSeat());
+                }
+            }
+        }
+        return new Auditorium(auditorium.getName(),auditorium.getRows(),auditorium.getCols(),occupiedSeats);
+    }
+
 }
