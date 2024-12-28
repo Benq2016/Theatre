@@ -106,34 +106,16 @@ public class Auditorium implements HasID{
     }
 
     /**
-     * Returns a string representation of the Auditorium object.
-     *
-     * @return a string containing the id, name, capacity, rows, and columns of the auditorium
-     */
-//    @Override
-//    public String toString() {
-//        return "Auditorium{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", capacity=" + capacity +
-//                ", rows=" + rows +
-//                ", cols=" + cols;
-//    }
-
-    /**
      * Provides a detailed view of the auditorium layout, showing seat availability.
      * Displays each seat as "00x" for available seats or "---" for unavailable seats.
      *
      * @return a string containing the auditorium layout, with seat numbers and availability
      */
     public String toString() {
-        String result = "Auditorium{" +
-                "id=" + id +
+        String result =
+                "Auditorium with id=" + id +
                 ", name='" + name + '\'' +
-                ", capacity=" + capacity +
-                ", rows=" + rows +
-                ", cols=" + cols +
-                ", seats= \n";
+                ", seat layout= \n";
 
         int cnt = 1;
         for (int i = 1; i <= rows; i++) {

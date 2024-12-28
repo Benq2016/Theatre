@@ -244,13 +244,15 @@ public class UI {
                 System.out.println("Choose a show by its id: ");
             }
         }
+        //we get the auditorium without occupied seats, and we
+        // overwrite the auditorium with the one where the seats are occupied
         Auditorium auditorium = theatreController.getAuditoriumByShow(showId);
+        auditorium = theatreController.getAuditoriumWithOccupiedSeats(showId,auditorium.getID());
 
         if (auditorium == null)
             throw new EntityNotFoundException("There is no auditorium for the selected show");
 
-//        System.out.println(theatreController.viewAuditorium(auditorium.getID()));
-        System.out.println(theatreController.getAuditoriumWithOccupiedSeats(showId,auditorium.getID()));
+        System.out.println(auditorium);
         int seatNr = -1;
         List<Integer> seats = new ArrayList<>();
         while (seatNr != 0) {

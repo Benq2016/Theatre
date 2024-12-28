@@ -341,6 +341,7 @@ public class TheatreService {
      */
     public boolean occupySeats(Integer showID, List<Integer> seats) {
         Auditorium auditorium = showService.getShow(showID).getAudit();
+        auditorium = getAuditoriumWithOccupiedSeatsExcluded(showID,auditorium.getID());
         if (!checkSeats(auditorium, seats))
             return false;
 
