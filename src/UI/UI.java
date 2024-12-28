@@ -4,6 +4,7 @@ import Controller.TheatreController;
 import Domain.*;
 import Exceptions.*;
 
+import javax.security.sasl.SaslException;
 import javax.swing.text.View;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -889,9 +890,9 @@ public class UI {
                 if (actorName.length() > 2 && actorName.matches("[a-zA-Z ]+"))
                     break;
                 else if (actorName.length() <= 2)
-                    throw new InvalidStringLenghtException("Your name should contain minim 3 letters");
+                    throw new InvalidStringLenghtException("The name should contain minim 3 letters");
                 else if (!actorName.matches("[a-zA-Z ]+"))
-                    throw new InvalidFormatException("Your name should contain only letters, not other characters");
+                    throw new InvalidFormatException("The name should contain only letters and spaces, not other characters");
             } catch (InvalidStringLenghtException | InvalidFormatException e){
                 System.out.println(e.getMessage());
                 System.out.print("Actor Name: ");
@@ -904,9 +905,14 @@ public class UI {
         while(true){
             try {
                 actorAge = Integer.parseInt(reader.readLine());
+                if (actorAge < 10 || actorAge > 80)
+                    throw new AgeNotInBoundException("The age of the actor should be between 10 and 80");
                 break;
             } catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer");
+                System.out.print("Actor Age: ");
+            } catch (AgeNotInBoundException e){
+                System.out.println(e.getMessage());
                 System.out.print("Actor Age: ");
             }
         }
@@ -933,9 +939,14 @@ public class UI {
         while(true){
             try {
                 actorSalary = Integer.parseInt(reader.readLine());
+                if (actorSalary < 1000)
+                    throw new MinimalSalaryException("The salary of the actor must be minim 1000");
                 break;
             } catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer");
+                System.out.print("Actor Salary: ");
+            } catch (MinimalSalaryException e){
+                System.out.println(e.getMessage());
                 System.out.print("Actor Salary: ");
             }
         }
@@ -1001,9 +1012,14 @@ public class UI {
         while(true){
             try {
                 newSalary = Integer.parseInt(reader.readLine());
+                if (newSalary < 1000)
+                    throw new MinimalSalaryException("The salary of the actor must be minim 1000");
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer");
+                System.out.print("Enter the new salary: ");
+            }catch (MinimalSalaryException e){
+                System.out.println(e.getMessage());
                 System.out.print("Enter the new salary: ");
             }
         }

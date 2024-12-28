@@ -95,13 +95,13 @@ public class App {
             makeInitialObjects(tc);
         }
 
-        if (storageType.equals("2")) {
+        else if (storageType.equals("2")) {
             ((ShowFileRepository) showRepository).setTheatreController(tc);
             makeInitialObjects(tc);
             setInitialStaticIDForEveryDomain(tc);
         }
 
-        if (storageType.equals("3")) {
+        else if (storageType.equals("3")) {
 //            makeInitialObjects(tc);
             setInitialStaticIDForEveryDomain(tc);
         }
@@ -223,7 +223,7 @@ public class App {
             System.out.println("To proceed please choose a storage format:");
             System.out.println("1 - In Memory storage ");
             System.out.println("2 - File storage ");
-            System.out.println("3 - Database storage (WORK IN PROGRESS)");
+            System.out.println("3 - Database storage");
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             choice = String.valueOf(reader.readLine());
