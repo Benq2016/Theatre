@@ -314,7 +314,7 @@ public class UI {
         while (true) {
             System.out.println("\nWelcome Actor");
             System.out.println("What do you want to do?");
-            System.out.println("1 - View upcoming shows");
+            System.out.println("1 - View my upcoming shows");
             System.out.println("2 - Manage personal account");
             System.out.println("0 - Log out");
 
@@ -373,9 +373,11 @@ public class UI {
         while (true) {
             try {
                 age = Integer.parseInt(reader.readLine());
+                if (age <= 18)
+                    throw new NumberFormatException();
                 break;
             }catch (NumberFormatException e) {
-                System.out.println("Invalid Input. Input must be an integer");
+                System.out.println("Invalid Input. Input must be a positive integer greater than or equal to 18");
                 System.out.println("Enter new age: ");
             }
         }
@@ -492,9 +494,11 @@ public class UI {
         while (true) {
             try {
                 age = Integer.parseInt(reader.readLine());
+                if (age < 20)
+                    throw new NumberFormatException();
                 break;
             }catch (NumberFormatException e) {
-                System.out.println("Invalid Input. Input must be an integer");
+                System.out.println("Invalid Input. Input must be a positive integer greater than 20 years");
                 System.out.println("Enter new age: ");
             }
         }
@@ -645,15 +649,22 @@ public class UI {
         for(Auditorium auditorium : theatreController.viewAuditoriums()){
             System.out.println("ID: " + auditorium.getID() + ", name: " + auditorium.getName());
         }
-        System.out.println("Id of the auditorium you want to delete:");
+        System.out.println("Id of the auditorium you want to delete (or 0 if you dont want to delete anything):");
         Integer audId;
         while (true) {
             try {
                 audId = Integer.parseInt(reader.readLine());
-                break;
+                if (audId == 0) {
+                    return;
+                }
+                if (audId > 0)
+                    break;
+                else throw new NumberFormatException();
             }catch (NumberFormatException e){
-                System.out.println("Invalid Input. Input must be an integer");
+                System.out.println("Invalid Input. Input must be a positive integer");
                 System.out.println("Id of the auditorium you want to delete:");
+            }catch (EntityNotFoundException e){
+                System.out.println("Auditorium with this ID does not exist. Try again.");
             }
         }
         try {
@@ -661,6 +672,8 @@ public class UI {
             System.out.println("Auditorium successfully deleted.");
         } catch (UserExistenceException e) {
             System.out.println("Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -670,14 +683,14 @@ public class UI {
      */
     private void deleteShow() throws IOException {
         System.out.println("\nDeleting shows");
-        for (Show show : theatreController.viewShows()){
-            System.out.println("ID: " + show.getID() + ", title: " + show.getTitle());
-        }
-        System.out.println("Id of the show you want to delete:");
+        filterShows();
+        System.out.println("Id of the show you want to delete (0 if you dont want to delete anithing):");
         Integer showId;
         while (true) {
             try {
                 showId = Integer.parseInt(reader.readLine());
+                if (showId == 0)
+                    return;
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer");
@@ -715,26 +728,36 @@ public class UI {
                 System.out.println("Auditorium name: ");
             }
         }
-        System.out.println("Number of rows: ");
+
         int nrRows;
         while (true) {
+            System.out.println("Number of rows: ");
             try {
                 nrRows = Integer.parseInt(reader.readLine());
+                if (nrRows < 0)
+                    throw new ValidationException("Number of rows must be a positive integer!");
                 break;
             } catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer!");
                 System.out.println("Number of rows: ");
+            } catch (ValidationException e) {
+                System.out.println(e.getMessage());
             }
         }
-        System.out.println("Number of columns: ");
+
         int nrCols;
         while (true) {
+            System.out.println("Number of columns: ");
             try {
                 nrCols = Integer.parseInt(reader.readLine());
+                if (nrCols < 0)
+                    throw new ValidationException("Number of columns must be a positive integer!");
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer!");
                 System.out.println("Number of columns: ");
+            }catch (ValidationException e){
+                System.out.println(e.getMessage());
             }
         }
 
@@ -769,29 +792,43 @@ public class UI {
             }
         }
 
+        // this is for checking if the auditoriumID exists
+        List<Integer> allValidAuditoriumIDs = new ArrayList<>();
         // Display available auditoriums and choose one
         System.out.println("Available auditoriums:");
-        for (Auditorium auditorium : theatreController.viewAuditoriums()) {
+        List<Auditorium> allAuditoriums = theatreController.viewAuditoriums();
+        for (Auditorium auditorium : allAuditoriums) {
             System.out.println("ID: "+auditorium.getID()+", auditorium name: " + auditorium.getName()
                     + ", number of seats: " + auditorium.getCapacity());
+            allValidAuditoriumIDs.add(auditorium.getID());
         }
-        System.out.print("Choose a valid auditorium by its ID: ");
+
         int auditoriumId;
         while (true) {
             try {
-                auditoriumId = Integer.parseInt(reader.readLine());
-                break;
-            }catch (NumberFormatException e){
-                System.out.println("Invalid Input. Input must be an integer");
                 System.out.print("Choose a valid auditorium by its ID: ");
+                auditoriumId = Integer.parseInt(reader.readLine());
+                boolean existsAuit = false;
+                for (int auditID : allValidAuditoriumIDs) {
+                    if (auditID == auditoriumId)
+                        existsAuit = true;
+                }
+                if (existsAuit)
+                    break;
+                if (!existsAuit){
+                    System.out.println("Auditorium not found. Please select a valid one");
+                }
+        }catch (NumberFormatException e){
+                System.out.println("Invalid Input. Input must be an integer");
+                System.out.println("Choose a valid auditorium by its ID: ");
             }
         }
 
         // Create a map for actors and their roles
         Map<Actor, String> roleMap = new HashMap<>();
-        System.out.println("You can add as many actors as you want. Enter '0' to finish adding actors.");
+        System.out.println("\nYou can add as many actors as you want. Enter '0' to finish adding actors.");
 
-        Integer id;
+        Integer id = 0;
 
         System.out.println("\nAll available actors:");
         for (Actor actor : theatreController.viewActors()) {
@@ -801,7 +838,16 @@ public class UI {
         while (true) {
 
             System.out.print("Select the ID of an actor (or '0' to stop): ");
-            id = Integer.parseInt(reader.readLine());
+            while (true) {
+                try {
+                    id = Integer.parseInt(reader.readLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid Input. Input must be an integer");
+                    System.out.print("Select the ID of an actor (or '0' to stop): ");
+                }
+            }
+
 
             if (id == 0) {
                 break;  // Stop adding actors if user enters 0
@@ -818,38 +864,46 @@ public class UI {
             while (true){
                 try {
                     role = reader.readLine();
-                    if (!role.isEmpty())
+                    if (!role.isEmpty() && role.matches("[a-zA-Z ]+"))
                         break;
-                    else throw new InvalidStringLenghtException("Role should contain minim 1 letter");
+                    else if (role.isEmpty())
+                        throw new InvalidStringLenghtException("Role should contain minim 1 letter");
+                    else if (!role.matches("[a-zA-Z ]+"))
+                        throw new InvalidFormatException("Role should contain only letters and spaces");
                 }catch (InvalidStringLenghtException e){
                     System.out.println(e.getMessage());
                     System.out.print("Role for actor " + actor.getName() + ": ");
+                }catch (InvalidFormatException e){
+                    System.out.println(e.getMessage());
                 }
             }
 
             roleMap.put(actor, role);
         }
 
-        System.out.print("Enter the date of the show (e.g., YYYY-MM-DD): ");
+
         String showDate;
+        Date date = null;
         while (true){
+            System.out.print("Enter the date of the show (e.g., YYYY-MM-DD): ");
             try {
                 showDate = reader.readLine();
-                if(validateDateFormat(showDate))
-                    break;
-                else throw new InvalidDateFormat("The Date should be in the YYYY-MM-DD format");
+                if(!validateDateFormat(showDate))
+                   throw new InvalidDateFormat("The Date should be in the YYYY-MM-DD format");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                date = sdf.parse(showDate);
+                Date today = Calendar.getInstance().getTime();
+                if (date.before(today))
+                    throw new InvalidDateFormat("The Date should be today or in a future date");
+                break;
             }catch (InvalidDateFormat e){
                 System.out.println(e.getMessage());
             }
         }
 
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = sdf.parse(showDate);
-
-        System.out.println("The price of the show: ");
         int price;
         while (true){
+            System.out.println("The price of the show: ");
             try {
                 price = Integer.parseInt(reader.readLine());
                 break;
@@ -1041,7 +1095,8 @@ public class UI {
             System.out.println("ID: " + actor.getID() + ", Name: " + actor.getName()
                     + ", Age: " + actor.getAge()
                     + ", Salary: " + actor.getSalary()
-                    + ", Email Address: " + actor.getEmail().getEmailAddress());
+                    + ", Email Address: " + actor.getEmail().getEmailAddress()
+                    + ", Email Password: " + actor.getEmail().getPassword());
         }
     }
 

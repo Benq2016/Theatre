@@ -69,7 +69,8 @@ public class TheatreService {
      * @return A list of shows the actor is part of.
      */
     public List<Show> viewActorShows(Integer id) {
-        List<Show> allShows = showService.getAllShows();
+//        List<Show> allShows = showService.getAllShows();
+        List<Show> allShows = showService.getShowsFiltered();
         List<Show> myShows = new ArrayList<>();
 
         for (Show show : allShows)
