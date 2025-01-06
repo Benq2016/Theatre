@@ -139,7 +139,7 @@ public class UI {
         System.out.println("Old account data:");
         System.out.println("Name: " + viewer.getName() + ", age: " + viewer.getAge() +
                 ", email address: " + viewer.getEmail().getEmailAddress() + ", password: " + viewer.getEmail().getPassword());
-        System.out.println("Enter new name: ");
+        System.out.print("Enter new name: ");
         String name;
 
         while (true) {
@@ -157,14 +157,16 @@ public class UI {
             }
         }
 
-        System.out.println("Enter new age: ");
+        System.out.print("Enter new age: ");
         int age;
         while (true) {
             try {
                 age = Integer.parseInt(reader.readLine());
+                if (age <= 16)
+                    throw new NumberFormatException();
                 break;
             }catch (NumberFormatException e) {
-                System.out.println("Invalid Input. Input must be an integer");
+                System.out.println("Invalid Input. Input must be a positive integer greater than or equal to 16");
                 System.out.println("Enter new age: ");
             }
         }
@@ -235,14 +237,30 @@ public class UI {
         System.out.println("All shows available: ");
         filterShows();
         Integer showId;
+
+
+        List<Show> allShows = theatreController.viewShowsFiltered();
+        List<Integer> allShowsID = new ArrayList<>();
+        for (Show show : allShows) {
+            allShowsID.add(show.getID());
+        }
+        boolean showExists = false;
         while(true){
             System.out.println("Choose a show by its id: ");
             try {
                 showId = Integer.parseInt(reader.readLine());
-                break;
+                for (int showID : allShowsID) {
+                    if(showID == showId)
+                        showExists = true;
+                }
+                if(showExists)
+                    break;
+                else{
+                    System.out.println("The show with this Id does not exists. Please select a valid one");
+                }
+
             }catch (NumberFormatException e){
                 System.out.println("Invalid input. Input must be an integer");
-                System.out.println("Choose a show by its id: ");
             }
         }
         //we get the auditorium without occupied seats, and we
@@ -1237,7 +1255,7 @@ public class UI {
         while (true) {
 
             System.out.println("Welcome new User");
-            System.out.println("Please create you account as follows:");
+            System.out.println("Please create your account as follows:");
             System.out.println("Provide us with your name:");
             String name;
             while(true){
@@ -1260,9 +1278,11 @@ public class UI {
             while (true){
                 try {
                     age = Integer.parseInt(reader.readLine());
+                    if(age <= 16)
+                        throw new NumberFormatException();
                     break;
                 }catch (NumberFormatException e){
-                    System.out.println(e.getMessage());
+                    System.out.println("Your age should be a positive integer greater than  or equal to 16");
                     System.out.println("Your age: ");
                 }
             }
