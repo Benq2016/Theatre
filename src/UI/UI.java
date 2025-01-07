@@ -153,7 +153,7 @@ public class UI {
                     throw new InvalidFormatException("Your name should contain only letters, not other characters");
             } catch (InvalidStringLenghtException | InvalidFormatException e) {
                 System.out.println("Error occurred: " + e.getMessage());
-                System.out.println("Enter new name: ");
+                System.out.print("Enter new name: ");
             }
         }
 
@@ -167,10 +167,10 @@ public class UI {
                 break;
             }catch (NumberFormatException e) {
                 System.out.println("Invalid Input. Input must be a positive integer greater than or equal to 16");
-                System.out.println("Enter new age: ");
+                System.out.print("Enter new age: ");
             }
         }
-        System.out.println("Enter new email address: ");
+        System.out.print("Enter new email address: ");
         String emailAddress;
         while (true) {
             try {
@@ -181,10 +181,10 @@ public class UI {
                     throw new InvalidEmailFormatException("Email address must contain '@' symbol");
             }catch(InvalidEmailFormatException e){
                 System.out.println("Problem with your Email address: " + e.getMessage());
-                System.out.println("Enter new email address: ");
+                System.out.print("Enter new email address: ");
             }
         }
-        System.out.println("Enter new password: ");
+        System.out.print("Enter new password: ");
         String password = reader.readLine();
         EMail newMail = new EMail(emailAddress,password);
 
@@ -246,7 +246,7 @@ public class UI {
         }
         boolean showExists = false;
         while(true){
-            System.out.println("Choose a show by its id: ");
+            System.out.print("Choose a show by its id: ");
             try {
                 showId = Integer.parseInt(reader.readLine());
                 for (int showID : allShowsID) {
@@ -368,7 +368,7 @@ public class UI {
                 self.getEmail().getEmailAddress() +
                 "email password: " + self.getEmail().getPassword());
 
-        System.out.println("Enter new name: ");
+        System.out.print("Enter new name: ");
         String name;
 
         while (true) {
@@ -382,11 +382,11 @@ public class UI {
                     throw new InvalidFormatException("Your name should contain only letters, not other characters");
             } catch (InvalidStringLenghtException | InvalidFormatException e) {
                 System.out.println("Error occurred: " + e.getMessage());
-                System.out.println("Enter new name: ");
+                System.out.print("Enter new name: ");
             }
         }
 
-        System.out.println("Enter new age: ");
+        System.out.print("Enter new age: ");
         int age;
         while (true) {
             try {
@@ -396,10 +396,10 @@ public class UI {
                 break;
             }catch (NumberFormatException e) {
                 System.out.println("Invalid Input. Input must be a positive integer greater than or equal to 18");
-                System.out.println("Enter new age: ");
+                System.out.print("Enter new age: ");
             }
         }
-        System.out.println("Enter new email address: ");
+        System.out.print("Enter new email address: ");
         String emailAddress;
         while (true) {
             try {
@@ -410,10 +410,10 @@ public class UI {
                     throw new InvalidEmailFormatException("Email address must contain '@' symbol");
             }catch(InvalidEmailFormatException e){
                 System.out.println("Problem with your Email address: " + e.getMessage());
-                System.out.println("Enter new email address: ");
+                System.out.print("Enter new email address: ");
             }
         }
-        System.out.println("Enter new password: ");
+        System.out.print("Enter new password: ");
         String password = reader.readLine();
         EMail newMail = new EMail(emailAddress,password);
         try {
@@ -489,7 +489,7 @@ public class UI {
         System.out.println("ID: " + self.getID() + ", name: " + self.getName() +
                 ", age: " + self.getAge() +
                 ", email address: " + self.getEmail().getEmailAddress());
-        System.out.println("Enter new name: ");
+        System.out.print("Enter new name: ");
         String name;
 
         while (true) {
@@ -503,11 +503,11 @@ public class UI {
                     throw new InvalidFormatException("Your name should contain only letters, not other characters");
             } catch (InvalidStringLenghtException | InvalidFormatException e) {
                 System.out.println("Error occurred: " + e.getMessage());
-                System.out.println("Enter new name: ");
+                System.out.print("Enter new name: ");
             }
         }
 
-        System.out.println("Enter new age: ");
+        System.out.print("Enter new age: ");
         int age;
         while (true) {
             try {
@@ -517,10 +517,10 @@ public class UI {
                 break;
             }catch (NumberFormatException e) {
                 System.out.println("Invalid Input. Input must be a positive integer greater than 20 years");
-                System.out.println("Enter new age: ");
+                System.out.print("Enter new age: ");
             }
         }
-        System.out.println("Enter new email address: ");
+        System.out.print("Enter new email address: ");
         String emailAddress;
         while (true) {
             try {
@@ -531,10 +531,10 @@ public class UI {
                     throw new InvalidEmailFormatException("Email address must contain '@' symbol");
             }catch(InvalidEmailFormatException e){
                 System.out.println("Problem with your Email address: " + e.getMessage());
-                System.out.println("Enter new email address: ");
+                System.out.print("Enter new email address: ");
             }
         }
-        System.out.println("Enter new password: ");
+        System.out.print("Enter new password: ");
         String password = reader.readLine();
         EMail newMail = new EMail(emailAddress,password);
         try {
@@ -667,7 +667,7 @@ public class UI {
         for(Auditorium auditorium : theatreController.viewAuditoriums()){
             System.out.println("ID: " + auditorium.getID() + ", name: " + auditorium.getName());
         }
-        System.out.println("Id of the auditorium you want to delete (or 0 if you dont want to delete anything):");
+        System.out.print("Id of the auditorium you want to delete (or 0 if you dont want to delete anything):");
         Integer audId;
         while (true) {
             try {
@@ -680,7 +680,7 @@ public class UI {
                 else throw new NumberFormatException();
             }catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be a positive integer");
-                System.out.println("Id of the auditorium you want to delete:");
+                System.out.print("Id of the auditorium you want to delete (or 0 if you dont want to delete anything):");
             }catch (EntityNotFoundException e){
                 System.out.println("Auditorium with this ID does not exist. Try again.");
             }
@@ -731,7 +731,7 @@ public class UI {
     private void createAuditorium() throws IOException {
         System.out.println("\nCreating auditorium");
 
-        System.out.println("Auditorium name:");
+        System.out.print("Auditorium name:");
         String name;
         while (true) {
             try {
@@ -743,13 +743,13 @@ public class UI {
             }
             }catch (InvalidStringLenghtException e){
                 System.out.println(e.getMessage());
-                System.out.println("Auditorium name: ");
+                System.out.print("Auditorium name: ");
             }
         }
 
         int nrRows;
         while (true) {
-            System.out.println("Number of rows: ");
+            System.out.print("Number of rows: ");
             try {
                 nrRows = Integer.parseInt(reader.readLine());
                 if (nrRows < 0)
@@ -757,7 +757,7 @@ public class UI {
                 break;
             } catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer!");
-                System.out.println("Number of rows: ");
+                System.out.print("Number of rows: ");
             } catch (ValidationException e) {
                 System.out.println(e.getMessage());
             }
@@ -765,7 +765,7 @@ public class UI {
 
         int nrCols;
         while (true) {
-            System.out.println("Number of columns: ");
+            System.out.print("Number of columns: ");
             try {
                 nrCols = Integer.parseInt(reader.readLine());
                 if (nrCols < 0)
@@ -773,7 +773,7 @@ public class UI {
                 break;
             }catch (NumberFormatException e){
                 System.out.println("Invalid Input. Input must be an integer!");
-                System.out.println("Number of columns: ");
+                System.out.print("Number of columns: ");
             }catch (ValidationException e){
                 System.out.println(e.getMessage());
             }
@@ -1124,7 +1124,7 @@ public class UI {
      */
     private void deleteOrder(Integer id) throws IOException {
         viewMyOrders(id);
-        System.out.println("Id of the order you want to delete: ");
+        System.out.print("Id of the order you want to delete: ");
         Integer orderId;
         while (true){
             try {
@@ -1132,7 +1132,7 @@ public class UI {
                 break;
             } catch (NumberFormatException e){
                 System.out.println(e.getMessage());
-                System.out.println("Id of the order you want to delete: ");
+                System.out.print("Id of the order you want to delete: ");
             }
         }
         try {
@@ -1256,7 +1256,7 @@ public class UI {
 
             System.out.println("Welcome new User");
             System.out.println("Please create your account as follows:");
-            System.out.println("Provide us with your name:");
+            System.out.print("Provide us with your name:");
             String name;
             while(true){
                 try {
@@ -1269,11 +1269,11 @@ public class UI {
                         throw new InvalidFormatException("Your name should contain only letters, not other characters");
                 }catch (InvalidStringLenghtException | InvalidFormatException e){
                     System.out.println(e.getMessage());
-                    System.out.println("Provide us with your name:");
+                    System.out.print("Provide us with your name:");
                 }
             }
 
-            System.out.println("Your age: ");
+            System.out.print("Your age: ");
             int age;
             while (true){
                 try {
@@ -1283,10 +1283,10 @@ public class UI {
                     break;
                 }catch (NumberFormatException e){
                     System.out.println("Your age should be a positive integer greater than  or equal to 16");
-                    System.out.println("Your age: ");
+                    System.out.print("Your age: ");
                 }
             }
-            System.out.println("Your emailAddress: ");
+            System.out.print("Your emailAddress: ");
             String emailAddress;
             while (true){
                 try {
@@ -1296,10 +1296,10 @@ public class UI {
                     else throw new InvalidEmailFormatException("The email should contain a '@' symbol");
                 }catch (InvalidEmailFormatException e){
                     System.out.println(e.getMessage());
-                    System.out.println("Your emailAddress: ");
+                    System.out.print("Your emailAddress: ");
                 }
             }
-            System.out.println("Your password: ");
+            System.out.print("Your password: ");
             String password = reader.readLine();
             newMail = new EMail(emailAddress, password);
 
@@ -1325,7 +1325,7 @@ public class UI {
         EMail eMail;
         System.out.println("Welcome Back! Please type in your email for authentication.");
         while (true) {
-            System.out.println("Email Address:");
+            System.out.print("Email Address:");
             String emailAddress;
             while(true){
                 try {
@@ -1335,10 +1335,10 @@ public class UI {
                     else throw new InvalidEmailFormatException("Email should contain a '@' symbol");
                 }catch (InvalidEmailFormatException e){
                     System.out.println(e.getMessage());
-                    System.out.println("Email Address:");
+                    System.out.print("Email Address:");
                 }
             }
-            System.out.println("Password:");
+            System.out.print("Password:");
             String password = reader.readLine();
             eMail = new EMail(emailAddress, password);
             String userNumber = tc.login(eMail);
