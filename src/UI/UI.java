@@ -1143,6 +1143,9 @@ public class UI {
         }
     }
 
+    /**
+     * Sorts all shows by their date
+     */
     private void sortShows(){
        List<Show> shows = theatreController.viewShowsSorted();
        for (Show s : shows){
@@ -1160,6 +1163,9 @@ public class UI {
        }
     }
 
+    /**
+     * Filters all shows and prints only the upcoming ones by their date
+     */
     private void filterShows(){
         List<Show> shows = theatreController.viewShowsFiltered();
         for (Show s : shows){
@@ -1177,6 +1183,9 @@ public class UI {
         }
     }
 
+    /**
+     * Sorts all orders by their creation date
+     */
     private void sortOrders(Integer id){
        List<Order> myOrders = theatreController.viewOrdersSorted(id);
 
@@ -1194,6 +1203,9 @@ public class UI {
 
     }
 
+    /**
+     * Filters all orders and prints only the upcoming ones by their date
+     */
     private void filterOrders(Integer id){
         List<Order> myOrders = theatreController.viewOrdersFiltered(id);
 

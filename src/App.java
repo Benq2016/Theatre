@@ -97,7 +97,7 @@ public class App {
 
         else if (storageType.equals("2")) {
             ((ShowFileRepository) showRepository).setTheatreController(tc);
-            makeInitialObjects(tc);
+//            makeInitialObjects(tc);
             setInitialStaticIDForEveryDomain(tc);
         }
 
@@ -184,16 +184,16 @@ public class App {
         }
 
         try {
-        tc.createShow("Lets see if it runs!", date1, 1, roles, 25);
+        tc.createShow("Show1", date1, 1, roles, 25);
         } catch (EntityNotFoundException ignored) {}
         try {
-        tc.createShow("Lets test the sort", date2, 2, roles, 30);
+        tc.createShow("Show2", date2, 2, roles, 30);
         } catch (EntityNotFoundException ignored) {}
         try {
-        tc.createShow("Future show1", date3, 1, roles, 25);
+        tc.createShow("Show3", date3, 1, roles, 25);
         } catch (EntityNotFoundException ignored) {}
         try{
-        tc.createShow("Future show2", date4, 2, roles, 30);
+        tc.createShow("Show4", date4, 2, roles, 30);
         } catch (EntityNotFoundException ignored) {}
 
         try {
